@@ -47,8 +47,17 @@ app.get('/', function (req, res) {
 app.post('/', function(req, res) {
     lastId += 1;
     req.body.id = lastId;
-    persons.push(req.body)
+    persons.push(req.body);
     res.send("OK")
+});
+
+app.get('/places/:x/:y/:r', function (req, res) {
+
+    var response = {
+        result : req.params.x + req.params.y + req.params.r
+    }
+
+    res.send(JSON.stringify(response));
 });
 
 app.listen(3000, function () {

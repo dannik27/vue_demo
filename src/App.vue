@@ -8,6 +8,10 @@
       <button v-on:click="save" >Save</button>
     </div>
 
+    <hr>
+
+    <business-app-demo />
+
   </div>
 
 </template>
@@ -17,11 +21,13 @@
 import axios from 'axios';
 
 import PersonCard from "./components/person-card";
+import BusinessAppDemo from "./components/business-app-demo"
 
 export default {
   name: 'app',
   components: {
       PersonCard,
+      BusinessAppDemo
   },
   data () {
     return {
