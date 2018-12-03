@@ -1,6 +1,6 @@
-<template>
+<template id="parent">
     <yandex-map
-            :coords="[54.62896654088406, 39.731893822753904]"
+            :coords="mapCoords"
             zoom="10"
             style="width: 600px; height: 600px;"
             :cluster-options="{
@@ -9,15 +9,14 @@
             :controls="['fullscreenControl', 'geolocationControl', 'searchControl', 'zoomControl']"
             :placemarks="placemarks"
             @map-was-initialized="onMapInit"
-            @click="onMapClick"
     >
 
 
         <ymap-marker
                 marker-id="3"
                 marker-type="circle"
-                :coords="[54.62896654088406, 39.731893822753904]"
-                circle-radius="1600"
+                :coords="circleCoords"
+                :circle-radius="circleRadius"
                 hint-content="Hint content 1"
                 :marker-fill="{color: '#6a98e2', opacity: 0.4}"
                 :marker-stroke="{color: '#1b68e5', width: 5}"
@@ -36,29 +35,31 @@
         components: { yandexMap, ymapMarker },
         data() {
             return {
-                placemarks: [
-                    {
-                        coords: [54.8, 39.8],
-                        properties: {}, // define properties here
-                        options: {}, // define options here
-                        clusterName: "1",
-                        balloonTemplate: '<div>"Your custom template"</div>',
-                        callbacks: { click: function() {} }
-                    }
-                ]
+                placemarks: [],
+                mapCoords: [54.62896654088406, 39.731893822753904],
+                circleCoords: [0, 0],
+                circleRadius: 1600
             }
         },
         methods : {
             onMapClick : function (coords) {
-                console.log("${coords.x}, ${coords.y}");
-                this.placemarks[0].coords[0] = coords[0];
+
+                this.circleCoords = coords
+                this.mapCoords = coords
+                this.placemarks.push({asd:1})
+                this.placemarks.pop()
+
+                // var mark = this.placemarks.pop()
+                // mark.coords = coords;
+                // this.placemarks.push(mark)
+
             },
             onMapInit : function(map) {
 
-            var component = this;
+            var self = this;
 
             map.events.add('click', function(e){
-                component.onMapClick(e.get('coords'))
+                self.onMapClick(e.get('coords'))
             })
         }
         }
