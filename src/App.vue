@@ -23,6 +23,7 @@ import axios from 'axios';
 import PersonCard from "./components/person-card";
 import BusinessAppDemo from "./components/business-app-demo"
 
+
 export default {
   name: 'app',
   components: {

@@ -19,6 +19,8 @@
           {{JSON.stringify(response)}}
       </span>
 
+      <BusinessMap></BusinessMap>
+
   </div>
 </template>
 
@@ -26,8 +28,11 @@
 
 import axios from 'axios';
 
+import BusinessMap from "./business-map"
+
 export default {
     name: 'BusinessAppDemo',
+    components : { BusinessMap },
     data () {
         return {
             request : {
