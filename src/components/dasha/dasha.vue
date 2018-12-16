@@ -1,9 +1,6 @@
 <template>
   <div>
-    <!--<person-card v-bind:key="person.id" v-for="person in persons" v-bind:pers="person" />-->
-    <person-card v-bind:pers="persons[0]" />
-    <person-card v-bind:pers="persons[1]" />
-    <person-card v-bind:pers="persons[2]" />
+    <person-card v-bind:key="person.id" v-for="person in persons" v-bind:pers="person" />
 
     <div>
       <input v-model="newPerson.name" type="text" />
