@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <dasha></dasha>
+    <fuzzy></fuzzy>
   </div>
 
 </template>
@@ -9,12 +9,15 @@
 
 
 import Dasha from "./components/dasha/dasha"
-
+import Fuzzy from "./components/fuzzy-search/fuzzy"
+import LikeSearch from "./components/fuzzy-search/like"
 
 export default {
   name: 'app',
   components: {
-      Dasha
+      Dasha,
+      Fuzzy,
+      LikeSearch
   }
 }
 </script>
