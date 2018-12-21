@@ -10,8 +10,6 @@
 
     <hr>
 
-    <business-app-demo />
-
   </div>
 
 </template>
@@ -19,13 +17,11 @@
 <script>
 
 import axios from "axios"
-import BusinessAppDemo from "./business-app-demo"
 import PersonCard from "./person-card"
 
 export default {
     name: 'Dasha',
     components: {
-        BusinessAppDemo,
         PersonCard
     },
     data () {
@@ -42,12 +38,12 @@ export default {
 
         update : function() {
             axios
-                .get('http://localhost:3000/')
+                .get('http://localhost:3000/api/')
                 .then(response => (this.persons = response.data));
         },
         save : function () {
 
-            axios.post('http://localhost:3000/', this.newPerson)
+            axios.post('http://localhost:3000/api/', this.newPerson)
                 .then((response) => {
                     this.update()
                 })

@@ -3,10 +3,11 @@
     <div id="app">
 
         <p>
-            <router-link to="/dasha" tag="button">Перейти к dasha</router-link>
+            <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/fuzzy" tag="button">Перейти к fuzzy</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
             <router-link to="/vuex" tag="button">Перейти к vuex demo</router-link>
+            <routecr-link to="/map" tag="button">Maps</routecr-link>
         </p>
 
         <router-view></router-view>
@@ -24,19 +25,21 @@
   Vue.use(VueRouter)
   Vue.use(Vuex)
 
-  import Dasha from "./components/dasha/dasha"
+  import Cards from "./components/cards/cards"
   import Fuzzy from "./components/fuzzy-search/fuzzy"
   import LikeSearch from "./components/fuzzy-search/like"
   import Charts from "./components/charts/charts"
   import VuexDemo from "./components/vuex/vuex-demo"
+  import YaMap from "./components/map/yandex-map"
 
   const router = new VueRouter({
     routes: [
-      {path: '/dasha', component: Dasha},
+      {path: '/cards', component: Cards},
       {path: '/fuzzy', component: Fuzzy},
       {path: '/like', component: LikeSearch},
-      {path: '/chart', component: Charts},
-      {path: '/vuex', component: VuexDemo}
+      {path: '/charts', component: Charts},
+      {path: '/vuex', component: VuexDemo},
+      {path: '/map', component: YaMap}
     ]
   })
 

@@ -1,19 +1,25 @@
 var express = require('express');
 var app = express();
 var sqlite3 = require('sqlite3').verbose();
-// const translate = require('google-translate-api');
-// const translate = require('translate-api');
-var translate = require('yandex-translate')('trnsl.1.1.20181213T061454Z.34ecaf0bbab30a88.2ffdf7eea96263393f591f2857006c3ff57972d8');
 
-app.use(function (req, res, next) {
-    res.header('Content-Type', 'application/json');
-    next();
-});
+var pgp = require("pg-promise")(/*options*/);
+var db = pgp("postgres://punch:punch@localhost:5430/postgres");
+
+// app.use(function (req, res, next) {
+//     if(req.path.includes('/api/')){
+//       res.header('Content-Type', 'application/json');
+//     } else {
+//       res.header('Content-Type', 'text/html');
+//     }
+//     next();
+// });
 
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+
+app.use(express.static(__dirname + '/public'));
 
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -43,12 +49,12 @@ var persons = [
 
 var lastId = 3;
 
-app.get('/', function (req, res) {
+app.get('/api/', function (req, res) {
     res.send(JSON.stringify(persons));
 });
 
 // attrs: filter:string
-app.get('/products', function (req, res) {
+app.get('/api/products', function (req, res) {
 
     var filter = req.query.filter;
     filter = filter
@@ -82,9 +88,7 @@ app.get('/products', function (req, res) {
 
 });
 
-app.get('/products/all', function (req, res) {
-
-
+app.get('/api/products/all', function (req, res) {
 
     var db = new sqlite3.Database('usda.sql3');
 
@@ -113,14 +117,14 @@ function getRandomRating(min, max) {
     return (Math.floor(Math.random() * (max*2 - min)) + min) / 2;
 }
 
-app.post('/', function(req, res) {
+app.post('/api/', function(req, res) {
     lastId += 1;
     req.body.id = lastId;
     persons.push(req.body);
     res.send("OK")
 });
 
-app.get('/places/:x/:y/:r', function (req, res) {
+app.get('/api/places/:x/:y/:r', function (req, res) {
 
     var response = {
         result : req.params.x + req.params.y + req.params.r
@@ -128,6 +132,37 @@ app.get('/places/:x/:y/:r', function (req, res) {
 
     res.send(JSON.stringify(response));
 });
+
+app.get('/api/report', function (req, res) {
+
+  db.query("SELECT * from report")
+      .then(function (data) {
+        console.log("DATA:", data);
+
+        var processed = data.map(row => mapToReportDataset(row));
+
+        res.send(JSON.stringify(processed));
+      })
+      .catch(function (error) {
+        res.send([{name: 'default', data: [1,2,3,4,5,6,7]}]);
+      });
+
+
+});
+
+var mapToReportDataset = function(row){
+  var result = {"name": row.name, "data": []}
+
+  result.data.push(row.monday);
+  result.data.push(row.tuesday);
+  result.data.push(row.wednesday);
+  result.data.push(row.thursday);
+  result.data.push(row.friday);
+  result.data.push(row.saturday);
+  result.data.push(row.sunday);
+
+  return result;
+};
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

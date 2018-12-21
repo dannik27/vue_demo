@@ -31,7 +31,7 @@
     const { yandexMap, ymapMarker } = require('vue-yandex-maps');
 
     export default {
-        name: "BusinessMap",
+        name: "YaMap",
         components: { yandexMap, ymapMarker },
         data() {
             return {
