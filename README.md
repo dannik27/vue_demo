@@ -5,25 +5,27 @@
 npm install
 ```
 
+```
+cd back
+npm install
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles to build folder
 ```
 npm run build
 ```
 
-### Run your tests
+### Compiles to backend public folder
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm run build-express
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run backend
+```
+node back/server.js
+```
