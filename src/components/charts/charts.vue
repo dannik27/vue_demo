@@ -9,6 +9,8 @@
 <script>
   import axios from "axios"
 
+  import config from "../../config"
+
   import BarDemo from "./bar-demo"
 
   export default {
@@ -42,7 +44,7 @@
         //     this.ds = {label: 'sse', backgroundColor: '#f87979', data: [12, 21]};
         // var self = this;
 
-        axios.get('http://localhost:3000/api/report')
+        axios.get(config.BACKEND_URL + '/report')
             .then((response) => {
               console.log(response.data)
               // this.ds = {label: 'sse', backgroundColor: '#f87979', data: [12, 21]};

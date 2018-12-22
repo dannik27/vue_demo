@@ -19,6 +19,8 @@
 import axios from "axios"
 import PersonCard from "./person-card"
 
+import config from "../../config"
+
 export default {
     name: 'Dasha',
     components: {
@@ -38,12 +40,12 @@ export default {
 
         update : function() {
             axios
-                .get('http://localhost:3000/api/')
+                .get(config.BACKEND_URL)
                 .then(response => (this.persons = response.data));
         },
         save : function () {
 
-            axios.post('http://localhost:3000/api/', this.newPerson)
+            axios.post(config.BACKEND_URL, this.newPerson)
                 .then((response) => {
                     this.update()
                 })

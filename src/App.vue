@@ -7,7 +7,7 @@
             <router-link to="/fuzzy" tag="button">Перейти к fuzzy</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
             <router-link to="/vuex" tag="button">Перейти к vuex demo</router-link>
-            <routecr-link to="/map" tag="button">Maps</routecr-link>
+            <router-link to="/map" tag="button">Maps</router-link>
         </p>
 
         <router-view></router-view>
