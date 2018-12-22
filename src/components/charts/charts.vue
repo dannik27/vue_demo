@@ -44,7 +44,7 @@
         //     this.ds = {label: 'sse', backgroundColor: '#f87979', data: [12, 21]};
         // var self = this;
 
-        axios.get(config.BACKEND_URL + '/report')
+        axios.get(config.BACKEND_URL + 'report')
             .then((response) => {
               console.log(response.data)
               // this.ds = {label: 'sse', backgroundColor: '#f87979', data: [12, 21]};
