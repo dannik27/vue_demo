@@ -8,6 +8,7 @@
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
             <router-link to="/vuex" tag="button">Перейти к vuex demo</router-link>
             <router-link to="/map" tag="button">Maps</router-link>
+            <router-link to="/parser" tag="button">Parser</router-link>
         </p>
 
         <router-view></router-view>
@@ -31,6 +32,7 @@
   import Charts from "./components/charts/charts"
   import VuexDemo from "./components/vuex/vuex-demo"
   import YaMap from "./components/map/yandex-map"
+  import Parser from "./components/parser/parser"
 
   const router = new VueRouter({
     routes: [
@@ -39,9 +41,10 @@
       {path: '/like', component: LikeSearch},
       {path: '/charts', component: Charts},
       {path: '/vuex', component: VuexDemo},
-      {path: '/map', component: YaMap}
+      {path: '/map', component: YaMap},
+      {path: '/parser', component: Parser}
     ]
-  })
+  });
 
   const store = new Vuex.Store({
     state: {
@@ -52,7 +55,7 @@
         state.stringArray.push(str);
       }
     }
-  })
+  });
 
   export default {
     name: 'app',
