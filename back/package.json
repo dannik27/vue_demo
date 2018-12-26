@@ -17,6 +17,7 @@
     "iconv-lite": "^0.4.24",
     "pg-promise": "^8.5.4",
     "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "sqlite3": "^4.0.4",
     "translate-api": "^0.3.12",
     "yandex-translate": "^2.1.2"

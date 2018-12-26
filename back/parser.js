@@ -2,7 +2,7 @@ var JSONPath = require('JSONPath');
 var curl = require('curl');
 const fs = require('fs');
 var iconv = require('iconv-lite');
-var request = require('request');
+var request = require('request-promise');
 var cheerio = require('cheerio');
 
 var pretty = function(json){
@@ -61,35 +61,74 @@ var parsePbprog = function(html) {
 
   });
 
-  console.log(pretty(result));
-  saveToFile(pretty(result), './result')
+  return result;
 };
 
 
-var result = [
-  {
-    name: 'sdad',
-    N: 0.12
-  },
-  {
-    name: 'qwe',
-    N: 0.05
-  },
-];
+var start = async function() {
 
-var filter = '$[*].name';
+  let result = [];
+
+  for(let i = 1; i< 2870; i++){
+
+    var opt = {
+      uri: `http://pbprog.ru/databases/foodmeals/12000/${i}.php`,
+      encoding: null
+    };
+
+    console.log(i)
+
+    var response = await request(opt);
+
+    var parsed = parsePbprog(iconv.decode(response, 'windows-1251').replace(/\s+/g,' ').trim());
+
+    result.push(parsed);
 
 
-JSONPath({json: result, path: filter, callback: print});
+  }
 
-var opt = {
-  url: 'http://pbprog.ru/databases/foodmeals/12000/829.php',
-  encoding: null
+  console.log(pretty(result))
+
+  saveToFile(pretty(result), './result');
+
+  // let i = 1;
+
+  // while (true) {
+  //
+  //   let ok = visit(`http://pbprog.ru/databases/foodmeals/12000/${i}.php`);
+  //   i+=1;
+  //   if(! ok) {
+  //     break;
+  //   }
+  // }
+
 };
 
-request(opt, function (err, res, body) {
 
-  parsePbprog(iconv.decode(body, 'windows-1251').replace(/\s+/g,' ').trim());
 
-});
+// var pbprog_result = [
+//   {
+//     name: 'sdad',
+//     N: 0.12
+//   },
+//   {
+//     name: 'qwe',
+//     N: 0.05
+//   },
+// ];
+// var filter = '$[*].name';
+//
+//
+// JSONPath({json: pbprog_result, path: filter, callback: print});
+//
+// var opt = {
+//   url: 'http://pbprog.ru/databases/foodmeals/12000/829.php',
+//   encoding: null
+// };
+//
+// request(opt, function (err, res, body) {
+//
+//   parsePbprog(iconv.decode(body, 'windows-1251').replace(/\s+/g,' ').trim());
+//
+// });
 
