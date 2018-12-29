@@ -9,6 +9,7 @@
             <router-link to="/vuex" tag="button">Перейти к vuex demo</router-link>
             <router-link to="/map" tag="button">Maps</router-link>
             <router-link to="/parser" tag="button">Parser</router-link>
+            <router-link to="/kanban" tag="button">Kanban</router-link>
         </p>
 
         <router-view></router-view>
@@ -33,6 +34,7 @@
   import VuexDemo from "./components/vuex/vuex-demo"
   import YaMap from "./components/map/yandex-map"
   import Parser from "./components/parser/parser"
+  import Kanban from "./components/kanban/kanban"
 
   const router = new VueRouter({
     routes: [
@@ -42,7 +44,8 @@
       {path: '/charts', component: Charts},
       {path: '/vuex', component: VuexDemo},
       {path: '/map', component: YaMap},
-      {path: '/parser', component: Parser}
+      {path: '/parser', component: Parser},
+      {path: '/kanban', component: Kanban}
     ]
   });
 
