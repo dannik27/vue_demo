@@ -2,7 +2,7 @@
 
     <div id="app">
 
-        <p>
+        <p class="menu">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/fuzzy" tag="button">Перейти к fuzzy</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
@@ -24,8 +24,16 @@
   import VueRouter from 'vue-router'
   import Vuex from 'vuex';
 
-  Vue.use(VueRouter)
-  Vue.use(Vuex)
+  import { library } from '@fortawesome/fontawesome-svg-core'
+  import { faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+  library.add(faPen, faCheck, faTimes)
+  Vue.component('font-awesome-icon', FontAwesomeIcon)
+  Vue.config.productionTip = false;
+
+  Vue.use(VueRouter);
+  Vue.use(Vuex);
 
   import Cards from "./components/cards/cards"
   import Fuzzy from "./components/fuzzy-search/fuzzy"
@@ -70,12 +78,20 @@
 </script>
 
 <style>
+
+    @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
+
         color: #2c3e50;
         margin-top: 60px;
     }
+
+    .menu{
+        text-align: center;
+    }
+
 </style>
