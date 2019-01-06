@@ -141,6 +141,10 @@
       cardHandleDragEnd(e) {
         e.stopPropagation();
 
+
+        cards.forEach(card => {
+          card.classList.remove('dragged');
+        });
       }
 
     },

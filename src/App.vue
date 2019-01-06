@@ -10,6 +10,8 @@
             <router-link to="/map" tag="button">Maps</router-link>
             <router-link to="/parser" tag="button">Parser</router-link>
             <router-link to="/kanban" tag="button">Kanban</router-link>
+            <router-link to="/kanban2" tag="button">Kanban2</router-link>
+            <router-link to="/navigator" tag="button">Navigator</router-link>
         </p>
 
         <router-view></router-view>
@@ -25,10 +27,10 @@
   import Vuex from 'vuex';
 
   import { library } from '@fortawesome/fontawesome-svg-core'
-  import { faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+  import { faPen, faCheck, faTimes, faEllipsisH, faPlus } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-  library.add(faPen, faCheck, faTimes)
+  library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus)
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
 
@@ -43,6 +45,9 @@
   import YaMap from "./components/map/yandex-map"
   import Parser from "./components/parser/parser"
   import Kanban from "./components/kanban/kanban"
+  import Board from "./components/kanban/board"
+  import MyBoard from "./components/kanban/my-board"
+  import BrowserApi from "./components/navigator/browser-api"
 
   const router = new VueRouter({
     routes: [
@@ -53,7 +58,9 @@
       {path: '/vuex', component: VuexDemo},
       {path: '/map', component: YaMap},
       {path: '/parser', component: Parser},
-      {path: '/kanban', component: Kanban}
+      {path: '/kanban', component: Board},
+      {path: '/kanban2', component: MyBoard},
+      {path: '/navigator', component: BrowserApi}
     ]
   });
 
