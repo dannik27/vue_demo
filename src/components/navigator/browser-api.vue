@@ -1,7 +1,5 @@
 <template>
     <div>
-        <input type="file" accept="image/*;capture=camera">
-
         <video v-show="active" ref="video" autoplay></video>
         <canvas v-show="! active" ref="canvas"></canvas>
 
@@ -29,7 +27,7 @@
           let video = this.$refs.video;
 
           if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            navigator.mediaDevices.getUserMedia({ video: {width: {min: 1280}, height: {min: 720}} }).then(function(stream) {
               self.stream = stream;
               video.srcObject = stream;
               video.play();

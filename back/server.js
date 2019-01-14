@@ -2,17 +2,21 @@ var express = require('express');
 var app = express();
 var sqlite3 = require('sqlite3').verbose();
 
+var fs = require('fs');
+var morgan = require('morgan');
+var path = require('path');
+
+const cors = require('cors')
+
 var pgp = require("pg-promise")(/*options*/);
 var db = pgp("postgres://punch:punch@localhost:5430/postgres");
 
-// app.use(function (req, res, next) {
-//     if(req.path.includes('/api/')){
-//       res.header('Content-Type', 'application/json');
-//     } else {
-//       res.header('Content-Type', 'text/html');
-//     }
-//     next();
-// });
+var healthStarRoute = require('./routes/health-star');
+
+
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -21,12 +25,7 @@ app.use(express.urlencoded({
 
 app.use(express.static(__dirname + '/public'));
 
-app.all('*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+app.use(cors())
 
 var persons = [
     {
@@ -42,7 +41,7 @@ var persons = [
     {
         id: 3,
         name: "Misha",
-        age: 13
+        age: 14
     }
 
 ]
@@ -163,6 +162,9 @@ var mapToReportDataset = function(row){
 
   return result;
 };
+
+app.use('/api/health-star/', healthStarRoute);
+
 
 app.listen(8080, function () {
     console.log('Example app listening on port 8080!');

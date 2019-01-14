@@ -7,7 +7,9 @@
     "build": "vue-cli-service build",
     "build-www": "vue-cli-service build --dest ./www",
     "build-express": "vue-cli-service build --dest ./back/public",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "back": "nodemon --ext js --watch back back/server.js",
+    "both": "concurrently --kill-others \"npm run back\" \"npm run serve\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
@@ -16,17 +18,23 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
     "chart.js": "^2.7.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "fuse-js-latest": "^3.1.0",
     "fuse.js": "^3.3.0",
+    "hooper": "0.0.6",
     "i": "^0.3.6",
-    "json-view": "^0.4.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
     "npm": "^6.5.0",
-    "simple-json-viewer": "^0.6.0",
+    "pg-promise": "^8.5.4",
+    "sqlite3": "^4.0.6",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
+    "vue-dynamic-star-rating": "^1.0.7",
     "vue-router": "^3.0.2",
     "vue-smooth-dnd": "^0.2.8",
+    "vue-star-rating": "^1.6.1",
     "vue-yandex-maps": "^0.7.15",
     "vuex": "^3.0.1"
   },
@@ -35,8 +43,11 @@
     "@vue/cli-plugin-eslint": "^3.2.1",
     "@vue/cli-service": "^3.2.0",
     "babel-eslint": "^10.0.1",
+    "concurrently": "^4.1.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {

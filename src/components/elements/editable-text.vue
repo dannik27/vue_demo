@@ -2,13 +2,13 @@
   <div class="editable-text">
 
     <template v-if="! editing">
-      <span class="label">{{tempText}}</span>
+      <span class="label" @dblclick="onEdit">{{tempText}}</span>
       <font-awesome-icon v-on:click="onEdit" class="et-button" icon="pen" />
     </template>
 
 
     <template v-if="editing">
-      <input v-model="tempText" id="input" type="text" />
+      <input ref="textfield" @keypress="onKeyPress" v-model="tempText" id="input" type="text" />
       <font-awesome-icon class="btn-save" v-on:click="onSave" icon="check" />
       <font-awesome-icon class="btn-close" v-on:click="onClose" icon="times" />
     </template>
@@ -33,8 +33,14 @@ export default {
       }
     },
     methods: {
+      onKeyPress(e){
+        if(e.keyCode === 13){
+          this.onSave();
+        }
+      },
       onEdit(){
         this.editing = true;
+        this.$refs.textfield.$el.focus();
       },
       onSave(){
         this.editing = false;

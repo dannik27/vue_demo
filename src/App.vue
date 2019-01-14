@@ -12,6 +12,7 @@
             <router-link to="/kanban" tag="button">Kanban</router-link>
             <router-link to="/kanban2" tag="button">Kanban2</router-link>
             <router-link to="/navigator" tag="button">Navigator</router-link>
+            <router-link to="/health-star" tag="button">HealthStar</router-link>
         </p>
 
         <router-view></router-view>
@@ -44,10 +45,13 @@
   import VuexDemo from "./components/vuex/vuex-demo"
   import YaMap from "./components/map/yandex-map"
   import Parser from "./components/parser/parser"
-  import Kanban from "./components/kanban/kanban"
   import Board from "./components/kanban/board"
   import MyBoard from "./components/kanban/my-board"
   import BrowserApi from "./components/navigator/browser-api"
+  import HealthStar from "./components/health-star/health-star"
+  import HealthStarWelcome from "./components/health-star/welcome"
+  import HealthStarSearch from "./components/health-star/search"
+  import HealthStarInfo from "./components/health-star/info"
 
   const router = new VueRouter({
     routes: [
@@ -60,7 +64,25 @@
       {path: '/parser', component: Parser},
       {path: '/kanban', component: Board},
       {path: '/kanban2', component: MyBoard},
-      {path: '/navigator', component: BrowserApi}
+      {path: '/navigator', component: BrowserApi},
+      {
+        path: '/health-star',
+        component: HealthStar,
+        children: [
+          {
+            path: '/health-star/search',
+            component: HealthStarSearch
+          },
+          {
+            path: '/health-star/info/:id',
+            component: HealthStarInfo
+          },
+          {
+            path: '/health-star/welcome',
+            component: HealthStarWelcome
+          }
+        ]
+      }
     ]
   });
 
@@ -87,6 +109,7 @@
 <style>
 
     @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+    @import '../node_modules/hooper/dist/hooper.css';
 
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;

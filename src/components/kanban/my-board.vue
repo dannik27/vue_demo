@@ -9,7 +9,7 @@
             <Draggable v-for="column in content.columns" :key="column.id">
                 <div class="card-container">
                     <div class="card-column-header column-drag-handle">
-                        <font-awesome-icon class="btn-add-card" @click="newCard(column)" size="2x" icon="plus" />
+                        <font-awesome-icon class="btn-add-card" @click="newCard(column)" icon="plus" />
                         {{ column.name }}
                     </div>
                     <Container
