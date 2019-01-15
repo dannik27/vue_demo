@@ -4,6 +4,7 @@ var router = express.Router();
 var Fuse = require('fuse.js/src');
 
 var dataFromSite = require('./pbprog_result2');
+var dataFromUsda = require('./usda');
 
 var fuse = null;
 
@@ -26,6 +27,11 @@ function init() {
 
 function getData() {
 
+  return getDataSite();
+}
+
+function getDataSite() {
+
   let id = 1;
 
   return dataFromSite.slice().map(item =>{
@@ -33,6 +39,11 @@ function getData() {
     id += 1;
     return item;
   })
+}
+
+function getDataUsda() {
+
+  return dataFromUsda.slice();
 }
 
 router.get('/', function (req, res) {

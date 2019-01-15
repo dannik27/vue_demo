@@ -2,11 +2,14 @@
 
   <div class="container">
 
-    <h1>Apple</h1>
+    <h1 v-if="item.name" >{{item.name}}</h1>
 
-    <img src="apple.png" width="150px" height="150px"/>
+    <img src="goods.jpg" width="150px" height="150px"/>
 
-    <h3>Apples are free of fat, sodium and cholesterol. That same medium-size aplle contains 4 grams of dietry fiber.</h3>
+    <!--Apples are free of fat, sodium and cholesterol. That same medium-size aplle contains 4 grams of dietry fiber.-->
+
+    <h3 v-if="item.description" >{{item.description}}</h3>
+    <h3 v-else >no description</h3>
 
     <star-rating
             :increment="0.5"
@@ -37,8 +40,8 @@
         <td>{{item.sodium}}mg</td>
       </tr>
       <tr>
-        <th scope="row">NUTRIENT</th>
-        <td>{{item.sodium}}g</td>
+        <th scope="row">FIBRE</th>
+        <td>{{item.fibre}}g</td>
       </tr>
       </tbody>
     </table>
@@ -65,15 +68,7 @@ export default {
     data () {
         return {
           rating: 4,
-          item: {
-            rating: 0,
-            name: "",
-            description: "",
-            energy: 519.1,
-            fat: 21.48,
-            sugars: 1.83,
-            sodium: 90
-          }
+          item: {}
         }
     },
     methods : {
@@ -94,6 +89,7 @@ export default {
 
   .container{
     text-align:center;
+    margin-top: 20px;
   }
 
   .container > * {

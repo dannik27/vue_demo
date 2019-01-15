@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <p class="menu">
+    <p class="menu" v-show="false">
       <router-link to="/health-star/search" tag="button">search</router-link>
       <router-link to="/health-star/info/1" tag="button">info</router-link>
       <router-link to="/health-star/welcome" tag="button">welcome</router-link>

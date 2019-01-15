@@ -1,7 +1,3 @@
-select long_desc, '', '' from food
-	where id = 2050
-
-	UNION ALL
 
 select n.name, main.amount, n.units from nutrition main
 	left join nutrient n on n.id = main.nutrient_id

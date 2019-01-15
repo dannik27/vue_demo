@@ -2,7 +2,7 @@
 
     <div id="app">
 
-        <p class="menu">
+        <p class="menu" v-show="false">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/fuzzy" tag="button">Перейти к fuzzy</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
@@ -117,7 +117,7 @@
         -moz-osx-font-smoothing: grayscale;
 
         color: #2c3e50;
-        margin-top: 60px;
+        /*margin-top: 60px;*/
     }
 
     .menu{
