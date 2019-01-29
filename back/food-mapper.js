@@ -16,20 +16,20 @@ exports.mapToNames = function(record) {
 exports.mapToCategories = function(record) {
   let categoryIndex = 'NONE';
 
-  if (record.category == 'Dairy and Egg Products') {
+  if (['Dairy and Egg Products','Молочные продукты', 'Яйца и продукты из яиц'].includes(record.category)) {
     categoryIndex = '2D';
   }
 
-  if (record.category == 'Fats and Oils') {
+  if (['Fats and Oils', 'Жиры и масла'].includes(record.category)) {
     categoryIndex = '3';
   }
 
-  if (record.category == 'Fruits and Fruit Juices' ||
-      record.category =='Beverages') {
+  if (['Fruits and Fruit Juices', 'Beverages', 'Вода и напитки', 'Напитки алкогольные', 'Соки']
+      .includes(record.category)) {
     categoryIndex = '1';
   }
 
-  if (categoryIndex == 'NONE') {
+  if (['NONE'].includes(categoryIndex)) {
     categoryIndex = '2';
   }
 
@@ -52,7 +52,7 @@ exports.mapToRating = function(record) {
   let score = {
     '1': [-100,-5,-4,-3,-2,-1,0,1,2,3],
     '1D': [-100,-1,0,1,2,3,4,5,6,7],
-    '2': [-100,-7,-2,2,6,11,15,20,24,28],
+    '2': [-100,-10,-6,-1,3,7,12,16,21,25],
     '2D': [-100,-1,0,1,2,3,4,5,6,7],
     '3': [-100,16,20,23,27,30,34,37,41,45],
     '3D': [-100,22,24,26,28,30,32,34,36,38]
@@ -60,10 +60,11 @@ exports.mapToRating = function(record) {
 
   let energyScore = findIndexInArray(energyPoints, record.energy);
   let fatScore = findIndexInArray(fatPoints, record.fat);
-  let sugarScore = findIndexInArray(sugarPoints, record.sugar);
+  let sugarScore = findIndexInArray(sugarPoints, record.sugars);
   let sodiumScore = findIndexInArray(sodiumPoints, record.sodium);
   let proteinScore = 0;
   let fibreScore = 0;
+  let fvnlScore = 0;
 
   let baselineScore = energyScore + fatScore + sugarScore + sodiumScore;
 
@@ -75,6 +76,13 @@ exports.mapToRating = function(record) {
     fibreScore = findIndexInArray(fibrePoints, record.fibre);
   }
 
+  if (['Овощи и зелень', 'Фрукты и ягоды'].includes(record.category)) {
+    fvnlScore = 6;
+  }
+  if (['Орехи и семена', 'Соки', 'Детское питание'].includes(record.category)) {
+    fvnlScore = 3;
+  }
+
   let finalScore = baselineScore - proteinScore - fibreScore;
 
 
@@ -83,13 +91,15 @@ exports.mapToRating = function(record) {
   let rating = stars[starIndex];
 
   record.rating = rating;
+  record.debug = `${energyScore} + ${fatScore} + ${sugarScore} \
+  + ${sodiumScore} - ${proteinScore} - ${fibreScore} - ${fvnlScore}`
 
   return record;
 }
 
 function findIndexInArray(array, value) {
 
-  let index = -1;
+  let index = 0;
 
   array.forEach((arrayValue, arrayIndex) =>{
     if (value > arrayValue) {

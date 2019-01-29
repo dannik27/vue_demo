@@ -5,6 +5,7 @@ var Fuse = require('fuse.js/src');
 
 var dataFromSite = require('./pbprog_result2');
 var dataFromUsda = require('./usda');
+var dataFromMzr = require('./mzr');
 
 var fuse = null;
 
@@ -27,7 +28,7 @@ function init() {
 
 function getData() {
 
-  return getDataSite();
+  return getDataMzr();
 }
 
 function getDataSite() {
@@ -44,6 +45,11 @@ function getDataSite() {
 function getDataUsda() {
 
   return dataFromUsda.slice();
+}
+
+function getDataMzr() {
+
+  return dataFromMzr.slice();
 }
 
 router.get('/', function (req, res) {
