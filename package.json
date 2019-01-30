@@ -5,11 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-www": "vue-cli-service build --dest ./www",
-    "build-express": "vue-cli-service build --dest ./back/public",
     "lint": "vue-cli-service lint",
     "back": "nodemon --ext js --watch back back/server.js",
-    "both": "concurrently --kill-others \"npm run back\" \"npm run serve\""
+    "both": "concurrently --kill-others \"npm run back\" \"npm run serve\"",
+    "build-express": "vue-cli-service build --dest ./back/public",
+    "build-www": "vue-cli-service build --dest ./www",
+    "electron": "electron electron/starter.js",
+    "electron2": "electron src/background.js",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
@@ -43,13 +48,15 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.1",
-    "@vue/cli-service": "^3.2.0",
+    "@vue/cli-service": "^3.3.1",
     "babel-eslint": "^10.0.1",
     "concurrently": "^4.1.0",
+    "electron": "^4.0.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
+    "vue-cli-plugin-electron-builder": "^1.0.0-rc.10",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
@@ -75,5 +82,6 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": "background.js"
 }

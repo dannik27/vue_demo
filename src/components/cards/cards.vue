@@ -20,6 +20,7 @@ import axios from "axios"
 import PersonCard from "./person-card"
 
 import config from "../../config"
+import api from "../../services/electron/demo-api"
 
 export default {
     name: 'Dasha',
@@ -39,19 +40,12 @@ export default {
     methods : {
 
         update : function() {
-            axios
-                .get(config.BACKEND_URL)
-                .then(response => (this.persons = response.data));
+
+            api.getPersons().then(response=>this.persons = response)
         },
         save : function () {
 
-            axios.post(config.BACKEND_URL, this.newPerson)
-                .then((response) => {
-                    this.update()
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            api.savePerson(this.newPerson).then(this.update)
         }
 
     },

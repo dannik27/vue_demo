@@ -2,7 +2,7 @@
 
     <div id="app">
 
-        <p class="menu" v-show="false">
+        <p class="menu" v-show="true">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/fuzzy" tag="button">Перейти к fuzzy</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
@@ -13,6 +13,7 @@
             <router-link to="/kanban2" tag="button">Kanban2</router-link>
             <router-link to="/navigator" tag="button">Navigator</router-link>
             <router-link to="/health-star" tag="button">HealthStar</router-link>
+            <router-link to="/electron-demo" tag="button">Electron API Demo</router-link>
         </p>
 
         <router-view></router-view>
@@ -52,6 +53,7 @@
   import HealthStarWelcome from "./components/health-star/welcome"
   import HealthStarSearch from "./components/health-star/search"
   import HealthStarInfo from "./components/health-star/info"
+  import ElectronDemo from "./components/electron/electron-demo"
 
   const router = new VueRouter({
     routes: [
@@ -65,6 +67,7 @@
       {path: '/kanban', component: Board},
       {path: '/kanban2', component: MyBoard},
       {path: '/navigator', component: BrowserApi},
+      {path: '/electron-demo', component: ElectronDemo},
       {
         path: '/health-star',
         component: HealthStar,
