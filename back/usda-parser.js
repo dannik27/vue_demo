@@ -18,7 +18,7 @@ async function getDataFromDb() {
   let foods = [];
   let currentFood = { id: 0};
 
-  let ok = await sqlite.each(query, [], (row) => {
+  await sqlite.each(query, [], (row) => {
 
     if(row.id == currentFood.id) {
       currentFood[row.nutrient] = row.amount;

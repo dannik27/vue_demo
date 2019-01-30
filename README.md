@@ -29,3 +29,8 @@ npm run build-express
 ```
 node back/server.js
 ```
+
+### Electron demo api
+
+Поправить: 
+  Есть необходимость копировать db.sqlite в папку dist_electron, чтобы электрон её видел
