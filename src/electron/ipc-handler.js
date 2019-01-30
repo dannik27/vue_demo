@@ -1,6 +1,6 @@
 
 import { ipcMain } from 'electron'
-import sqlite from './sqlite-aa';
+import sqlite from '../../libs/sqlite-aa';
 
 export default {
   init: function(win){

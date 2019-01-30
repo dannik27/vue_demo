@@ -1,5 +1,5 @@
 const fs = require('fs');
-var sqlite = require('./sqlite-aa');
+var sqlite = require('../../../../libs/sqlite-aa');
 var mapper = require('./food-mapper');
 var translate = require('./translate')
 

@@ -8,7 +8,7 @@ export default {
   getPersons: function() {
     return new Promise(resolve => {
 
-      axios.get(config.BACKEND_URL).then(response=>{
+      axios.get(config.BACKEND_URL + 'persons').then(response=>{
         resolve(response.data);
       })
     })
@@ -17,7 +17,7 @@ export default {
   savePerson: function(person) {
     return new Promise(resolve=>{
 
-      axios.post(config.BACKEND_URL, person)
+      axios.post(config.BACKEND_URL + 'persons', person)
           .then((response) => {
             resolve(response)
           })

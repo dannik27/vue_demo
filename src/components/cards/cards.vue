@@ -20,7 +20,7 @@ import axios from "axios"
 import PersonCard from "./person-card"
 
 import config from "../../config"
-import api from "../../services/electron/demo-api"
+import api from "../../services/backend/demo-api"
 
 export default {
     name: 'Dasha',
