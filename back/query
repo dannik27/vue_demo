@@ -1,5 +1,0 @@
-
-select n.name, main.amount, n.units from nutrition main
-	left join nutrient n on n.id = main.nutrient_id
-	where (n.tagname = 'FASAT' or n.tagname = 'SUGAR' or n.tagname = 'ENERC_KCAL' or n.tagname = 'NA' or n.tagname = 'FIBTG')
-and main.food_id = 2050;
