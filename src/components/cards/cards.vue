@@ -5,7 +5,7 @@
     <div>
       <input v-model="newPerson.name" type="text" />
       <input v-model="newPerson.age" type="text" />
-      <button v-on:click="save" >Save</button>
+      <button v-on:click="postPerson(newPerson)" >Save</button>
     </div>
 
     <hr>
@@ -16,11 +16,9 @@
 
 <script>
 
-import axios from "axios"
 import PersonCard from "./person-card"
 
-import config from "../../config"
-import api from "../../services/backend/demo-api"
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: 'Dasha',
@@ -29,7 +27,6 @@ export default {
     },
     data () {
         return {
-            persons : [],
             newPerson : {
                 "id" : 0,
                 "name" : "",
@@ -37,20 +34,19 @@ export default {
             }
         }
     },
+    computed: {
+      ...mapState([
+        'persons'
+      ])
+    },
     methods : {
-
-        update : function() {
-
-            api.getPersons().then(response=>this.persons = response)
-        },
-        save : function () {
-
-            api.savePerson(this.newPerson).then(this.update)
-        }
+      ...mapActions([
+        'fetchPersons','postPerson'
+      ])
 
     },
     mounted() {
-        this.update();
+      this.fetchPersons();
     }
 }
 </script>

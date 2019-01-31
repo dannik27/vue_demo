@@ -5,7 +5,6 @@
         <p class="menu" v-show="true">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
-            <router-link to="/vuex" tag="button">Перейти к vuex demo</router-link>
             <router-link to="/map" tag="button">Maps</router-link>
             <router-link to="/kanban" tag="button">Kanban</router-link>
             <router-link to="/kanban2" tag="button">Kanban2</router-link>
@@ -23,22 +22,21 @@
 
   import Vue from 'vue'
   import VueRouter from 'vue-router'
-  import Vuex from 'vuex';
 
   import { library } from '@fortawesome/fontawesome-svg-core'
   import { faPen, faCheck, faTimes, faEllipsisH, faPlus } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+  import store from './store/store'
 
   library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus)
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
 
   Vue.use(VueRouter);
-  Vue.use(Vuex);
 
   import Cards from "./components/cards/cards"
   import Charts from "./components/charts/charts"
-  import VuexDemo from "./components/vuex/vuex-demo"
   import YaMap from "./components/map/yandex-map"
   import Board from "./components/kanban/board"
   import MyBoard from "./components/kanban/my-board"
@@ -52,7 +50,6 @@
     routes: [
       {path: '/cards', component: Cards},
       {path: '/charts', component: Charts},
-      {path: '/vuex', component: VuexDemo},
       {path: '/map', component: YaMap},
       {path: '/kanban', component: Board},
       {path: '/kanban2', component: MyBoard},
@@ -78,21 +75,10 @@
     ]
   });
 
-  const store = new Vuex.Store({
-    state: {
-      stringArray: ['first', 'second', 'third']
-    },
-    mutations: {
-      addItem (state, str) {
-        state.stringArray.push(str);
-      }
-    }
-  });
+
 
   export default {
     name: 'app',
-    components: {
-    },
     router,
     store
   }

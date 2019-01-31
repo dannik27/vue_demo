@@ -25,6 +25,10 @@ export default {
   },
 
   savePerson: function(person) {
-    persons.push(person)
+    return new Promise(resolve => {
+      persons.push(person)
+      resolve("ok")
+    })
+
   }
 }
