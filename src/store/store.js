@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
 
-import api from '../services/electron/demo-api'
+import api from '../services/backend/demo-api'
 
 Vue.use(Vuex);
 
@@ -15,15 +15,21 @@ function copyArray(src) {
 
 export default new Vuex.Store({
   state: {
-    persons: []
+    persons: [],
+    title: 'PunchList'
   },
   mutations: {
 
     setPersons(state, persons) {
       state.persons = copyArray(persons);
     },
+
     addPerson(state, person) {
       state.persons.push(person)
+    },
+
+    setTitle(state, title) {
+      state.title = title;
     }
   },
   actions: {

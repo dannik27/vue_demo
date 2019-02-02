@@ -4,7 +4,7 @@
 
     <h1 v-if="item.name" >{{item.name}}</h1>
 
-    <img src="goods.jpg" width="150px" height="150px"/>
+    <img src="img/goods.jpg" width="150px" height="150px"/>
 
     <!--Apples are free of fat, sodium and cholesterol. That same medium-size aplle contains 4 grams of dietry fiber.-->
 

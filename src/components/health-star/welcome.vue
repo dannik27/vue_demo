@@ -4,7 +4,7 @@
 
       <slide>
         <div class="slide">
-          <img src="healthstar.png" width="300px" height="300px"/>
+          <img src="img/healthstar.png" width="300px" height="300px"/>
           <h4>Find your favorite food by name</h4>
           <router-link to="/health-star/search" tag="button" class="btn btn-primary">
             Continue
@@ -14,7 +14,7 @@
 
       <slide>
         <div class="slide">
-          <img src="camera.png" width="300px" height="300px"/>
+          <img src="img/camera.png" width="300px" height="300px"/>
           <h4>Or simply insert a photo</h4>
           <router-link to="/health-star/search" tag="button" class="btn btn-primary">
             Continue
@@ -24,7 +24,7 @@
 
       <slide>
         <div class="slide">
-          <img src="rating.png" width="300px" height="300px"/>
+          <img src="img/rating.png" width="300px" height="300px"/>
           <h4>And learn the health rating!</h4>
           <router-link to="/health-star/search" tag="button" class="btn btn-primary">
             Continue

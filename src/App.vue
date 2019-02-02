@@ -8,8 +8,8 @@
             <router-link to="/map" tag="button">Maps</router-link>
             <router-link to="/kanban" tag="button">Kanban</router-link>
             <router-link to="/kanban2" tag="button">Kanban2</router-link>
-            <router-link to="/navigator" tag="button">Camera</router-link>
-            <router-link to="/health-star" tag="button">HealthStar</router-link>
+            <router-link to="/health-star/welcome" tag="button">HealthStar</router-link>
+            <router-link to="/punchlist/home" tag="button">Punchlist</router-link>
         </p>
 
         <router-view></router-view>
@@ -24,12 +24,12 @@
   import VueRouter from 'vue-router'
 
   import { library } from '@fortawesome/fontawesome-svg-core'
-  import { faPen, faCheck, faTimes, faEllipsisH, faPlus } from '@fortawesome/free-solid-svg-icons'
+  import { faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
   import store from './store/store'
 
-  library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus)
+  library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome);
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
 
@@ -40,11 +40,19 @@
   import YaMap from "./components/map/yandex-map"
   import Board from "./components/kanban/board"
   import MyBoard from "./components/kanban/my-board"
-  import BrowserApi from "./components/navigator/browser-api"
   import HealthStar from "./components/health-star/health-star"
   import HealthStarWelcome from "./components/health-star/welcome"
   import HealthStarSearch from "./components/health-star/search"
   import HealthStarInfo from "./components/health-star/info"
+
+  import Punchlist from "./components/punchlist/main"
+  import PunchlistHome from "./components/punchlist/home"
+  import PunchlistSchema from "./components/punchlist/schema"
+  import PunchlistCamera from "./components/punchlist/camera"
+  import PunchlistDefectList from "./components/punchlist/defect-list"
+  import PunchlistDefectCard from "./components/punchlist/defect-card"
+
+
 
   const router = new VueRouter({
     routes: [
@@ -53,7 +61,6 @@
       {path: '/map', component: YaMap},
       {path: '/kanban', component: Board},
       {path: '/kanban2', component: MyBoard},
-      {path: '/navigator', component: BrowserApi},
       {
         path: '/health-star',
         component: HealthStar,
@@ -69,6 +76,32 @@
           {
             path: '/health-star/welcome',
             component: HealthStarWelcome
+          }
+        ]
+      },
+      {
+        path: '/punchlist',
+        component: Punchlist,
+        children: [
+          {
+            path: '/punchlist/home',
+            component: PunchlistHome
+          },
+          {
+            path: '/punchlist/schema',
+            component: PunchlistSchema
+          },
+          {
+            path: '/punchlist/camera',
+            component: PunchlistCamera
+          },
+          {
+            path: '/punchlist/defect-list',
+            component: PunchlistDefectList
+          },
+          {
+            path: '/punchlist/defect-card',
+            component: PunchlistDefectCard
           }
         ]
       }
@@ -88,6 +121,10 @@
 
     @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
     @import '../node_modules/hooper/dist/hooper.css';
+
+    body{
+        height: 100%;
+    }
 
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
