@@ -2,7 +2,7 @@
 
     <div id="app">
 
-        <p class="menu" v-show="true">
+        <div class="menu" v-show="true">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
             <router-link to="/map" tag="button">Maps</router-link>
@@ -10,7 +10,7 @@
             <router-link to="/kanban2" tag="button">Kanban2</router-link>
             <router-link to="/health-star/welcome" tag="button">HealthStar</router-link>
             <router-link to="/punchlist/home" tag="button">Punchlist</router-link>
-        </p>
+        </div>
 
         <router-view></router-view>
 
@@ -118,25 +118,50 @@
 </script>
 
 <style>
-
     @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
     @import '../node_modules/hooper/dist/hooper.css';
 
-    body{
-        height: 100%;
+    @import 'assets/material-button.css';
+    @import 'assets/custom-elements.css';
+
+    :root {
+        --color-primary: #00796b;
+        --color-primary-dark: #004c40;
+        --color-primary-light: #48a999;
+        --color-secondary: #ffa000;
+        --color-secondary-dark: #c67100;
+        --color-secondary-light: #ffd149;
+        --text-primary: #ffffff;
+        --text-secondary: #000000;
+        --font: "Roboto", "Segoe UI", "serif";
+    }
+
+    html, body {
+        margin: 0;
+    }
+
+    html {
+        height: 100vh;
+    }
+    body {
+        height: 100vh;
     }
 
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
 
-        color: #2c3e50;
         /*margin-top: 60px;*/
+
+        height: 100%;
+
+
     }
 
-    .menu{
+    .menu {
         text-align: center;
+    }
+
+    .content {
+
     }
 
 </style>

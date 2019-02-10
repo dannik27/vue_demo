@@ -10,7 +10,9 @@
 
     </div>
 
-    <router-view></router-view>
+    <div class="content">
+      <router-view></router-view>
+    </div>
 
   </div>
 
@@ -54,13 +56,16 @@ export default {
 <style scoped>
 
   .body{
-    background-color: #c7c7c7;
+    background-color: #dddddd;
+
+    height: calc(100% - 30px);
+
   }
 
   .header{
-    background-color: #546de5;
+    background-color: var(--color-primary);
     width: 100%;
-    padding: 5px 20px;
+    padding: 0 20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
     display:flex;
@@ -69,16 +74,26 @@ export default {
 
   .header > *{
     margin-right: 20px;
-    color: white;
+    color: var(--text-primary);
     font-size: 48px;
   }
 
   .header span{
     flex-grow: 1;
+    line-height: 60px;
+
   }
 
   .button{
     cursor: pointer;
   }
+
+  .content {
+    height: calc(100% - 60px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
 
 </style>

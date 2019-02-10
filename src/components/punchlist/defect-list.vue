@@ -6,6 +6,14 @@
       <DefectListItem class="item" @click.native="clickOnCard"/>
       <DefectListItem class="item" @click.native="clickOnCard"/>
       <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard" />
+      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard" />
+      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem class="item" @click.native="clickOnCard"/>
     </div>
 
 
@@ -45,6 +53,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+
+    overflow: hidden;
 
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root custom-panel">
     <div class="line">
       <span> s das </span>
       <span> s das </span>
@@ -8,6 +8,7 @@
     <span>
       Lorem ipsum dolor sit amet, consectetur adipiscing
     </span>
+    <hr>
     <div class="grid">
       <div class="grid-column">
         <div>Registered</div>
@@ -44,14 +45,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.root {
-  background-color: #546de5;
+  .root:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
 
-  padding: 10px;
+  .root hr {
+    margin: 4px;
+  }
 
-  border-radius: 2px;
-
-}
 
   .grid {
 
@@ -60,7 +61,6 @@ export default {
   }
 
   .grid-column {
-    /*float:left;*/
     margin-right: 10px;
     display: inline-block;
   }
