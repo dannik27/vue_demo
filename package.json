@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "back": "nodemon --ext js --watch back back/server.js",
-    "both": "concurrently --kill-others \"npm run back\" \"npm run serve\"",
+    "start": "concurrently --kill-others \"npm run back\" \"npm run serve\"",
     "build-express": "vue-cli-service build --dest ./back/public",
     "build-www": "vue-cli-service build --dest ./www",
     "electron": "electron electron/starter.js",
