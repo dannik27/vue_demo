@@ -21,11 +21,14 @@ app.use(cors());
 
 var healthStarRoute = require('./routes/health-star/health-star');
 var personsRoute = require('./routes/persons/persons');
+var punchlistRoute = require('./routes/punchlist/punchlist');
+
 
 
 
 app.use('/api/health-star/', healthStarRoute);
 app.use('/api/persons/', personsRoute);
+app.use('/api/punchlist/', punchlistRoute);
 
 
 app.listen(8080, function () {

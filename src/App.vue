@@ -47,6 +47,7 @@
 
   import Punchlist from "./components/punchlist/main"
   import PunchlistHome from "./components/punchlist/home"
+  import PunchlistSchemaList from "./components/punchlist/schema-list"
   import PunchlistSchema from "./components/punchlist/schema"
   import PunchlistCamera from "./components/punchlist/camera"
   import PunchlistDefectList from "./components/punchlist/defect-list"
@@ -88,8 +89,13 @@
             component: PunchlistHome
           },
           {
-            path: '/punchlist/schema',
-            component: PunchlistSchema
+            path: '/punchlist/schema-list',
+            component: PunchlistSchemaList
+          },
+          {
+            path: '/punchlist/schema/:schemaId',
+            component: PunchlistSchema,
+            props: true
           },
           {
             path: '/punchlist/camera',

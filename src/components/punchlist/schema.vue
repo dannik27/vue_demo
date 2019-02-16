@@ -14,23 +14,29 @@
 
 <script>
 
+    import api from '../../services/backend/punchlist-api'
 
   export default {
+    props: ['schemaId'],
     data() {
       return {
+        image: {
+          id: 0,
+          base64: ''
+        },
         mouseX: 0,
         mouseY: 0,
         zoom: 1,
         marks: [
           {
-            name: "first",
+            componentId: "first",
             x: 1000,
             y: 1000,
             width: 100,
             height: 100
           },
           {
-            name: "second",
+            componentId: "second",
             x: 1200,
             y: 1000,
             width: 100,
@@ -41,194 +47,206 @@
     },
     mounted() {
 
-      this.$store.commit('setTitle', 'Schema')
+      Promise.all([
+          api.getImage(this.schemaId),
+          api.getComponentLinks(this.schemaId)
+      ]).then(([image, componentLinks]) => {
+        this.image = image;
+        this.marks = componentLinks;
+        this.initCanvas();
+      })
 
-      let self = this;
+    },
+    methods : {
+      initCanvas() {
+        this.$store.commit('setTitle', 'Schema')
 
-      let canvas;
-      let ctx;
-      let image;
+        let self = this;
 
-      let sx, sy;
-      let dx, dy, dWidth, dHeight;
+        let canvas;
+        let ctx;
+        let image;
 
-      let zoomLevel = 1;
+        let sx, sy;
+        let dx, dy, dWidth, dHeight;
 
-      init();
+        let zoomLevel = 1;
 
-      function init() {
+        init();
 
-        canvas = document.getElementById("canvas");
-        ctx = canvas.getContext("2d");
+        function init() {
 
-        image = new Image();
-        image.src = 'schema1.png';
+          canvas = document.getElementById("canvas");
+          ctx = canvas.getContext("2d");
 
-        canvas.width  = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+          image = new Image();
+          // image.src = 'schema1.png';
+          image.src = 'data:image/png;base64,' + self.image.base64;
 
-        image.onload = function () {
+          canvas.width  = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
 
-          ctx.drawImage(this, 0, 0);
-          start();
+          image.onload = function () {
+
+            ctx.drawImage(this, 0, 0);
+            start();
+          }
+
+
+          canvas.onmousemove = function (e) {
+
+            let realX = e.offsetX * zoomLevel + sx;
+            let realY = e.offsetY * zoomLevel + sy;
+
+            self.mouseX = e.offsetX + '(' + realX + ')'
+            self.mouseY = e.offsetY + '(' + realY + ')'
+          }
+
+          canvas.onclick = function (e) {
+
+            let realX = e.offsetX * zoomLevel + sx;
+            let realY = e.offsetY * zoomLevel + sy;
+
+            self.marks.filter(mark => {
+              return contains(mark, realX, realY);
+            }).forEach(markClicked)
+
+          }
+
+          initDrag();
+          initZoom();
+
+          console.log('init');
         }
 
+        function initDrag() {
 
-        canvas.onmousemove = function (e) {
+          let dragging;
+          let lastX, lastY;
 
-          let realX = e.offsetX * zoomLevel + sx;
-          let realY = e.offsetY * zoomLevel + sy;
+          canvas.addEventListener('mousedown', function (e) {
+            dragging = true;
 
-          self.mouseX = e.offsetX + '(' + realX + ')'
-          self.mouseY = e.offsetY + '(' + realY + ')'
-        }
-
-        canvas.onclick = function (e) {
-
-          let realX = e.offsetX * zoomLevel + sx;
-          let realY = e.offsetY * zoomLevel + sy;
-
-          self.marks.filter(mark => {
-            return contains(mark, realX, realY);
-          }).forEach(markClicked)
-
-        }
-
-        initDrag();
-        initZoom();
-
-        console.log('init');
-      }
-
-      function initDrag() {
-
-        let dragging;
-        let lastX, lastY;
-
-        canvas.addEventListener('mousedown', function (e) {
-          dragging = true;
-
-          lastX = e.offsetX;
-          lastY = e.offsetY;
-
-          // console.log('down')
-        });
-
-        canvas.addEventListener('mouseup', function (e) {
-          dragging = false;
-          // console.log('up')
-        });
-
-        canvas.addEventListener('mousemove', function (e) {
-          if (dragging) {
-
-            shift(e.offsetX - lastX, e.offsetY - lastY);
             lastX = e.offsetX;
             lastY = e.offsetY;
 
-            // console.log('drag')
-          }
+            // console.log('down')
+          });
 
-        })
+          canvas.addEventListener('mouseup', function (e) {
+            dragging = false;
+            // console.log('up')
+          });
 
-      }
+          canvas.addEventListener('mousemove', function (e) {
+            if (dragging) {
 
-      function initZoom() {
+              shift(e.offsetX - lastX, e.offsetY - lastY);
+              lastX = e.offsetX;
+              lastY = e.offsetY;
 
-        canvas.addEventListener('wheel', function (e) {
-          if (e.wheelDelta > 0) {
-            zoom(e.offsetX, e.offsetY, 0.3)
-          } else {
-            zoom(e.offsetX, e.offsetY, -0.3)
-          }
-        })
+              // console.log('drag')
+            }
 
-      }
+          })
 
-      function zoom(x, y, change) {
-
-        if (zoomLevel + change <= 0.1 || zoomLevel + change > 5) {
-          return;
         }
 
-        let realX = x * zoomLevel;
-        let realY = y * zoomLevel;
+        function initZoom() {
 
-        let newX = realX * (zoomLevel + change) / zoomLevel;
-        let newY = realY * (zoomLevel + change) / zoomLevel;
+          canvas.addEventListener('wheel', function (e) {
+            if (e.wheelDelta > 0) {
+              zoom(e.offsetX, e.offsetY, 0.3)
+            } else {
+              zoom(e.offsetX, e.offsetY, -0.3)
+            }
+          })
 
-        zoomLevel += change
+        }
 
-        shift((realX - newX) / zoomLevel * (-1), (realY - newY) / zoomLevel * (-1))
+        function zoom(x, y, change) {
 
-        self.zoom = zoomLevel;
+          if (zoomLevel + change <= 0.1 || zoomLevel + change > 5) {
+            return;
+          }
 
+          let realX = x * zoomLevel;
+          let realY = y * zoomLevel;
 
-      }
+          let newX = realX * (zoomLevel + change) / zoomLevel;
+          let newY = realY * (zoomLevel + change) / zoomLevel;
 
-      function shift(x, y) {
-        // console.log('drag' + ' -> ' + x + ' ' + y);
+          zoomLevel += change
 
-        sx -= x * zoomLevel;
-        sy -= y * zoomLevel;
+          shift((realX - newX) / zoomLevel * (-1), (realY - newY) / zoomLevel * (-1))
 
-        render();
-      }
-
-      function markClicked(mark) {
-        console.log(mark.name)
-      }
-
-      function start() {
-
-        dx = 0;
-        dy = 0;
-        dWidth = canvas.width;
-        dHeight = canvas.height;
-
-        sx = 1000;
-        sy = 1000;
-
-        render()
-
-      }
+          self.zoom = zoomLevel;
 
 
-      function render() {
+        }
 
-        ctx.drawImage(image, sx, sy, dWidth * zoomLevel, dHeight * zoomLevel, dx, dy, dWidth, dHeight)
+        function shift(x, y) {
+          // console.log('drag' + ' -> ' + x + ' ' + y);
 
-        ctx.beginPath();
-        ctx.lineWidth = "6";
-        ctx.strokeStyle = "red";
-        ctx.rect(0, 0, canvas.width, canvas.height)
-        ctx.stroke()
+          sx -= x * zoomLevel;
+          sy -= y * zoomLevel;
 
-        self.marks.forEach(mark => {
+          render();
+        }
+
+        function markClicked(mark) {
+          console.log(mark.componentId)
+        }
+
+        function start() {
+
+          dx = 0;
+          dy = 0;
+          dWidth = canvas.width;
+          dHeight = canvas.height;
+
+          sx = 1000;
+          sy = 1000;
+
+          render()
+
+        }
+
+
+        function render() {
+
+          ctx.drawImage(image, sx, sy, dWidth * zoomLevel, dHeight * zoomLevel, dx, dy, dWidth, dHeight)
 
           ctx.beginPath();
-          ctx.lineWidth = 6 - zoomLevel;
-          ctx.strokeStyle = "blue";
-          ctx.rect(
-              (mark.x - sx) / zoomLevel,
-              (mark.y - sy) / zoomLevel,
-              mark.width / zoomLevel,
-              mark.height / zoomLevel);
-          ctx.stroke();
+          ctx.lineWidth = "6";
+          ctx.strokeStyle = "red";
+          ctx.rect(0, 0, canvas.width, canvas.height)
+          ctx.stroke()
 
-        })
+          self.marks.forEach(mark => {
 
+            ctx.beginPath();
+            ctx.lineWidth = 6 - zoomLevel;
+            ctx.strokeStyle = "blue";
+            ctx.rect(
+                (mark.x - sx) / zoomLevel,
+                (mark.y - sy) / zoomLevel,
+                mark.width / zoomLevel,
+                mark.height / zoomLevel);
+            ctx.stroke();
+
+          })
+
+        }
+
+        function contains(mark, x, y) {
+          return (x > mark.x &&
+              x < mark.x + mark.width &&
+              y > mark.y &&
+              y < mark.y + mark.height);
+
+        }
       }
-
-      function contains(mark, x, y) {
-        return (x > mark.x &&
-            x < mark.x + mark.width &&
-            y > mark.y &&
-            y < mark.y + mark.height);
-
-      }
-
-
     }
   }
 </script>

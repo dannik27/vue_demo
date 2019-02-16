@@ -2,7 +2,7 @@
   <div>
 
     <div class="menu">
-      <router-link to="/punchlist/schema" tag="button" class="custom-button">schema</router-link>
+      <router-link to="/punchlist/schema-list" tag="button" class="custom-button">schemas</router-link>
       <router-link to="/punchlist/camera" tag="button" class="custom-button">camera</router-link>
       <router-link to="/punchlist/defect-list" tag="button" class="custom-button">defects</router-link>
 
