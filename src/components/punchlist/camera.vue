@@ -1,10 +1,14 @@
 <template>
-    <div>
+    <div ref="root" class="root">
         <video v-show="active" ref="video" autoplay></video>
         <canvas v-show="! active" ref="canvas"></canvas>
 
-        <button @click="capture">Capture</button>
-        <button @click="restart" >Retry</button>
+        <div class="hud">
+            <button @click="capture">Capture</button>
+            <button @click="restart" >Retry</button>
+        </div>
+
+
     </div>
 
 </template>
@@ -24,11 +28,15 @@
 
           let self = this;
 
+          let root = this.$refs.root;
           let video = this.$refs.video;
+
 
           let constraints = {
             audio: false,
-            video: { width: 800, height: 600 }
+            video: {
+              width: root.clientWidth - 10,
+              height: root.clientHeight - 10 }
           }
 
           if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -50,6 +58,10 @@
 
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
+
+          // canvas.width = canvas.style.width;
+          // canvas.height = canvas.style.height;
+
           canvas.getContext('2d').drawImage(video, 0, 0);
 
           this.stream.getTracks().forEach(track => track.stop())
@@ -69,5 +81,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+    .root {
+        height: 100%;
+        position: relative;
+    }
+
+    .hud{
+        position: absolute;
+        top: 0;
+    }
 
 </style>

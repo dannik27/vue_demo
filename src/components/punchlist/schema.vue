@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <h1>pandrag</h1>
-
+    <div class="root">
         <canvas id="canvas"></canvas>
 
-        <div id="hud">
+        <div id="hud" class="custom-panel">
             <p>Mouse X <span>{{mouseX}}</span></p>
             <p>Mouse Y <span>{{mouseY}}</span></p>
             <p>Zoom <span>{{zoom}}</span></p>
@@ -66,8 +64,8 @@
         image = new Image();
         image.src = 'schema1.png';
 
-        canvas.width = 600;
-        canvas.height = 400;
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
 
         image.onload = function () {
 
@@ -185,8 +183,8 @@
 
         dx = 0;
         dy = 0;
-        dWidth = 600;
-        dHeight = 400;
+        dWidth = canvas.width;
+        dHeight = canvas.height;
 
         sx = 1000;
         sy = 1000;
@@ -237,14 +235,29 @@
 
 <style scoped>
 
+    @import "../../assets/custom-elements.css";
+
+    .root{
+        height: 100%;
+        position: relative;
+    }
+
     #canvas {
-        float: left;
-        margin-right: 30px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    #hud {
+        position: absolute;
+        top: 20px;
+        left: 20px;
     }
 
     #hud > p > span {
         margin-left: 20px;
         font-weight: bold;
     }
+
 
 </style>
