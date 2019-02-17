@@ -2,11 +2,18 @@
     <div class="root">
         <canvas id="canvas"></canvas>
 
-        <div id="hud" class="custom-panel">
+        <div v-show="false" id="hud" class="custom-panel">
             <p>Mouse X <span>{{mouseX}}</span></p>
             <p>Mouse Y <span>{{mouseY}}</span></p>
             <p>Zoom <span>{{zoom}}</span></p>
         </div>
+
+        <ComponentLinkWidget
+                v-if="selectedComponent"
+                id="componentLinkWidget"
+                v-bind:component="selectedComponent"
+                v-on:new-defect="createDefect($event)"
+        />
 
     </div>
 
@@ -16,7 +23,10 @@
 
     import api from '../../services/backend/punchlist-api'
 
+    import ComponentLinkWidget from './component-link-widget'
+
   export default {
+    components: { ComponentLinkWidget },
     props: ['schemaId'],
     data() {
       return {
@@ -27,22 +37,8 @@
         mouseX: 0,
         mouseY: 0,
         zoom: 1,
-        marks: [
-          {
-            componentId: "first",
-            x: 1000,
-            y: 1000,
-            width: 100,
-            height: 100
-          },
-          {
-            componentId: "second",
-            x: 1200,
-            y: 1000,
-            width: 100,
-            height: 100
-          }
-        ]
+        marks: [],
+        selectedComponent: null
       }
     },
     mounted() {
@@ -58,6 +54,22 @@
 
     },
     methods : {
+
+      updateSelectedComponent(componentId) {
+        if(componentId === -1){
+          this.selectedComponent = null;
+        } else {
+          api.getAnyById("component", componentId)
+              .then(response => this.selectedComponent = response);
+        }
+      },
+
+      createDefect(componentId) {
+
+        this.$router.push('/punchlist/new-defect/' + componentId)
+
+      },
+
       initCanvas() {
         this.$store.commit('setTitle', 'Schema')
 
@@ -131,6 +143,8 @@
             lastY = e.offsetY;
 
             // console.log('down')
+
+            self.updateSelectedComponent(-1);
           });
 
           canvas.addEventListener('mouseup', function (e) {
@@ -196,6 +210,7 @@
 
         function markClicked(mark) {
           console.log(mark.componentId)
+          self.updateSelectedComponent(mark.componentId);
         }
 
         function start() {
@@ -276,6 +291,16 @@
         margin-left: 20px;
         font-weight: bold;
     }
+
+    #componentLinkWidget {
+        position: absolute;
+        width: 250px;
+        top: 20px;
+        left: 20px;
+    }
+
+
+
 
 
 </style>

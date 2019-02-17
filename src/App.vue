@@ -2,7 +2,7 @@
 
     <div id="app">
 
-        <div class="menu" v-show="true">
+        <div class="menu" v-show="false">
             <router-link to="/cards" tag="button">Cards</router-link>
             <router-link to="/charts" tag="button">Перейти к charts</router-link>
             <router-link to="/map" tag="button">Maps</router-link>
@@ -49,6 +49,7 @@
   import PunchlistHome from "./components/punchlist/home"
   import PunchlistSchemaList from "./components/punchlist/schema-list"
   import PunchlistSchema from "./components/punchlist/schema"
+  import PunchlistNewDefectForm from "./components/punchlist/new-defect-form"
   import PunchlistCamera from "./components/punchlist/camera"
   import PunchlistDefectList from "./components/punchlist/defect-list"
   import PunchlistDefectCard from "./components/punchlist/defect-card"
@@ -95,6 +96,11 @@
           {
             path: '/punchlist/schema/:schemaId',
             component: PunchlistSchema,
+            props: true
+          },
+          {
+            path: '/punchlist/new-defect/:componentId',
+            component: PunchlistNewDefectForm,
             props: true
           },
           {

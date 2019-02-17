@@ -30,7 +30,7 @@ export default {
 
     },
     mounted() {
-      this.$store.commit('setTitle', 'Defect item')
+
     }
 }
 </script>

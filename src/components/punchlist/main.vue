@@ -58,7 +58,7 @@ export default {
   .body{
     background-color: #dddddd;
 
-    height: calc(100% - 30px);
+    height: 100%;
 
   }
 
