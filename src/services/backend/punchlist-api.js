@@ -32,4 +32,22 @@ export default {
     })
   },
 
+  getAny: function (entityName) {
+    return new Promise(resolve => {
+
+      axios.get(config.BACKEND_URL + `punchlist/any/${entityName}`).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
+  getAnyById: function (entityName, id) {
+    return new Promise(resolve => {
+
+      axios.get(config.BACKEND_URL + `punchlist/any/${entityName}/${id}`).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
 }

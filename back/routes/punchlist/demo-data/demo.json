@@ -9,5 +9,20 @@
   "componentLink":[
     {"id": 1, "x": 2643, "y": 2446, "width": 145, "height": 130, "componentId": 1, "schemaId": 1},
     {"id": 1, "x": 3934, "y": 3060, "width": 75, "height": 45, "componentId": 2, "schemaId": 1}
+  ],
+  "component":[
+    {"id": 1, "name": "component1", "tag": "tag1"},
+    {"id": 2, "name": "component2", "tag": "tag2"}
+  ],
+  "company":[
+    {"id": 1, "name": "ourCompany"},
+    {"id": 2, "name": "RosGasStroy"}
+  ],
+  "person":[
+    {"id": 1, "firstname": "Ivan", "secondname": "Petrov", "thirdname": "Serveevich", "companyId": 1, "login": "1", "password": "1"},
+    {"id": 2, "firstname": "Anatolyi", "secondname": "Sidorov", "thirdname": "Ivanovich", "companyId": 1, "login": "2", "password": "2"},
+    {"id": 3, "firstname": "Petr", "secondname": "Lineikin", "thirdname": "Borisovich", "companyId": 1, "login": "3", "password": "3"},
+    {"id": 4, "firstname": "Sergei", "secondname": "Rabotyagin", "thirdname": "Sidorovich", "companyId": 2, "login": "4", "password": "4"}
   ]
+
 }
