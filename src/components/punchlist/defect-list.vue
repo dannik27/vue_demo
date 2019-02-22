@@ -2,18 +2,13 @@
   <div>
 
     <div class="list">
-      <DefectListItem class="item" @click.native="clickOnCard" />
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard" />
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard" />
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
-      <DefectListItem class="item" @click.native="clickOnCard"/>
+      <DefectListItem
+              v-for="defect in defects"
+              v-bind:key="defect.id"
+              v-bind:defect="defect"
+              class="item"
+              @click.native="clickOnCard" />
+
     </div>
 
 
@@ -25,13 +20,15 @@
 
   import DefectListItem from './defect-list-item'
 
+  import api from '../../services/backend/punchlist-api'
+
 export default {
     components: {
       DefectListItem
     },
     data () {
         return {
-
+          defects: []
         }
     },
     methods : {
@@ -41,6 +38,9 @@ export default {
     },
     mounted() {
       this.$store.commit('setTitle', 'Defect list')
+
+      api.getDefectListFormData()
+          .then(res => this.defects = res)
     }
 }
 </script>
@@ -55,6 +55,8 @@ export default {
     justify-content: space-around;
 
     overflow: hidden;
+
+    padding-bottom: 10px;
 
   }
 

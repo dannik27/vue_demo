@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
 
+import sessionStore from './session'
+
 import api from '../services/backend/demo-api'
 
 Vue.use(Vuex);
@@ -14,6 +16,9 @@ function copyArray(src) {
 }
 
 export default new Vuex.Store({
+  modules: {
+    session: sessionStore
+  },
   state: {
     persons: [],
     title: 'PunchList'

@@ -26,12 +26,23 @@
   import { library } from '@fortawesome/fontawesome-svg-core'
   import { faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import Loading from 'vue-loading-overlay';
 
   import store from './store/store'
 
   library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome);
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
+
+
+  Vue.use(Loading, {
+    color: '#ffa000',
+    backgroundColor: '#004c40',
+    loader: 'bars',
+    width: 128,
+    height: 128,
+  });
+
 
   Vue.use(VueRouter);
 

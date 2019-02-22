@@ -1,26 +1,26 @@
 <template>
   <div class="root custom-panel">
     <div class="line">
-      <span> s das </span>
-      <span> s das </span>
+      <span> {{defect.category.tag}} </span>
+      <span> {{defect.discipline.tag}} </span>
       <span> s das </span>
     </div>
     <span>
-      Lorem ipsum dolor sit amet, consectetur adipiscing
+      {{defect.summary}}
     </span>
     <hr>
     <div class="grid">
       <div class="grid-column">
         <div>Registered</div>
-        <div>22.22.2222</div>
+        <div>{{defect.datetime.split(' ')[0]}}</div>
       </div>
       <div class="grid-column">
         <div>Tag</div>
-        <div>AAA-000-BBB</div>
+        <div>{{defect.component.tag}}</div>
       </div>
       <div class="grid-column">
         <div>Initiators</div>
-        <div>Petrov I.I. Ivanov B.A. Semyonov E.S.</div>
+        <div>{{initiators}}</div>
       </div>
     </div>
 
@@ -32,9 +32,24 @@
 <script>
 
 export default {
-    props: ['defectInfo'],
+    props: ['defect'],
     methods : {
 
+    },
+    computed: {
+      initiators: function() {
+        let result = '';
+        for(let initiator of this.defect.initiators){
+          result = result
+              + initiator.secondname
+              + ' '
+              + initiator.firstname.split('')[0]
+              + '. '
+              + initiator.thirdname.split('')[0]
+              + '. '
+        }
+        return result;
+      }
     },
     mounted() {
 

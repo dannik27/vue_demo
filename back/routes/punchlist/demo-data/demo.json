@@ -1,28 +1,113 @@
 {
-  "schema":[
-    {"id": 1, "name":"schema1", "imageId":1},
-    {"id": 2, "name":"schema2", "imageId":2},
-    {"id": 3, "name":"schema3", "imageId":3},
-    {"id": 4, "name":"schema4", "imageId":4},
-    {"id": 5, "name":"schema5", "imageId":5}
-  ],
-  "componentLink":[
-    {"id": 1, "x": 2643, "y": 2446, "width": 145, "height": 130, "componentId": 1, "schemaId": 1},
-    {"id": 1, "x": 3934, "y": 3060, "width": 75, "height": 45, "componentId": 2, "schemaId": 1}
-  ],
-  "component":[
-    {"id": 1, "name": "component1", "tag": "tag1"},
-    {"id": 2, "name": "component2", "tag": "tag2"}
-  ],
   "company":[
     {"id": 1, "name": "ourCompany"},
-    {"id": 2, "name": "RosGasStroy"}
+    {"id": 2, "name": "RosGasStroy"},
+    {"id": 2, "name": "StroyOiOi"}
   ],
   "person":[
     {"id": 1, "firstname": "Ivan", "secondname": "Petrov", "thirdname": "Serveevich", "companyId": 1, "login": "1", "password": "1"},
     {"id": 2, "firstname": "Anatolyi", "secondname": "Sidorov", "thirdname": "Ivanovich", "companyId": 1, "login": "2", "password": "2"},
     {"id": 3, "firstname": "Petr", "secondname": "Lineikin", "thirdname": "Borisovich", "companyId": 1, "login": "3", "password": "3"},
     {"id": 4, "firstname": "Sergei", "secondname": "Rabotyagin", "thirdname": "Sidorovich", "companyId": 2, "login": "4", "password": "4"}
+  ],
+  "workshop":[
+    {"id": 1, "name": "workshop 1", "linearId": 3},
+    {"id": 2, "name": "workshop 2", "linearId": 3},
+    {"id": 3, "name": "workshop 3", "linearId": 3},
+    {"id": 4, "name": "workshop 4", "linearId": 3},
+    {"id": 5, "name": "workshop 5", "linearId": 3}
+  ],
+  "facility":[
+    {"id": 1, "name": "facility 1", "workshopId": 1, "contractorId": 2},
+    {"id": 2, "name": "facility 1", "workshopId": 1, "contractorId": 2},
+    {"id": 3, "name": "facility 1", "workshopId": 1, "contractorId": 2},
+    {"id": 4, "name": "facility 1", "workshopId": 1, "contractorId": 2},
+    {"id": 5, "name": "facility 1", "workshopId": 1, "contractorId": 2}
+  ],
+  "schema":[
+    {"id": 1, "name":"schema1", "imageId":1, "facilityId": 1},
+    {"id": 2, "name":"schema2", "imageId":2, "facilityId": 1},
+    {"id": 3, "name":"schema3", "imageId":3, "facilityId": 1},
+    {"id": 4, "name":"schema4", "imageId":4, "facilityId": 1},
+    {"id": 5, "name":"schema5", "imageId":5, "facilityId": 1}
+  ],
+  "system":[
+    {"id": 1, "name": "system 1", "tag": "SYS1", "facilityId": 1},
+    {"id": 2, "name": "system 2", "tag": "SYS2", "facilityId": 1},
+    {"id": 3, "name": "system 3", "tag": "SYS3", "facilityId": 1},
+    {"id": 4, "name": "system 4", "tag": "SYS4", "facilityId": 1},
+    {"id": 5, "name": "system 5", "tag": "SYS5", "facilityId": 1}
+  ],
+  "subsystem":[
+    {"id": 1, "name": "Subsystem 1", "tag": "SUBSYS1", "systemId": 1},
+    {"id": 1, "name": "Subsystem 2", "tag": "SUBSYS2", "systemId": 1},
+    {"id": 1, "name": "Subsystem 3", "tag": "SUBSYS3", "systemId": 1}
+  ],
+  "component":[
+    {"id": 1, "name": "component1", "tag": "tag1", "subsystemId": 1},
+    {"id": 2, "name": "component2", "tag": "tag2", "subsystemId": 1}
+  ],
+  "componentLink":[
+    {"id": 1, "x": 2643, "y": 2446, "width": 145, "height": 130, "componentId": 1, "schemaId": 1},
+    {"id": 1, "x": 3934, "y": 3060, "width": 75, "height": 45, "componentId": 2, "schemaId": 1}
+  ],
+  "category":[
+    {"id": 1, "name": "category A1", "tag": "A1"},
+    {"id": 2, "name": "category B1", "tag": "B1"},
+    {"id": 3, "name": "category C1", "tag": "C1"}
+  ],
+  "discipline":[
+    {"id": 1, "name": "discipline 1", "tag": "DCP1"},
+    {"id": 2, "name": "discipline 2", "tag": "DCP2"},
+    {"id": 3, "name": "discipline 3", "tag": "DCP3"},
+    {"id": 4, "name": "discipline 4", "tag": "DCP4"}
+  ],
+  "roles":[
+    {"id": 1, "name": "Initiator"}
+  ],
+  "status":[
+    {"id": 1, "name": "Initiated", "tag": "INITIATED"},
+    {"id": 2, "name": "Waiting for approve by linear", "tag": "WAIT_FOR_APPROVE"}
+  ],
+  "defectActionType":[
+    {"id": 1, "from": null, "to": 1, "name": "Create defect", "roles": [1]},
+    {"id": 2, "from": 1, "to": 2, "name": "Send to approve", "roles": [1]}
+  ],
+  "defect":[
+    {
+      "id": 1,
+      "externalNumber": 111,
+      "initiators": [1, 2],
+      "datetime": "12.05.2018 12:47",
+      "summary": "short desc",
+      "description": "some desc",
+      "componentId": 1,
+      "contractorId": 4,
+      "disciplineId": 1,
+      "categoryId": 1,
+      "expectedWorktime": 10,
+      "photoIds": [1, 2],
+      "statusId": 1
+    },
+    {
+      "id": 2,
+      "externalNumber": 112,
+      "initiators": [1, 2],
+      "datetime": "12.05.2018 13:24",
+      "summary": "another short desc",
+      "description": "some desc",
+      "componentId": 2,
+      "contractorId": 4,
+      "disciplineId": 1,
+      "categoryId": 2,
+      "expectedWorktime": 15,
+      "photoIds": [3],
+      "statusId": 2
+    }
+  ],
+  "defectAction":[
+    {"id": 1, "datetime": "12.05.2018 12:47", "actionId": 1, "defectId": 1},
+    {"id": 2, "datetime": "12.05.2018 13:24", "actionId": 1, "defectId": 2},
+    {"id": 3, "datetime": "12.05.2018 13:24", "actionId": 2, "defectId": 2}
   ]
-
 }
