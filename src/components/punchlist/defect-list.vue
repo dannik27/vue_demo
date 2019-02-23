@@ -7,7 +7,7 @@
               v-bind:key="defect.id"
               v-bind:defect="defect"
               class="item"
-              @click.native="clickOnCard" />
+              @click.native="clickOnCard(defect.id)" />
 
     </div>
 
@@ -32,8 +32,8 @@ export default {
         }
     },
     methods : {
-      clickOnCard: function() {
-        this.$router.push('/punchlist/defect-card')
+      clickOnCard: function(defectId) {
+        this.$router.push('/punchlist/defect-card/' + defectId)
       }
     },
     mounted() {

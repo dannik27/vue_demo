@@ -44,6 +44,10 @@ module.exports = class Collection{
     })
   }
 
+  getCursor(condition = {}) {
+    return this.datastore.find( condition );
+  }
+
   findOne(condition) {
     return new Promise( (resolve, reject ) => {
       this.datastore.findOne( condition, (err, doc) => {
@@ -63,6 +67,18 @@ module.exports = class Collection{
           reject("Remove error: "+ err.message)
         } else {
           resolve(numRemoved)
+        }
+      })
+    })
+  }
+
+  update(condition, update, options = {}) {
+    return new Promise( (resolve, reject ) => {
+      this.datastore.update( condition, update, options, (err, updatedRows) => {
+        if(err) {
+          reject("Update error: "+ err.message)
+        } else {
+          resolve(updatedRows)
         }
       })
     })

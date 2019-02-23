@@ -1,6 +1,7 @@
 <template>
   <div class="root custom-panel">
     <div class="line">
+      <span> {{defect.status.name}} </span>
       <span> {{defect.category.tag}} </span>
       <span> {{defect.discipline.tag}} </span>
       <span> s das </span>

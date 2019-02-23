@@ -2,6 +2,15 @@
 import axios from "axios"
 
 import config from "../../config"
+import store from "../../store/store"
+
+function getDefaultConfig() {
+  return {
+    headers: {
+      Authorization: store.state.session.user.id
+    }
+  }
+}
 
 export default {
 
@@ -72,6 +81,34 @@ export default {
     return new Promise(resolve => {
 
       axios.get(config.BACKEND_URL + `punchlist/form/defectList`).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
+  getDefectCardFormData: function (defectId) {
+    return new Promise(resolve => {
+
+      axios.get(config.BACKEND_URL + `punchlist/form/defectCard/${defectId}`, getDefaultConfig()).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
+  executeDefectAction: function (defectId, actionTypeId) {
+    return new Promise(resolve => {
+
+      let action = {
+        datetime: '12.12.1212 12:12',
+        personId: store.state.session.user.id,
+        defectActionTypeId: actionTypeId
+      };
+
+      axios.post(
+          config.BACKEND_URL + `punchlist/defect/${defectId}/defectAction`,
+          action,
+          getDefaultConfig())
+          .then(response=>{
         resolve(response.data);
       })
     })

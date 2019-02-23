@@ -56,5 +56,26 @@ router.get('/schema/:id/componentLink', async function (req, res) {
   res.send(JSON.stringify(componentLinks));
 });
 
+router.post('/defect/:defectId/defectAction', async function (req, res) {
+
+  let action = req.body;
+  action.id = await storage.nextId('defectAction');
+
+  let defectActionType = await storage.getById('defectActionType', action.defectActionTypeId);
+
+  let defect = await storage.getById('defect', req.params.defectId);
+  defect.defectActionIds.push(action.id);
+  defect.statusId = defectActionType.to;
+
+  await storage.save('defectAction', action);
+  storage.save('defect', defect);
+
+  // await storage.update(
+  //     'defect',
+  //     { id: parseInt(req.params.defectId) },
+  //     { $push: { defectActionIds: parseInt(action.id) } });
+
+  res.send(JSON.stringify(action));
+});
 
 module.exports = router;

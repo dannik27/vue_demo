@@ -123,8 +123,9 @@
             component: PunchlistDefectList
           },
           {
-            path: '/punchlist/defect-card',
-            component: PunchlistDefectCard
+            path: '/punchlist/defect-card/:defectId',
+            component: PunchlistDefectCard,
+            props: true
           }
         ]
       }
