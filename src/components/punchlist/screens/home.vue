@@ -5,7 +5,7 @@
       <router-link to="/punchlist/schema-list" tag="button" class="custom-button">schemas</router-link>
       <router-link to="/punchlist/camera" tag="button" class="custom-button">camera</router-link>
       <router-link to="/punchlist/defect-list" tag="button" class="custom-button">defects</router-link>
-
+      <button class="custom-button" @click="logout">logout</button>
     </div>
 
 
@@ -15,7 +15,10 @@
 
 <script>
 
+import screenMixin from '../../../mixins/screen-mixin'
+
 export default {
+    mixins: [screenMixin],
     components: {
 
     },
@@ -42,22 +45,5 @@ export default {
     justify-content: space-evenly;
     padding-top: 10px;
   }
-
-  .menu div{
-    /*background-color: var(--color-secondary);*/
-    /*flex-basis: 200px;*/
-    /*color: var(--text-secondary);*/
-    /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);*/
-
-    /*border-radius: 2px;*/
-    /*display: inline-block;*/
-    /*padding: 10px;*/
-
-    /*cursor: pointer;*/
-  }
-
-  /*.menu div:hover{*/
-    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
-  /*}*/
 
 </style>

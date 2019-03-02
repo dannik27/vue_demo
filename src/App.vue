@@ -24,13 +24,13 @@
   import VueRouter from 'vue-router'
 
   import { library } from '@fortawesome/fontawesome-svg-core'
-  import { faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome } from '@fortawesome/free-solid-svg-icons'
+  import { faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
   import Loading from 'vue-loading-overlay';
 
   import store from './store/store'
 
-  library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome);
+  library.add(faPen, faCheck, faTimes, faEllipsisH, faPlus, faArrowLeft, faHome, faUser);
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
 
@@ -56,13 +56,14 @@
   import HealthStarInfo from "./components/health-star/info"
 
   import Punchlist from "./components/punchlist/main"
-  import PunchlistHome from "./components/punchlist/home"
-  import PunchlistSchemaList from "./components/punchlist/schema-list"
-  import PunchlistSchema from "./components/punchlist/schema"
-  import PunchlistNewDefectForm from "./components/punchlist/new-defect-form"
-  import PunchlistCamera from "./components/punchlist/camera"
-  import PunchlistDefectList from "./components/punchlist/defect-list"
-  import PunchlistDefectCard from "./components/punchlist/defect-card"
+  import PunchlistHome from "./components/punchlist/screens/home"
+  import PunchlistSchemaList from "./components/punchlist/screens/schema-list"
+  import PunchlistSchema from "./components/punchlist/screens/schema"
+  import PunchlistNewDefectForm from "./components/punchlist/screens/new-defect-form"
+  import PunchlistCamera from "./components/punchlist/screens/camera"
+  import PunchlistDefectList from "./components/punchlist/screens/defect-list"
+  import PunchlistDefectCard from "./components/punchlist/screens/defect-card"
+  import PunchlistAuthorization from "./components/punchlist/screens/authorization"
 
 
 
@@ -95,6 +96,10 @@
         path: '/punchlist',
         component: Punchlist,
         children: [
+          {
+            path: '/punchlist/authorization',
+            component: PunchlistAuthorization
+          },
           {
             path: '/punchlist/home',
             component: PunchlistHome

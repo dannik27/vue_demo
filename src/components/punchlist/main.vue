@@ -88,6 +88,10 @@ export default {
     cursor: pointer;
   }
 
+  .button.user{
+    margin-right: 40px;
+  }
+
   .content {
     height: calc(100% - 60px);
 

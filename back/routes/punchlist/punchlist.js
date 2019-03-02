@@ -88,4 +88,17 @@ router.post('/defect/:defectId/defectComment', async function (req, res) {
   res.send(JSON.stringify(comment));
 });
 
+router.post('/login', async function (req, res) {
+
+  let payload = req.body;
+  let user = null;
+
+  let credentials = await storage.getByQuery('credentials', {login: payload.login, password: payload.password});
+  if(credentials.length != 0){
+    user = await storage.getById('person', credentials[0].personId);
+  }
+
+  res.send(JSON.stringify(user));
+});
+
 module.exports = router;

@@ -18,11 +18,14 @@
 
 <script>
 
-  import DefectListItem from './defect-list-item'
+  import screenMixin from '../../../mixins/screen-mixin'
 
-  import api from '../../services/backend/punchlist-api'
+  import DefectListItem from '../defect-list-item'
+
+  import api from '../../../services/backend/punchlist-api'
 
 export default {
+    mixins: [screenMixin],
     components: {
       DefectListItem
     },

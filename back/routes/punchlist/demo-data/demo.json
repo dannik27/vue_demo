@@ -4,11 +4,17 @@
     {"id": 2, "name": "RosGasStroy"},
     {"id": 2, "name": "StroyOiOi"}
   ],
+  "credentials":[
+    {"id": 1, "login": "1", "password": "1", "personId" : 1},
+    {"id": 2, "login": "2", "password": "2", "personId" : 2},
+    {"id": 3, "login": "3", "password": "3", "personId" : 3},
+    {"id": 4, "login": "4", "password": "4", "personId" : 4}
+  ],
   "person":[
-    {"id": 1, "firstname": "Ivan", "secondname": "Petrov", "thirdname": "Serveevich", "companyId": 1, "login": "1", "password": "1"},
-    {"id": 2, "firstname": "Anatolyi", "secondname": "Sidorov", "thirdname": "Ivanovich", "companyId": 1, "login": "2", "password": "2"},
-    {"id": 3, "firstname": "Petr", "secondname": "Lineikin", "thirdname": "Borisovich", "companyId": 1, "login": "3", "password": "3"},
-    {"id": 4, "firstname": "Sergei", "secondname": "Rabotyagin", "thirdname": "Sidorovich", "companyId": 2, "login": "4", "password": "4"}
+    {"id": 1, "firstname": "Ivan", "secondname": "Petrov", "thirdname": "Serveevich", "companyId": 1},
+    {"id": 2, "firstname": "Anatolyi", "secondname": "Sidorov", "thirdname": "Ivanovich", "companyId": 1},
+    {"id": 3, "firstname": "Petr", "secondname": "Lineikin", "thirdname": "Borisovich", "companyId": 1},
+    {"id": 4, "firstname": "Sergei", "secondname": "Rabotyagin", "thirdname": "Sidorovich", "companyId": 2}
   ],
   "workshop":[
     {"id": 1, "name": "workshop 1", "linearId": 3},

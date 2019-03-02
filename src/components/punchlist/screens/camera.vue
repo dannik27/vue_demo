@@ -15,8 +15,11 @@
 
 <script>
 
+  import screenMixin from '../../../mixins/screen-mixin'
+
 
   export default {
+    mixins: [screenMixin],
     data() {
       return {
         stream: null,

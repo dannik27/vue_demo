@@ -6,11 +6,18 @@ import store from "../../store/store"
 import { dateToString } from '../../utils/formatters'
 
 function getDefaultConfig() {
-  return {
-    headers: {
-      Authorization: store.state.session.user.id
-    }
+
+  let currentUser = store.state.session.user;
+
+  let defaultConfig = {
+    headers: {}
+  };
+
+  if(currentUser){
+    defaultConfig.headers.Authorization = currentUser.id
   }
+
+  return defaultConfig;
 }
 
 export default {
@@ -133,4 +140,19 @@ export default {
           })
     })
   },
+
+  authorize: function(login, password) {
+    return new Promise(resolve => {
+
+      let payload = { login, password};
+
+      axios.post(
+          config.BACKEND_URL + `punchlist/login`,
+          payload,
+          getDefaultConfig())
+          .then(response=>{
+            resolve(response.data);
+          })
+    });
+  }
 }

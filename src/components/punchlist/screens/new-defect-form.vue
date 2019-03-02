@@ -75,13 +75,16 @@
 
 <script>
 
+  import screenMixin from '../../../mixins/screen-mixin'
+
   import Datepicker from 'vuejs-datepicker';
-  import api from '../../services/backend/punchlist-api'
+  import api from '../../../services/backend/punchlist-api'
   import {mapState} from 'vuex'
 
   import 'vue-loading-overlay/dist/vue-loading.css';
 
   export default {
+    mixins: [screenMixin],
     components: {Datepicker},
     props: ['componentId'],
     data() {

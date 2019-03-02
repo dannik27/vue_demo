@@ -102,10 +102,12 @@
 
 <script>
 
-  import api from '../../services/backend/punchlist-api'
-  import { stringToDate } from '../../utils/formatters'
+  import screenMixin from '../../../mixins/screen-mixin'
 
-  import Dialog from '../elements/dialog'
+  import api from '../../../services/backend/punchlist-api'
+  import { stringToDate } from '../../../utils/formatters'
+
+  import Dialog from '../../elements/dialog'
 
   function shortName(person) {
     return person.secondname + ' ' + person.firstname.split('')[0] + '. ' + person.thirdname.split('')[0] + '. ';
@@ -122,6 +124,7 @@
   }
 
   export default {
+    mixins: [screenMixin],
     components: {
       Dialog
     },

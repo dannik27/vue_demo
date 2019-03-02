@@ -21,11 +21,13 @@
 
 <script>
 
-    import api from '../../services/backend/punchlist-api'
+  import screenMixin from '../../../mixins/screen-mixin'
+  import api from '../../../services/backend/punchlist-api'
 
-    import ComponentLinkWidget from './component-link-widget'
+  import ComponentLinkWidget from '../component-link-widget'
 
   export default {
+    mixins: [screenMixin],
     components: { ComponentLinkWidget },
     props: ['schemaId'],
     data() {
@@ -268,7 +270,7 @@
 
 <style scoped>
 
-    @import "../../assets/custom-elements.css";
+    @import "../../../assets/custom-elements.css";
 
     .root{
         height: 100%;
