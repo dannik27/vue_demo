@@ -58,6 +58,15 @@ export default {
     })
   },
 
+  saveAny: function (entityName, object) {
+    return new Promise(resolve => {
+
+      axios.post(config.BACKEND_URL + `punchlist/any/${entityName}`, object).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
   getAnyById: function (entityName, id) {
     return new Promise(resolve => {
 
@@ -98,6 +107,15 @@ export default {
     return new Promise(resolve => {
 
       axios.get(config.BACKEND_URL + `punchlist/form/defectCard/${defectId}`, getDefaultConfig()).then(response=>{
+        resolve(response.data);
+      })
+    })
+  },
+
+  getSchemaFormData: function (schemaId) {
+    return new Promise(resolve => {
+
+      axios.get(config.BACKEND_URL + `punchlist/form/schema/${schemaId}`, getDefaultConfig()).then(response=>{
         resolve(response.data);
       })
     })
@@ -149,6 +167,20 @@ export default {
       axios.post(
           config.BACKEND_URL + `punchlist/login`,
           payload,
+          getDefaultConfig())
+          .then(response=>{
+            resolve(response.data);
+          })
+    });
+  },
+
+  saveComponentLink: function(schemaId, componentLink) {
+    return new Promise(resolve => {
+
+
+      axios.post(
+          config.BACKEND_URL + `punchlist/form/newComponentLink/` + schemaId,
+          componentLink,
           getDefaultConfig())
           .then(response=>{
             resolve(response.data);

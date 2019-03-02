@@ -1,50 +1,69 @@
 var Collection = require('../../../libs/nedb-aa')
 
+let collections = {};
+
+function getCollection(name){
+
+  if (!(name in collections)){
+    collections[name] = new Collection({ filename: __dirname + '/store/' + name, autoload: true});
+  }
+
+  return collections[name];
+}
+
 module.exports.getAll = async function(entityName){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.find({});
 };
 
 module.exports.getById = async function(entityName, id){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.findOne({id: parseInt(id)});
 };
 
 module.exports.getByIds = async function(entityName, ids){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.find({ id: { $in: ids }});
 };
 
 module.exports.getByQuery = async function(entityName, query){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.find(query);
 };
 
 module.exports.save = async function(entityName, entity){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
+  if(entity.id){
 
-  let existingRecords = await store.find({id: entity.id});
+    let existingRecords = await store.find({id: entity.id});
+    if(existingRecords.length === 0){
+      return store.insert(entity);
+    } else {
+      return store.update({id: entity.id}, entity);
+    }
 
-  if(existingRecords.length === 0){
+  }else{
+    entity.id = await nextId(entityName);
     return store.insert(entity);
-  } else {
-    return store.update({id: entity.id}, entity);
   }
+
+
+
 
 };
 
 module.exports.saveAll = async function(entityName, entities){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.insert(entities);
 
@@ -52,14 +71,14 @@ module.exports.saveAll = async function(entityName, entities){
 
 module.exports.update = async function(entityName, query, update, options = {}){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   return store.update(query, update, options);
 };
 
-module.exports.nextId = async function(entityName){
+let nextId = async function(entityName){
 
-  let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
+  let store = getCollection(entityName);
 
   let cursor = store.getCursor().sort({id: -1}).limit(1);
 
@@ -75,3 +94,5 @@ module.exports.nextId = async function(entityName){
 
 
 };
+
+module.exports.nextId = nextId;

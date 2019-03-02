@@ -31,11 +31,11 @@
     {"id": 5, "name": "facility 1", "workshopId": 1, "contractorId": 2}
   ],
   "schema":[
-    {"id": 1, "name":"schema1", "imageId":1, "facilityId": 1},
-    {"id": 2, "name":"schema2", "imageId":2, "facilityId": 1},
-    {"id": 3, "name":"schema3", "imageId":3, "facilityId": 1},
-    {"id": 4, "name":"schema4", "imageId":4, "facilityId": 1},
-    {"id": 5, "name":"schema5", "imageId":5, "facilityId": 1}
+    {"id": 1, "name":"schema1", "imageId":1, "facilityId": 1, "subsystemIds": [1,2,3], "componentLinkIds": [1,2,3]},
+    {"id": 2, "name":"schema2", "imageId":2, "facilityId": 1, "subsystemIds": [2,3], "componentLinkIds": []},
+    {"id": 3, "name":"schema3", "imageId":3, "facilityId": 1, "subsystemIds": [3,4], "componentLinkIds": []},
+    {"id": 4, "name":"schema4", "imageId":4, "facilityId": 1, "subsystemIds": [3,4,5], "componentLinkIds": []},
+    {"id": 5, "name":"schema5", "imageId":5, "facilityId": 1, "subsystemIds": [1,5], "componentLinkIds": []}
   ],
   "system":[
     {"id": 1, "name": "system 1", "tag": "SYS1", "facilityId": 1},
@@ -46,16 +46,18 @@
   ],
   "subsystem":[
     {"id": 1, "name": "Subsystem 1", "tag": "SUBSYS1", "systemId": 1},
-    {"id": 1, "name": "Subsystem 2", "tag": "SUBSYS2", "systemId": 1},
-    {"id": 1, "name": "Subsystem 3", "tag": "SUBSYS3", "systemId": 1}
+    {"id": 2, "name": "Subsystem 2", "tag": "SUBSYS2", "systemId": 1},
+    {"id": 3, "name": "Subsystem 3", "tag": "SUBSYS3", "systemId": 1}
   ],
   "component":[
     {"id": 1, "name": "component1", "tag": "tag1", "subsystemId": 1},
-    {"id": 2, "name": "component2", "tag": "tag2", "subsystemId": 1}
+    {"id": 2, "name": "component2", "tag": "tag2", "subsystemId": 1},
+    {"id": 3, "name": "component3", "tag": "tag3", "subsystemId": 2}
   ],
   "componentLink":[
-    {"id": 1, "x": 2643, "y": 2446, "width": 145, "height": 130, "componentId": 1, "schemaId": 1},
-    {"id": 1, "x": 3934, "y": 3060, "width": 75, "height": 45, "componentId": 2, "schemaId": 1}
+    {"id": 1, "x": 2643, "y": 2446, "width": 145, "height": 130, "componentId": 1},
+    {"id": 2, "x": 3934, "y": 3060, "width": 75, "height": 45, "componentId": 2},
+    {"id": 3, "x": 3010, "y": 2100, "radius": 50, "componentId": 3}
   ],
   "category":[
     {"id": 1, "name": "category A1", "tag": "A1"},

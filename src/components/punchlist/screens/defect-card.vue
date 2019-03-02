@@ -187,9 +187,7 @@
       }
     },
     filters: {
-      shortName: function (person) {
-        return shortName(person);
-      }
+      shortName
     },
     mounted() {
       this.$store.commit('setTitle', 'Defect');

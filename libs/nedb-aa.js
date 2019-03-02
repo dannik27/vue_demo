@@ -22,6 +22,7 @@ module.exports = class Collection{
 
   insert(doc) {
     return new Promise( (resolve, reject ) => {
+
       this.datastore.insert( doc, (err, newDoc) => {
         if(err) {
           reject("Insert error: "+ err.message)

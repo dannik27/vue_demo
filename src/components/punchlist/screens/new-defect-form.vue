@@ -23,9 +23,9 @@
             <div id="participants" class="custom-panel item">
                 <h4>Participants</h4>
                 <span class="label">Initiators</span>
-                <span>{{user.name}}</span>
+                <span>{{user | shortName}}</span>
                 <span class="label">Linear</span>
-                <span>{{formData.linear.secondname}}</span>
+                <span>{{formData.linear | shortName}}</span>
                 <span class="label">Contractor</span>
                 <span>{{formData.contractor.name}}</span>
             </div>
@@ -83,6 +83,10 @@
 
   import 'vue-loading-overlay/dist/vue-loading.css';
 
+  function shortName(person) {
+    return person.secondname + ' ' + person.firstname.split('')[0] + '. ' + person.thirdname.split('')[0] + '. ';
+  }
+
   export default {
     mixins: [screenMixin],
     components: {Datepicker},
@@ -114,6 +118,9 @@
       ...mapState({
         user: state => state.session.user
       })
+    },
+    filters: {
+      shortName
     },
     mounted() {
       this.$store.commit('setTitle', 'New defect' + this.componentId)

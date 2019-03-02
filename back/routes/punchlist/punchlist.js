@@ -13,6 +13,13 @@ router.get('/any/:entity', function (req, res) {
 
 });
 
+router.post('/any/:entity', function (req, res) {
+
+  storage.save(req.params.entity, req.body)
+      .then(docs => res.send(JSON.stringify(docs)));
+
+});
+
 router.get('/any/:entity/:id', function (req, res) {
 
   storage.getById(req.params.entity, req.params.id)

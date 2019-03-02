@@ -9,11 +9,16 @@
         </div>
 
         <ComponentLinkWidget
-                v-if="selectedComponent"
-                id="componentLinkWidget"
-                v-bind:component="selectedComponent"
-                v-on:new-defect="createDefect($event)"
-        />
+                v-if="selectedMark"
+                class="componentLinkWidget"
+                v-bind:component="selectedMark.component"
+                v-on:new-defect="createDefect($event)"/>
+
+        <NewComponentLinkWidget
+                v-if="tempMark.visible"
+                class="componentLinkWidget"
+                v-bind:subsystems="schema.subsystems"
+                v-on:new-defect-with-component="createDefectWithComponent($event)"/>
 
     </div>
 
@@ -25,10 +30,11 @@
   import api from '../../../services/backend/punchlist-api'
 
   import ComponentLinkWidget from '../component-link-widget'
+  import NewComponentLinkWidget from '../new-component-link-widget'
 
   export default {
     mixins: [screenMixin],
-    components: { ComponentLinkWidget },
+    components: { ComponentLinkWidget, NewComponentLinkWidget },
     props: ['schemaId'],
     data() {
       return {
@@ -39,37 +45,48 @@
         mouseX: 0,
         mouseY: 0,
         zoom: 1,
+        schema: {},
         marks: [],
-        selectedComponent: null
+        tempMark: {
+          x: 0,
+          y: 0,
+          radius: 50,
+          color: 'green',
+          visible: false
+        },
+        selectedMark: null
       }
     },
     mounted() {
 
-      Promise.all([
-          api.getImage(this.schemaId),
-          api.getComponentLinks(this.schemaId)
-      ]).then(([image, componentLinks]) => {
-        this.image = image;
-        this.marks = componentLinks;
-        this.initCanvas();
-      })
+      api.getSchemaFormData(this.schemaId)
+          .then(schema => {
+            this.schema = schema;
+            this.initCanvas();
+          })
 
     },
     methods : {
-
-      updateSelectedComponent(componentId) {
-        if(componentId === -1){
-          this.selectedComponent = null;
-        } else {
-          api.getAnyById("component", componentId)
-              .then(response => this.selectedComponent = response);
-        }
-      },
 
       createDefect(componentId) {
 
         this.$router.push('/punchlist/new-defect/' + componentId)
 
+      },
+
+      createDefectWithComponent(component){
+
+        let componentLink = {
+          x: this.tempMark.x,
+          y: this.tempMark.y,
+          radius: this.tempMark.radius,
+          component
+        };
+
+        api.saveComponentLink(this.schema.id, componentLink)
+            .then(res =>{
+              this.$router.push('/punchlist/new-defect/' + res.componentId)
+            })
       },
 
       initCanvas() {
@@ -94,8 +111,7 @@
           ctx = canvas.getContext("2d");
 
           image = new Image();
-          // image.src = 'schema1.png';
-          image.src = 'data:image/png;base64,' + self.image.base64;
+          image.src = 'data:image/png;base64,' + self.schema.image.base64;
 
           canvas.width  = canvas.offsetWidth;
           canvas.height = canvas.offsetHeight;
@@ -116,18 +132,8 @@
             self.mouseY = e.offsetY + '(' + realY + ')'
           }
 
-          canvas.onclick = function (e) {
-
-            let realX = e.offsetX * zoomLevel + sx;
-            let realY = e.offsetY * zoomLevel + sy;
-
-            self.marks.filter(mark => {
-              return contains(mark, realX, realY);
-            }).forEach(markClicked)
-
-          }
-
           initDrag();
+          initMarkEvents();
           initZoom();
 
           console.log('init');
@@ -138,33 +144,91 @@
           let dragging;
           let lastX, lastY;
 
-          canvas.addEventListener('mousedown', function (e) {
+          function start(x, y){
             dragging = true;
 
-            lastX = e.offsetX;
-            lastY = e.offsetY;
+            lastX = x;
+            lastY = y;
 
-            // console.log('down')
+          }
 
-            self.updateSelectedComponent(-1);
-          });
-
-          canvas.addEventListener('mouseup', function (e) {
-            dragging = false;
-            // console.log('up')
-          });
-
-          canvas.addEventListener('mousemove', function (e) {
+          function move(x, y){
             if (dragging) {
 
-              shift(e.offsetX - lastX, e.offsetY - lastY);
-              lastX = e.offsetX;
-              lastY = e.offsetY;
+              shift(x - lastX, y - lastY);
+              lastX = x;
+              lastY = y;
 
-              // console.log('drag')
+              dropSelection();
             }
+          }
 
-          })
+          function end(x, y){
+            dragging = false;
+          }
+
+          function dropSelection() {
+            self.selectedMark = null;
+            self.tempMark.visible = false;
+          }
+
+          canvas.addEventListener('mousedown', e => start(e.offsetX, e.offsetY));
+          canvas.addEventListener('mousemove', e => move(e.offsetX, e.offsetY));
+          canvas.addEventListener('mouseup', e => end(e.offsetX, e.offsetY));
+
+          canvas.addEventListener('touchstart', e => {
+            let canvasRect = canvas.getBoundingClientRect();
+            start(e.targetTouches[0].pageX - canvasRect.left,
+                e.targetTouches[0].pageY - canvasRect.top)
+          });
+          canvas.addEventListener('touchmove', e => {
+            let canvasRect = canvas.getBoundingClientRect();
+            move(e.targetTouches[0].pageX - canvasRect.left,
+                e.targetTouches[0].pageY - canvasRect.top)
+          });
+          canvas.addEventListener('touchend', e => {
+            let canvasRect = canvas.getBoundingClientRect();
+            end(e.targetTouches[0].pageX - canvasRect.left,
+                e.targetTouches[0].pageY - canvasRect.top)
+          });
+
+        }
+
+        function initMarkEvents() {
+
+          let pressTimer = null;
+
+          function pressStart(x, y){
+            if (pressTimer === null) {
+              pressTimer = setTimeout(() => {
+
+                schemaLongClick(x * zoomLevel + sx, y * zoomLevel + sy)
+              }, 400)
+            }
+          }
+
+          function pressEnd(){
+            if (pressTimer !== null) {
+              clearTimeout(pressTimer)
+              pressTimer = null
+            }
+          }
+
+          canvas.addEventListener('mousedown', e => pressStart(e.offsetX, e.offsetY));
+
+          canvas.addEventListener("click", e => {
+            pressEnd();
+
+            let realX = e.offsetX * zoomLevel + sx;
+            let realY = e.offsetY * zoomLevel + sy;
+
+            self.schema.componentLinks.filter(mark => {
+              return contains(mark, realX, realY);
+            }).forEach(markClicked)
+          });
+
+          canvas.addEventListener("mousemove", pressEnd);
+
 
         }
 
@@ -211,8 +275,15 @@
         }
 
         function markClicked(mark) {
-          console.log(mark.componentId)
-          self.updateSelectedComponent(mark.componentId);
+          self.selectedMark = mark;
+        }
+
+        function schemaLongClick(x, y) {
+            self.tempMark.x = x;
+            self.tempMark.y = y;
+            self.tempMark.visible = true;
+
+            render()
         }
 
         function start() {
@@ -238,18 +309,38 @@
           ctx.lineWidth = "6";
           ctx.strokeStyle = "red";
           ctx.rect(0, 0, canvas.width, canvas.height)
-          ctx.stroke()
+          ctx.stroke();
 
-          self.marks.forEach(mark => {
+          if(self.tempMark.visible){
+            ctx.beginPath();
+            ctx.lineWidth = 6 - zoomLevel;
+            ctx.strokeStyle = self.tempMark.color;
+            ctx.arc(
+                (self.tempMark.x - sx) / zoomLevel,
+                (self.tempMark.y - sy) / zoomLevel,
+                self.tempMark.radius / zoomLevel,
+                0, Math.PI*2);
+            ctx.stroke();
+          }
+
+          self.schema.componentLinks.forEach(mark => {
 
             ctx.beginPath();
             ctx.lineWidth = 6 - zoomLevel;
             ctx.strokeStyle = "blue";
-            ctx.rect(
-                (mark.x - sx) / zoomLevel,
-                (mark.y - sy) / zoomLevel,
-                mark.width / zoomLevel,
-                mark.height / zoomLevel);
+            if(mark.radius){
+              ctx.arc(
+                  (mark.x - sx) / zoomLevel,
+                  (mark.y - sy) / zoomLevel,
+                  mark.radius / zoomLevel,
+                  0, Math.PI*2);
+            }else{
+              ctx.rect(
+                  (mark.x - sx) / zoomLevel,
+                  (mark.y - sy) / zoomLevel,
+                  mark.width / zoomLevel,
+                  mark.height / zoomLevel);
+            }
             ctx.stroke();
 
           })
@@ -257,11 +348,13 @@
         }
 
         function contains(mark, x, y) {
-          return (x > mark.x &&
-              x < mark.x + mark.width &&
-              y > mark.y &&
-              y < mark.y + mark.height);
-
+          const path = new Path2D;
+          if(mark.radius){
+            path.arc(mark.x, mark.y, mark.radius, 0, Math.PI*2);
+          }else{
+            path.rect(mark.x, mark.y, mark.width , mark.height);
+          }
+          return ctx.isPointInPath(path, x , y);
         }
       }
     }
@@ -294,7 +387,7 @@
         font-weight: bold;
     }
 
-    #componentLinkWidget {
+    .componentLinkWidget {
         position: absolute;
         width: 250px;
         top: 20px;

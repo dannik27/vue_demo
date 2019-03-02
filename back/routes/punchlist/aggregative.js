@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 var storage = require('./storage')
 
+router.get('/schema/:schemaId', async function (req, res) {
+
+  let schema = await storage.getById('schema', req.params.schemaId);
+  schema.image = await storage.getById('image', schema.imageId);
+  schema.componentLinks = await storage.getByIds('componentLink', schema.componentLinkIds);
+  schema.subsystems = await storage.getByIds('subsystem', schema.subsystemIds);
+  for(let componentLink of schema.componentLinks){
+    componentLink.component = await storage.getById('component', componentLink.componentId);
+  }
+  res.send(JSON.stringify(schema));
+});
+
 router.get('/newDefect/:componentId', async function (req, res) {
 
   try {
@@ -126,6 +138,23 @@ router.get('/defectCard/:defectId', async function (req, res) {
   defect.availableActions = await storage.getByQuery('defectActionType', actionsQuery);
 
   res.send(defect);
+
+});
+
+router.post('/newComponentLink/:schemaId', async function (req, res) {
+
+  let mark = req.body;
+  if(mark.component){
+    let component = await storage.save('component', mark.component);
+    mark.componentId = component.id;
+  }
+
+  mark = await storage.save('componentLink', mark);
+  let schema = await storage.getById('schema', req.params.schemaId);
+  schema.componentLinkIds.push(mark.id);
+  storage.save('schema', schema);
+
+  res.send(mark);
 
 });
 
