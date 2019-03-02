@@ -3,6 +3,7 @@ import axios from "axios"
 
 import config from "../../config"
 import store from "../../store/store"
+import { dateToString } from '../../utils/formatters'
 
 function getDefaultConfig() {
   return {
@@ -99,7 +100,7 @@ export default {
     return new Promise(resolve => {
 
       let action = {
-        datetime: '12.12.1212 12:12',
+        datetime: dateToString(new Date()),
         personId: store.state.session.user.id,
         defectActionTypeId: actionTypeId
       };
@@ -111,6 +112,25 @@ export default {
           .then(response=>{
         resolve(response.data);
       })
+    })
+  },
+
+  createDefectComment: function (defectId, text) {
+    return new Promise(resolve => {
+
+      let comment = {
+        datetime: dateToString(new Date()),
+        personId: store.state.session.user.id,
+        text
+      };
+
+      axios.post(
+          config.BACKEND_URL + `punchlist/defect/${defectId}/defectComment`,
+          comment,
+          getDefaultConfig())
+          .then(response=>{
+            resolve(response.data);
+          })
     })
   },
 }

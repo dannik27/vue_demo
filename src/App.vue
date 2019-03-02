@@ -34,7 +34,6 @@
   Vue.component('font-awesome-icon', FontAwesomeIcon)
   Vue.config.productionTip = false;
 
-
   Vue.use(Loading, {
     color: '#ffa000',
     backgroundColor: '#004c40',

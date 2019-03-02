@@ -32,9 +32,9 @@ module.exports.save = async function(entityName, entity){
 
   let store = new Collection({ filename: __dirname + '/store/' + entityName, autoload: true});
 
-  let existingRecord = await store.find({id: entity.id});
+  let existingRecords = await store.find({id: entity.id});
 
-  if(existingRecord == null){
+  if(existingRecords.length === 0){
     return store.insert(entity);
   } else {
     return store.update({id: entity.id}, entity);

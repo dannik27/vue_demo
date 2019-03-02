@@ -98,7 +98,20 @@ router.get('/defectCard/:defectId', async function (req, res) {
   defect.status = await storage.getById('status', defect.statusId);
 
   defect.defectActions = await storage.getByIds('defectAction', defect.defectActionIds);
+
+
+  for(let action of defect.defectActions){
+    action.defectActionType = await storage.getById('defectActionType', action.defectActionTypeId);
+    action.person = await storage.getById('person', action.personId);
+  }
+
   defect.defectComments = await storage.getByIds('defectComment', defect.defectCommentIds);
+
+  for(let comment of defect.defectComments){
+    comment.person = await storage.getById('person', comment.personId);
+  }
+
+
 
   let userRole = getUserRoleInDefect(user, defect, facility, workshop);
 

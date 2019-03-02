@@ -68,14 +68,24 @@ router.post('/defect/:defectId/defectAction', async function (req, res) {
   defect.statusId = defectActionType.to;
 
   await storage.save('defectAction', action);
-  storage.save('defect', defect);
+  await storage.save('defect', defect);
 
-  // await storage.update(
-  //     'defect',
-  //     { id: parseInt(req.params.defectId) },
-  //     { $push: { defectActionIds: parseInt(action.id) } });
 
   res.send(JSON.stringify(action));
+});
+
+router.post('/defect/:defectId/defectComment', async function (req, res) {
+
+  let comment = req.body;
+  comment.id = await storage.nextId('defectComment');
+
+  let defect = await storage.getById('defect', req.params.defectId);
+  defect.defectCommentIds.push(comment.id);
+
+  await storage.save('defectComment', comment);
+  await storage.save('defect', defect);
+
+  res.send(JSON.stringify(comment));
 });
 
 module.exports = router;
