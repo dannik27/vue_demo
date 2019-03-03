@@ -13,7 +13,7 @@ rimraf(__dirname + '/store', async function () {
   let n = 1;
   while(n < 6) {
     images.push({
-      name: `schema${n}`,
+      text: `schema${n}`,
       id: n,
       base64: fs.readFileSync(__dirname + `/demo-data/schema${n}.png`, 'base64')
     });

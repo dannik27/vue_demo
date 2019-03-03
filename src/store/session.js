@@ -13,7 +13,14 @@ function copyArray(src) {
 
 export default {
   state: {
-    user: null
+    user: {
+      id:2,
+      firstname:"Anatolyi",
+      secondname:"Sidorov",
+      thirdname:"Ivanovich",
+      companyId:1
+    }
+
   },
   mutations: {
 

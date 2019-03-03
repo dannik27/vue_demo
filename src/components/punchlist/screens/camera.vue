@@ -67,9 +67,17 @@
 
           canvas.getContext('2d').drawImage(video, 0, 0);
 
+          this.cancel();
+        },
+
+        cancel() {
           this.stream.getTracks().forEach(track => track.stop())
           this.active = false;
+          this.backForResult({
+            dataUrl: this.$refs.canvas.toDataURL()
+          });
         }
+
     },
     mounted() {
 
@@ -77,6 +85,10 @@
 
       this.restart();
 
+    },
+
+    beforeDestroy(){
+      // this.cancel();
     }
   }
 </script>

@@ -66,6 +66,26 @@
                 <p class="label">Date of registration</p>
                 <textarea v-model="summary" placeholder="enter text"></textarea>
             </div>
+
+            <div id="images" class="custom-panel item">
+                <h4>Images</h4>
+                <transition-group class="tg" name="image-list" tag="div">
+                    <div
+                            v-for="image in images"
+                            :key="image.id"
+                            class="image-list-item">
+                        <img :src="'data:image/png;base64,' + image.base64">
+                        <!--<p>{{image.text}}</p>-->
+                        <textarea v-model="image.text"></textarea>
+                        <font-awesome-icon
+                                class="remove-image-button"
+                                icon="times"
+                                @click="removeImage(image)"/>
+                    </div>
+                </transition-group>
+                <button class="custom-button" @click="addImage">Add photo</button>
+
+            </div>
         </div>
 
 
@@ -89,6 +109,9 @@
 
   export default {
     mixins: [screenMixin],
+    screen: {
+
+    },
     components: {Datepicker},
     props: ['componentId'],
     data() {
@@ -97,11 +120,37 @@
         selectedCategory: -1,
         formData: {},
         expectedWorktime: 0,
-        summary: ''
+        summary: '',
+        images:[
+          {
+            id: -1,
+            base64: 'kek',
+            text: 'sadasda asd asd asd asd asd asd asd asd asda sda sdas dasd asd asd asd assdasda asda sd asda sda sda sdas das das dasd asd as dasd asd asda sdasda sda sds'
+          },
+          {
+            id: -2,
+            base64: 'kek',
+            text: 'uyiyuoyuouoyu'
+          },
+          {
+            id: -3,
+            base64: 'kek',
+            text: 'czxczxczxczxc'
+          },
+        ]
       }
     },
     methods: {
-      save: function () {
+
+      removeImage: function(image){
+        this.images = this.images.filter(el => el.id !== image.id)
+      },
+
+      addImage: function(){
+        this.redirectForResult('camera');
+      },
+
+      save: function() {
         api.postNewDefectForm({
           initiators: [this.user.id],
           datetime: '11.11.1111 11:11',
@@ -110,9 +159,18 @@
           componentId: parseInt(this.componentId),
           disciplineId: this.selectedDiscipline,
           categoryId: this.selectedCategory,
-          expectedWorktime: this.expectedWorktime
+          expectedWorktime: this.expectedWorktime,
+          images: this.images
         }).then(res => console.log(res))
-      }
+      },
+
+      redirectResult: function(result){
+        this.images.push({
+          id: (1 + this.images.length) * (-1),
+          text: 'jgygu',
+          base64: result.dataUrl.split(',')[1]
+        })
+      },
     },
     computed: {
       ...mapState({
@@ -159,7 +217,7 @@
 
     .item {
         flex-basis: 45vw;
-        min-width: 450px;
+        min-width: 550px;
         margin-top: 10px;
     }
 
@@ -250,6 +308,44 @@
     textarea {
         width: 100%;
         height: 100px;
+    }
+
+    #images .tg{
+        display: block;
+    }
+
+    #images div{
+        display:flex;
+        margin-bottom: 10px;
+    }
+
+    #images .remove-image-button {
+        left: 110px;
+        font-size: 40px;
+        color: red;
+        cursor: pointer;
+    }
+
+    #images textarea{
+        margin-bottom: 0;
+        height: 100px;
+        overflow: hidden;
+        flex-grow: 1;
+        resize: none;
+    }
+
+    #images div img{
+        width: 150px;
+        min-width: 150px;
+        height: 100px;
+    }
+
+    .image-list-item {
+        transition: all .3s;
+    }
+    .image-list-enter, .image-list-leave-to{
+        opacity: 0;
+        transform: translateY(30px);
     }
 
 

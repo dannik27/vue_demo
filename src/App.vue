@@ -115,11 +115,17 @@
           },
           {
             path: '/punchlist/new-defect/:componentId',
+            name: 'new-defect',
             component: PunchlistNewDefectForm,
-            props: true
+            props: (route) => ({
+              // componentId: route.params.componentId,
+                ...route.params
+            })
+            // props: true
           },
           {
             path: '/punchlist/camera',
+            name: 'camera',
             component: PunchlistCamera
           },
           {

@@ -48,8 +48,15 @@ router.get('/newDefect/:componentId', async function (req, res) {
 
 router.post('/newDefect/', async function (req, res) {
 
-  storage.save('defect', req.body)
-      .then(() => res.send('ok'));
+  let defect = req.body;
+  let images = await storage.saveAll('image', defect.images);
+
+  delete defect.images;
+  defect.imageIds = images.map(image => image.id);
+
+  storage.save('defect', defect)
+      .then(() => res.send('ok'))
+
 
 });
 

@@ -20,10 +20,15 @@ export default new Vuex.Store({
     session: sessionStore
   },
   state: {
+    savedComponentState: null,
     persons: [],
     title: 'PunchList'
   },
   mutations: {
+
+    SET_SAVED_COMPONENT_STATE(state, componentState){
+      state.savedComponentState = copyObject(componentState);
+    },
 
     setPersons(state, persons) {
       state.persons = copyArray(persons);

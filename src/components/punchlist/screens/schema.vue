@@ -70,7 +70,13 @@
 
       createDefect(componentId) {
 
-        this.$router.push('/punchlist/new-defect/' + componentId)
+        // this.$router.push('/punchlist/new-defect/' + componentId)
+        this.$router.push({
+          name: 'new-defect',
+          params: {
+            componentId
+          }
+        })
 
       },
 
