@@ -3,7 +3,7 @@
 
         <Dialog
                 v-if="isDialogVisible"
-                @close="isDialogVisible = false"
+                @close="abortCommentDialog"
                 :buttons="dialogButtons">
             <h3 slot="header">New comment</h3>
             <div slot="body">
@@ -11,11 +11,21 @@
             </div>
         </Dialog>
 
+        <Dialog
+                v-if="selectedAction"
+                @close="abortActionDialog"
+                :buttons="actionDialogButtons">
+            <h3 slot="header">{{selectedAction.name}}</h3>
+            <div slot="body">
+                <span>Are you sure to commit "{{selectedAction.name}}" action</span>
+            </div>
+        </Dialog>
+
         <div class="action-bar">
             <button
                     v-for="action in defect.availableActions"
                     v-bind:key="action.id"
-                    @click="doAction(action.id)"
+                    @click="selectedAction = action"
                     class="custom-button">
                 {{action.name}}
             </button>
@@ -52,7 +62,7 @@
 
                 <div
                         v-for="item in historyItems"
-                        :key="item.id + item.isAction">
+                        :key="item.id + item.isAction.toString()">
 
                     <div v-if="item.isAction" class="custom-panel history-card">
                         <h6>
@@ -105,7 +115,7 @@
   import screenMixin from '../../../mixins/screen-mixin'
 
   import api from '../../../services/backend/punchlist-api'
-  import { stringToDate } from '../../../utils/formatters'
+  import {stringToDate} from '../../../utils/formatters'
 
   import Dialog from '../../elements/dialog'
 
@@ -132,6 +142,7 @@
     data() {
       return {
         defect: {},
+        selectedAction: null,
         isDialogVisible: false,
         dialogButtons: [
           {
@@ -141,6 +152,16 @@
           {
             text: 'cancel',
             handler: this.abortCommentDialog
+          }
+        ],
+        actionDialogButtons: [
+          {
+            text: 'ok',
+            handler: this.commitActionDialog
+          },
+          {
+            text: 'cancel',
+            handler: this.abortActionDialog
           }
         ],
         commentMessage: ''
@@ -153,15 +174,7 @@
             .then(res => this.defect = res);
       },
 
-      doAction: function (actionId) {
-
-        api.executeDefectAction(this.defectId, actionId)
-            .then(res => {
-              this.init();
-            })
-      },
-
-      commitCommentDialog(){
+      commitCommentDialog() {
 
         api.createDefectComment(this.defectId, this.commentMessage)
             .then(res => {
@@ -171,8 +184,21 @@
         this.isDialogVisible = false;
       },
 
-      abortCommentDialog(){
+      abortCommentDialog() {
         this.isDialogVisible = false;
+      },
+
+      commitActionDialog() {
+
+        api.executeDefectAction(this.defectId, this.selectedAction.id)
+            .then(res => {
+              this.init();
+            })
+        this.selectedAction = null;
+      },
+
+      abortActionDialog() {
+        this.selectedAction = null;
       }
     },
     computed: {
