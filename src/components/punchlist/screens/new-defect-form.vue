@@ -1,158 +1,155 @@
 <template>
-    <div class="root">
-
-        <div class="action-bar">
-            <button @click="save" class="custom-button" style="margin-right: 10px;">Save</button>
-            <button class="custom-button">Cancel</button>
-        </div>
-        <div class="flex-container">
-            <div id="component" class="custom-panel item">
-                <h4>Component</h4>
-                <span class="label">Tag</span>
-                <span>{{formData.component.tag}}</span>
-                <span class="label">Location</span>
-                <span>{{formData.component.name}}</span>
-                <span class="label">Facility</span>
-                <span>{{formData.facility.name}}</span>
-            </div>
-
-            <!--<div id="schema" class="custom-panel">-->
-            <!--<img src="img/apple.png">-->
-            <!--</div>-->
-
-            <div id="participants" class="custom-panel item">
-                <h4>Participants</h4>
-                <span class="label">Initiators</span>
-                <span>{{user | shortName}}</span>
-                <span class="label">Linear</span>
-                <span>{{formData.linear | shortName}}</span>
-                <span class="label">Contractor</span>
-                <span>{{formData.contractor.name}}</span>
-            </div>
-
-            <div id="params" class="custom-panel item">
-                <h4>Parameters</h4>
-                <p class="label">Category</p>
-                <select v-model="selectedCategory">
-                    <option
-                            v-for="category in formData.categories"
-                            v-bind:key="category.id"
-                            v-bind:value="category.id">
-                        {{category.name}}
-                    </option>
-                </select>
-                <p class="label">Discipline</p>
-                <select v-model="selectedDiscipline">
-                    <option
-                            v-for="discipline in formData.disciplines"
-                            v-bind:key="discipline.id"
-                            v-bind:value="discipline.id">
-                        {{discipline.name}}
-                    </option>
-                </select>
-                <p class="label">Expected worktime</p>
-                <input v-model.number="expectedWorktime" type="number">
-                <span style="margin-left: 10px">(amount in hours)</span>
-                <p class="label">Date of registration</p>
-                <Datepicker></Datepicker>
-            </div>
-
-            <!--<div id="photo" class="custom-panel">-->
-            <!--<img src="img/apple.png">-->
-            <!--</div>-->
-
-            <div id="description" class="custom-panel item">
-                <h4>Description</h4>
-                <p class="label">Date of registration</p>
-                <textarea v-model="summary" placeholder="enter text"></textarea>
-            </div>
-
-            <div id="images" class="custom-panel item">
-                <h4>Images</h4>
-                <transition-group class="tg" name="image-list" tag="div">
-                    <div
-                            v-for="image in images"
-                            :key="image.id"
-                            class="image-list-item">
-                        <img :src="'data:image/png;base64,' + image.base64">
-                        <!--<p>{{image.text}}</p>-->
-                        <textarea v-model="image.text"></textarea>
-                        <font-awesome-icon
-                                class="remove-image-button"
-                                icon="times"
-                                @click="removeImage(image)"/>
-                    </div>
-                </transition-group>
-                <button class="custom-button" @click="addImage">Add photo</button>
-
-            </div>
-        </div>
-
-
+  <div class="root">
+    <div class="action-bar">
+      <button @click="save" class="custom-button" style="margin-right: 10px;">
+        Save
+      </button>
+      <button class="custom-button">Cancel</button>
     </div>
+    <div class="flex-container">
+      <div id="component" class="custom-panel item">
+        <h4>Component</h4>
+        <span class="label">Tag</span>
+        <span>{{ formData.component.tag }}</span>
+        <span class="label">Location</span>
+        <span>{{ formData.component.name }}</span>
+        <span class="label">Facility</span>
+        <span>{{ formData.facility.name }}</span>
+      </div>
 
+      <!--<div id="schema" class="custom-panel">-->
+      <!--<img src="img/apple.png">-->
+      <!--</div>-->
+      <div id="participants" class="custom-panel item">
+        <h4>Participants</h4>
+        <span class="label">Initiators</span>
+        <span>{{ user | shortName }}</span>
+        <span class="label">Linear</span>
+        <span>{{ formData.linear | shortName }}</span>
+        <span class="label">Contractor</span>
+        <span>{{ formData.contractor.name }}</span>
+      </div>
+
+      <div id="params" class="custom-panel item">
+        <h4>Parameters</h4>
+        <p class="label">Category</p>
+        <select v-model="selectedCategory">
+          <option
+            v-for="category in formData.categories"
+            v-bind:key="category.id"
+            v-bind:value="category.id"
+            >{{ category.name }}</option
+          >
+        </select>
+        <p class="label">Discipline</p>
+        <select v-model="selectedDiscipline">
+          <option
+            v-for="discipline in formData.disciplines"
+            v-bind:key="discipline.id"
+            v-bind:value="discipline.id"
+            >{{ discipline.name }}</option
+          >
+        </select>
+        <p class="label">Expected worktime</p>
+        <input v-model.number="expectedWorktime" type="number" />
+        <span style="margin-left: 10px">(amount in hours)</span>
+        <p class="label">Date of registration</p>
+        <Datepicker></Datepicker>
+      </div>
+
+      <!--<div id="photo" class="custom-panel">-->
+      <!--<img src="img/apple.png">-->
+      <!--</div>-->
+      <div id="description" class="custom-panel item">
+        <h4>Description</h4>
+        <p class="label">Date of registration</p>
+        <textarea v-model="summary" placeholder="enter text"></textarea>
+      </div>
+
+      <div id="images" class="custom-panel item">
+        <h4>Images</h4>
+        <transition-group class="tg" name="image-list" tag="div">
+          <div v-for="image in images" :key="image.id" class="image-list-item">
+            <img :src="'data:image/png;base64,' + image.base64" />
+            <textarea v-model="image.text"></textarea>
+            <font-awesome-icon
+              class="remove-image-button"
+              icon="times"
+              @click="removeImage(image)"
+            />
+          </div>
+        </transition-group>
+        <button class="custom-button" @click="addImage">Add photo</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import screenMixin from '../../../mixins/screen-mixin'
 
-  import screenMixin from '../../../mixins/screen-mixin'
+import Datepicker from 'vuejs-datepicker'
+import api from '../../../services/backend/punchlist-api'
+import { mapState } from 'vuex'
 
-  import Datepicker from 'vuejs-datepicker';
-  import api from '../../../services/backend/punchlist-api'
-  import {mapState} from 'vuex'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
-  import 'vue-loading-overlay/dist/vue-loading.css';
+function shortName(person) {
+  return (
+    person.secondname +
+    ' ' +
+    person.firstname.split('')[0] +
+    '. ' +
+    person.thirdname.split('')[0] +
+    '. '
+  )
+}
 
-  function shortName(person) {
-    return person.secondname + ' ' + person.firstname.split('')[0] + '. ' + person.thirdname.split('')[0] + '. ';
-  }
-
-  export default {
-    mixins: [screenMixin],
-    screen: {
-
+export default {
+  mixins: [screenMixin],
+  screen: {},
+  components: { Datepicker },
+  props: ['componentId'],
+  data() {
+    return {
+      selectedDiscipline: -1,
+      selectedCategory: -1,
+      formData: {},
+      expectedWorktime: 0,
+      summary: '',
+      images: [
+        {
+          id: -1,
+          base64: 'kek',
+          text:
+            'sadasda asd asd asd asd asd asd asd asd asda sda sdas dasd asd asd asd assdasda asda sd asda sda sda sdas das das dasd asd as dasd asd asda sdasda sda sds'
+        },
+        {
+          id: -2,
+          base64: 'kek',
+          text: 'uyiyuoyuouoyu'
+        },
+        {
+          id: -3,
+          base64: 'kek',
+          text: 'czxczxczxczxc'
+        }
+      ]
+    }
+  },
+  methods: {
+    removeImage: function(image) {
+      this.images = this.images.filter(el => el.id !== image.id)
     },
-    components: {Datepicker},
-    props: ['componentId'],
-    data() {
-      return {
-        selectedDiscipline: -1,
-        selectedCategory: -1,
-        formData: {},
-        expectedWorktime: 0,
-        summary: '',
-        images:[
-          {
-            id: -1,
-            base64: 'kek',
-            text: 'sadasda asd asd asd asd asd asd asd asd asda sda sdas dasd asd asd asd assdasda asda sd asda sda sda sdas das das dasd asd as dasd asd asda sdasda sda sds'
-          },
-          {
-            id: -2,
-            base64: 'kek',
-            text: 'uyiyuoyuouoyu'
-          },
-          {
-            id: -3,
-            base64: 'kek',
-            text: 'czxczxczxczxc'
-          },
-        ]
-      }
+
+    addImage: function() {
+      this.redirectForResult('camera')
     },
-    methods: {
 
-      removeImage: function(image){
-        this.images = this.images.filter(el => el.id !== image.id)
-      },
-
-      addImage: function(){
-        this.redirectForResult('camera');
-      },
-
-      save: function() {
-        api.postNewDefectForm({
-          initiators: [this.user.id],
+    save: function() {
+      api
+        .postNewDefectForm({
+          initiatorIds: [this.user.id],
           datetime: '11.11.1111 11:11',
           summary: this.summary,
           description: this.summary,
@@ -161,192 +158,187 @@
           categoryId: this.selectedCategory,
           expectedWorktime: this.expectedWorktime,
           images: this.images
-        }).then(res => console.log(res))
-      },
-
-      redirectResult: function(result){
-        this.images.push({
-          id: (1 + this.images.length) * (-1),
-          text: 'jgygu',
-          base64: result.dataUrl.split(',')[1]
         })
-      },
+        .then(res => this.redirect('defect-list'))
     },
-    computed: {
-      ...mapState({
-        user: state => state.session.user
+
+    redirectResult: function(result) {
+      this.images.push({
+        id: (1 + this.images.length) * -1,
+        text: '',
+        base64: result.dataUrl.split(',')[1]
       })
-    },
-    filters: {
-      shortName
-    },
-    mounted() {
-      this.$store.commit('setTitle', 'New defect' + this.componentId)
-
-      let loader = this.$loading.show({});
-
-      api.getNewDefectFormData(this.componentId)
-          .then(resp => {
-            this.formData = resp;
-            loader.hide();
-          });
     }
+  },
+  computed: {
+    ...mapState({
+      user: state => state.session.user
+    })
+  },
+  filters: {
+    shortName
+  },
+  mounted() {
+    this.$store.commit('setTitle', 'New defect' + this.componentId)
+
+    let loader = this.$loading.show({})
+
+    api.getNewDefectFormData(this.componentId).then(resp => {
+      this.formData = resp
+      loader.hide()
+    })
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.action-bar {
+  padding: 10px;
+  background-color: var(--color-primary-light);
+}
 
+.flex-container {
+  /*height: 100%;*/
 
-    .action-bar {
-        padding: 10px;
-        background-color: var(--color-primary-light);
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: flex-start;
 
-    .flex-container {
-        /*height: 100%;*/
+  padding: 10px;
+}
 
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        align-content: flex-start;
+.item {
+  flex-basis: 45vw;
+  min-width: 550px;
+  margin-top: 10px;
+}
 
-        padding: 10px;
-    }
+#component {
+  grid-area: comp;
 
-    .item {
-        flex-basis: 45vw;
-        min-width: 550px;
-        margin-top: 10px;
-    }
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas: 'title title' 'a aa' 'b bb' 'c cc';
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 10px;
+}
 
-    #component {
-        grid-area: comp;
+#component h4 {
+  grid-area: title;
+}
 
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto auto auto;
-        grid-template-areas: "title title" "a aa" "b bb" "c cc";
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        padding: 10px;
-    }
+#schema {
+  grid-area: schema;
+}
 
-    #component h4 {
-        grid-area: title;
-    }
+#participants {
+  grid-area: part;
 
-    #schema {
-        grid-area: schema;
-    }
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas: 'title title' 'a aa' 'b bb' 'c cc';
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 10px;
+}
 
-    #participants {
-        grid-area: part;
+#participants h4 {
+  grid-area: title;
+}
 
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto auto auto;
-        grid-template-areas: "title title" "a aa" "b bb" "c cc";
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        padding: 10px;
-    }
+#params {
+  grid-area: params;
+}
 
-    #participants h4 {
-        grid-area: title;
-    }
+#photo {
+  grid-area: photo;
+}
 
-    #params {
-        grid-area: params;
-    }
+#description {
+  grid-area: desc;
+}
 
-    #photo {
-        grid-area: photo;
-    }
+#schema img {
+  display: block;
+  margin: auto;
 
-    #description {
-        grid-area: desc;
-    }
+  height: auto;
+  min-height: 15vh;
+  max-height: 100%;
 
-    #schema img {
-        display: block;
-        margin: auto;
+  width: auto;
+  max-width: 100%;
+}
 
-        height: auto;
-        min-height: 15vh;
-        max-height: 100%;
+/*#params input {*/
+/*width: 100%;*/
+/*}*/
 
-        width: auto;
-        max-width: 100%;
-    }
+.label {
+  font-family: var(--font);
+  font-size: 12pt;
+  color: #555555;
+  margin-bottom: 0px;
+}
 
-    /*#params input {*/
-    /*width: 100%;*/
-    /*}*/
+#photo img {
+  display: block;
+  margin: auto;
 
-    .label {
-        font-family: var(--font);
-        font-size: 12pt;
-        color: #555555;
-        margin-bottom: 0px;
-    }
+  height: auto;
+  max-height: 100%;
 
-    #photo img {
+  width: auto;
+  max-width: 100%;
+}
 
-        display: block;
-        margin: auto;
+textarea {
+  width: 100%;
+  height: 100px;
+}
 
-        height: auto;
-        max-height: 100%;
+#images .tg {
+  display: block;
+}
 
-        width: auto;
-        max-width: 100%;
+#images div {
+  display: flex;
+  margin-bottom: 10px;
+}
 
-    }
+#images .remove-image-button {
+  left: 110px;
+  font-size: 40px;
+  color: red;
+  cursor: pointer;
+}
 
-    textarea {
-        width: 100%;
-        height: 100px;
-    }
+#images textarea {
+  margin-bottom: 0;
+  height: 100px;
+  overflow: hidden;
+  flex-grow: 1;
+  resize: none;
+}
 
-    #images .tg{
-        display: block;
-    }
+#images div img {
+  width: 150px;
+  min-width: 150px;
+  height: 100px;
+}
 
-    #images div{
-        display:flex;
-        margin-bottom: 10px;
-    }
-
-    #images .remove-image-button {
-        left: 110px;
-        font-size: 40px;
-        color: red;
-        cursor: pointer;
-    }
-
-    #images textarea{
-        margin-bottom: 0;
-        height: 100px;
-        overflow: hidden;
-        flex-grow: 1;
-        resize: none;
-    }
-
-    #images div img{
-        width: 150px;
-        min-width: 150px;
-        height: 100px;
-    }
-
-    .image-list-item {
-        transition: all .3s;
-    }
-    .image-list-enter, .image-list-leave-to{
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-
+.image-list-item {
+  transition: all 0.3s;
+}
+.image-list-enter,
+.image-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
 </style>

@@ -32,7 +32,7 @@
 
   import EditableText from "../elements/editable-text"
 
-  import config from "../../config"
+  import config from './../../../config'
   import Card from "./card";
 
   export default {

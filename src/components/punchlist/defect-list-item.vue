@@ -1,86 +1,76 @@
 <template>
   <div class="root custom-panel">
     <div class="line">
-      <span> {{defect.status.name}} </span>
-      <span> {{defect.category.tag}} </span>
-      <span> {{defect.discipline.tag}} </span>
-      <span> s das </span>
+      <span>{{ defect.status.name }}</span>
+      <span>{{ defect.category.tag }}</span>
+      <span>{{ defect.discipline.tag }}</span>
+      <span>s das</span>
     </div>
-    <span>
-      {{defect.summary}}
-    </span>
-    <hr>
+    <span>{{ defect.summary }}</span>
+    <hr />
     <div class="grid">
       <div class="grid-column">
         <div>Registered</div>
-        <div>{{defect.datetime.split(' ')[0]}}</div>
+        <div>{{ defect.datetime | timestampToString }}</div>
       </div>
       <div class="grid-column">
         <div>Tag</div>
-        <div>{{defect.component.tag}}</div>
+        <div>{{ defect.component.tag }}</div>
       </div>
       <div class="grid-column">
         <div>Initiators</div>
-        <div>{{initiators}}</div>
+        <div>{{ initiators }}</div>
       </div>
     </div>
-
-
   </div>
-
 </template>
 
 <script>
+import { timestampToString } from '../../utils/formatters'
 
 export default {
-    props: ['defect'],
-    methods : {
-
-    },
-    computed: {
-      initiators: function() {
-        let result = '';
-        for(let initiator of this.defect.initiators){
-          result = result
-              + initiator.secondname
-              + ' '
-              + initiator.firstname.split('')[0]
-              + '. '
-              + initiator.thirdname.split('')[0]
-              + '. '
-        }
-        return result;
+  props: ['defect'],
+  methods: {},
+  filters: {
+    timestampToString
+  },
+  computed: {
+    initiators: function() {
+      let result = ''
+      for (let initiator of this.defect.initiators) {
+        result =
+          result +
+          initiator.secondname +
+          ' ' +
+          initiator.firstname.split('')[0] +
+          '. ' +
+          initiator.thirdname.split('')[0] +
+          '. '
       }
-    },
-    mounted() {
-
+      return result
     }
+  },
+  mounted() {}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.root:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
 
-  .root:hover {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  }
+.root hr {
+  margin: 4px;
+}
 
-  .root hr {
-    margin: 4px;
-  }
+.grid {
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-
-  .grid {
-
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .grid-column {
-    margin-right: 10px;
-    display: inline-block;
-  }
-
-
-
+.grid-column {
+  margin-right: 10px;
+  display: inline-block;
+}
 </style>

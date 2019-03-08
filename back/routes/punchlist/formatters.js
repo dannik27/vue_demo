@@ -2,7 +2,7 @@ function expandToTwoDigits(item) {
   return item > 9 ? item : '0' + item
 }
 
-export function dateToString(date) {
+function dateToString(date) {
   // format dd.MM.yyyy HH.mm
 
   return (
@@ -18,11 +18,7 @@ export function dateToString(date) {
   )
 }
 
-export function timestampToString(timestamp) {
-  return dateToString(new Date(timestamp))
-}
-
-export function stringToDate(string) {
+function stringToDate(string) {
   // format dd.MM.yyyy HH.mm
 
   let [date, time] = string.split(' ')
@@ -31,3 +27,6 @@ export function stringToDate(string) {
 
   return new Date(year, month - 1, day, hours, minutes, 0, 0)
 }
+
+module.exports.dateToString = dateToString
+module.exports.stringToDate = stringToDate

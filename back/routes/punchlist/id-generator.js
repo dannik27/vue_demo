@@ -1,5 +1,4 @@
-
-let queue = [];
+let queue = []
 
 // let job = {
 //   collection,
@@ -7,54 +6,56 @@ let queue = [];
 //   reject,
 // }
 
-let cache = {};
+let cache = {}
 
-let running = false;
+let running = false
 
-function start(){
-  if(!running){
-    running = true;
-    runNext();
+function start() {
+  if (!running) {
+    running = true
+    runNext()
   }
 }
 
-function getId(collection){
-  let promise = new Promise ( (resolve, reject) => {
-    queue.push({collection, resolve, reject})
-  });
-  start();
-  return promise;
+function getId(collection) {
+  let promise = new Promise((resolve, reject) => {
+    queue.push({ collection, resolve, reject })
+  })
+  start()
+  return promise
 }
 
-function runNext(){
-  if(queue.length > 0){
-    let job = queue.pop();
+function runNext() {
+  if (queue.length > 0) {
+    let job = queue.pop()
 
-    let oldId = cache[job.collection.id];
-    if(oldId){
-      let newId = oldId + 1;
-      cache[job.collection.id] = newId;
-      job.resolve(newId);
-      runNext();
-      return;
+    let oldId = cache[job.collection.id]
+    if (oldId) {
+      let newId = oldId + 1
+      cache[job.collection.id] = newId
+      job.resolve(newId)
+      runNext()
+      return
     }
 
-    let cursor = job.collection.getCursor().sort({id: -1}).limit(1);
+    let cursor = job.collection
+      .getCursor()
+      .sort({ id: -1 })
+      .limit(1)
 
-    cursor.exec( (err, docs) => {
-      if(err) {
-        job.reject("DB error: "+ err.message)
+    cursor.exec((err, docs) => {
+      if (err) {
+        job.reject('DB error: ' + err.message)
       } else {
-        let newId = docs[0].id + 1;
-        cache[job.collection.id] = newId;
+        let newId = docs[0].id + 1
+        cache[job.collection.id] = newId
         job.resolve(newId)
       }
-      runNext();
+      runNext()
     })
-  }else{
-    running = false;
+  } else {
+    running = false
   }
-
 }
 
-module.exports.getId = getId;
+module.exports.getId = getId

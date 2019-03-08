@@ -1,88 +1,84 @@
 var Collection = require('../../../libs/nedb-aa')
 
-const idGenerator = require('./id-generator');
+const idGenerator = require('./id-generator')
 
-let collections = {};
+let collections = {}
 
-function getCollection(name){
-
-  if (!(name in collections)){
-    collections[name] = new Collection({ filename: __dirname + '/store/' + name, autoload: true});
+function getCollection(name) {
+  if (!(name in collections)) {
+    collections[name] = new Collection({
+      filename: __dirname + '/store/' + name,
+      autoload: true
+    })
   }
 
-  return collections[name];
+  return collections[name]
 }
 
-module.exports.getAll = async function(entityName){
+module.exports.getAll = async function(entityName) {
+  let store = getCollection(entityName)
 
-  let store = getCollection(entityName);
+  return store.find({})
+}
 
-  return store.find({});
-};
+module.exports.getById = async function(entityName, id) {
+  let store = getCollection(entityName)
 
-module.exports.getById = async function(entityName, id){
+  return store.findOne({ id: parseInt(id) })
+}
 
-  let store = getCollection(entityName);
+module.exports.getByIds = async function(entityName, ids) {
+  let store = getCollection(entityName)
 
-  return store.findOne({id: parseInt(id)});
-};
-
-module.exports.getByIds = async function(entityName, ids){
-
-  let store = getCollection(entityName);
-
-  return store.find({ id: { $in: ids }});
-};
-
-module.exports.getByQuery = async function(entityName, query){
-
-  let store = getCollection(entityName);
-
-  return store.find(query);
-};
-
-let save = async function(entityName, entity){
-
-  let store = getCollection(entityName);
-  if(entity.id && entity.id > 0){
-
-    let existingRecords = await store.find({id: entity.id});
-    if(existingRecords.length === 0){
-      return store.insert(entity);
-    } else {
-      return store.update({id: entity.id}, entity);
-    }
-
-  }else{
-    entity.id = await nextId(entityName);
-    return store.insert(entity);
+  if (!Array.isArray(ids)) {
+    throw new TypeError(`Input variable is not an array: ${ids}`)
   }
 
+  return store.find({ id: { $in: ids } })
+}
 
+module.exports.getByQuery = async function(entityName, query) {
+  let store = getCollection(entityName)
 
+  return store.find(query)
+}
 
-};
+let save = async function(entityName, entity) {
+  let store = getCollection(entityName)
+  if (entity.id && entity.id > 0) {
+    let existingRecords = await store.find({ id: entity.id })
+    if (existingRecords.length === 0) {
+      return store.insert(entity)
+    } else {
+      return store.update({ id: entity.id }, entity)
+    }
+  } else {
+    entity.id = await nextId(entityName)
+    return store.insert(entity)
+  }
+}
 
-module.exports.saveAll = async function(entityName, entities){
+module.exports.saveAll = async function(entityName, entities) {
+  let savePromises = []
 
-  let savePromises = [];
+  entities.forEach(entity => savePromises.push(save(entityName, entity)))
 
-  entities.forEach(entity => savePromises.push(save(entityName, entity)));
+  return await Promise.all(savePromises)
+}
 
-  return await Promise.all(savePromises);
+module.exports.update = async function(
+  entityName,
+  query,
+  update,
+  options = {}
+) {
+  let store = getCollection(entityName)
 
-};
+  return store.update(query, update, options)
+}
 
-module.exports.update = async function(entityName, query, update, options = {}){
-
-  let store = getCollection(entityName);
-
-  return store.update(query, update, options);
-};
-
-let nextId = async function(entityName){
-
-  let store = getCollection(entityName);
+let nextId = async function(entityName) {
+  let store = getCollection(entityName)
   //
   // let cursor = store.getCursor().sort({id: -1}).limit(1);
   //
@@ -96,9 +92,8 @@ let nextId = async function(entityName){
   //   })
   // })
 
-  return idGenerator.getId(store);
+  return idGenerator.getId(store)
+}
 
-};
-
-module.exports.nextId = nextId;
-module.exports.save = save;
+module.exports.nextId = nextId
+module.exports.save = save
