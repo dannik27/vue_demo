@@ -84,12 +84,31 @@ router.get('/defectList', async function(req, res) {
 
   //todo: сделать асинхронно
 
+  let user = await storage.getById('person', req.get('Authorization'))
+
   for (let defect of defects) {
     defect.component = await storage.getById('component', defect.componentId)
     defect.initiators = await storage.getByIds('person', defect.initiatorIds)
     defect.category = await storage.getById('category', defect.categoryId)
     defect.discipline = await storage.getById('discipline', defect.disciplineId)
-    defect.status = await storage.getById('status', defect.disciplineId)
+    defect.status = await storage.getById('status', defect.statusId)
+
+    // get user role
+
+    let subsystem = await storage.getById(
+      'subsystem',
+      defect.component.subsystemId
+    )
+    let system = await storage.getById('system', subsystem.systemId)
+    let facility = await storage.getById('facility', system.facilityId)
+    let workshop = await storage.getById('workshop', facility.workshopId)
+
+    defect.userRole = getUserRoleInDefect(user, defect, facility, workshop)
+
+    // TODO: nekrasivo
+    // add system
+
+    defect.system = system
   }
 
   res.send(defects)

@@ -77,6 +77,16 @@ export default {
     })
   },
 
+  getAnyByQuery: function(entityName, query) {
+    return new Promise(resolve => {
+      axios
+        .post(config.BACKEND_URL + `punchlist/any/${entityName}/query`, query)
+        .then(response => {
+          resolve(response.data)
+        })
+    })
+  },
+
   getNewDefectFormData: function(componentId) {
     return new Promise(resolve => {
       axios
@@ -100,7 +110,10 @@ export default {
   getDefectListFormData: function() {
     return new Promise(resolve => {
       axios
-        .get(config.BACKEND_URL + `punchlist/form/defectList`)
+        .get(
+          config.BACKEND_URL + `punchlist/form/defectList`,
+          getDefaultConfig()
+        )
         .then(response => {
           resolve(response.data)
         })

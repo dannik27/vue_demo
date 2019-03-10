@@ -6,9 +6,7 @@
       <router-link to="/map" tag="button">Maps</router-link>
       <router-link to="/kanban" tag="button">Kanban</router-link>
       <router-link to="/kanban2" tag="button">Kanban2</router-link>
-      <router-link to="/health-star/welcome" tag="button"
-        >HealthStar</router-link
-      >
+      <router-link to="/health-star/welcome" tag="button">HealthStar</router-link>
       <router-link to="/punchlist/home" tag="button">Punchlist</router-link>
     </div>
 
@@ -118,7 +116,11 @@ const router = new VueRouter({
         },
         {
           path: '/punchlist/schema-list',
-          component: PunchlistSchemaList
+          name: 'schema-list',
+          component: PunchlistSchemaList,
+          props: route => ({
+            ...route.params
+          })
         },
         {
           path: '/punchlist/schema/:schemaId',
@@ -180,6 +182,12 @@ export default {
   --text-primary: #ffffff;
   --text-secondary: #000000;
   --font: 'Roboto', 'Segoe UI', 'serif';
+
+  --color-inactive: #616161;
+  --color-fine: #00695c;
+  --color-success: #2e7d32;
+  --color-warning: #ff8f00;
+  --color-danger: #d84315;
 }
 
 html,

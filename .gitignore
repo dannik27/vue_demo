@@ -2,6 +2,11 @@
 node_modules
 /dist
 
+# temp
+/cor
+/back/access.log
+/back/routes/punchlist/store
+
 # local env files
 .env.local
 .env.*.local

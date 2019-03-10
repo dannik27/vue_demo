@@ -41,23 +41,79 @@
     }
   ],
   "workshop": [
-    { "id": 1, "name": "workshop 1", "linearId": 3 },
-    { "id": 2, "name": "workshop 2", "linearId": 3 },
-    { "id": 3, "name": "workshop 3", "linearId": 3 },
-    { "id": 4, "name": "workshop 4", "linearId": 3 },
-    { "id": 5, "name": "workshop 5", "linearId": 3 }
+    {
+      "id": 1,
+      "name": "workshop 1",
+      "linearId": 3,
+      "description": "workshop1 description"
+    },
+    {
+      "id": 2,
+      "name": "workshop 2",
+      "linearId": 3,
+      "description": "workshop1 description"
+    },
+    {
+      "id": 3,
+      "name": "workshop 3",
+      "linearId": 3,
+      "description": "workshop1 description"
+    },
+    {
+      "id": 4,
+      "name": "workshop 4",
+      "linearId": 3,
+      "description": "workshop1 description"
+    },
+    {
+      "id": 5,
+      "name": "workshop 5",
+      "linearId": 3,
+      "description": "workshop1 description"
+    }
   ],
   "facility": [
-    { "id": 1, "name": "facility 1", "workshopId": 1, "contractorId": 2 },
-    { "id": 2, "name": "facility 1", "workshopId": 1, "contractorId": 2 },
-    { "id": 3, "name": "facility 1", "workshopId": 1, "contractorId": 2 },
-    { "id": 4, "name": "facility 1", "workshopId": 1, "contractorId": 2 },
-    { "id": 5, "name": "facility 1", "workshopId": 1, "contractorId": 2 }
+    {
+      "id": 1,
+      "name": "facility 1",
+      "workshopId": 1,
+      "contractorId": 2,
+      "description": "facility1 description"
+    },
+    {
+      "id": 2,
+      "name": "facility 2",
+      "workshopId": 1,
+      "contractorId": 2,
+      "description": "facility2 description"
+    },
+    {
+      "id": 3,
+      "name": "facility 3",
+      "workshopId": 1,
+      "contractorId": 2,
+      "description": "facility3 description"
+    },
+    {
+      "id": 4,
+      "name": "facility 4",
+      "workshopId": 1,
+      "contractorId": 2,
+      "description": "facility4 description"
+    },
+    {
+      "id": 5,
+      "name": "facility 5",
+      "workshopId": 1,
+      "contractorId": 2,
+      "description": "facility5 description"
+    }
   ],
   "schema": [
     {
       "id": 1,
       "name": "schema1",
+      "description": "schema1 description",
       "imageId": 1,
       "facilityId": 1,
       "subsystemIds": [1, 2, 3],
@@ -66,6 +122,7 @@
     {
       "id": 2,
       "name": "schema2",
+      "description": "schema1 description",
       "imageId": 2,
       "facilityId": 1,
       "subsystemIds": [2, 3],
@@ -74,6 +131,7 @@
     {
       "id": 3,
       "name": "schema3",
+      "description": "schema1 description",
       "imageId": 3,
       "facilityId": 1,
       "subsystemIds": [3, 4],
@@ -82,6 +140,7 @@
     {
       "id": 4,
       "name": "schema4",
+      "description": "schema1 description",
       "imageId": 4,
       "facilityId": 1,
       "subsystemIds": [3, 4, 5],
@@ -90,6 +149,7 @@
     {
       "id": 5,
       "name": "schema5",
+      "description": "schema5 description",
       "imageId": 5,
       "facilityId": 1,
       "subsystemIds": [1, 5],
@@ -150,12 +210,22 @@
     { "id": 4, "name": "ContractorManager" }
   ],
   "status": [
-    { "id": 1, "name": "Initiated", "tag": "INITIATED" },
-    { "id": 2, "name": "WAIT FOR APPROVE", "tag": "WAIT_FOR_APPROVE" },
+    { "id": 1, "name": "INITIATED", "tag": "INITIATED", "responsibleRole": 1 },
+    {
+      "id": 2,
+      "name": "WAIT FOR APPROVE",
+      "tag": "WAIT_FOR_APPROVE",
+      "responsibleRole": 2
+    },
     { "id": 3, "name": "CLOSED", "tag": "CLOSED" },
-    { "id": 4, "name": "APPROVED", "tag": "APPROVED" },
-    { "id": 5, "name": "TAKEN TO WORK", "tag": "TAKEN_TO_WORK" },
-    { "id": 6, "name": "DONE", "tag": "DONE" },
+    { "id": 4, "name": "APPROVED", "tag": "APPROVED", "responsibleRole": 3 },
+    {
+      "id": 5,
+      "name": "TAKEN TO WORK",
+      "tag": "TAKEN_TO_WORK",
+      "responsibleRole": 3
+    },
+    { "id": 6, "name": "DONE", "tag": "DONE", "responsibleRole": 1 },
     { "id": 7, "name": "CONFIRMED", "tag": "CONFIRMED" }
   ],
   "defectActionType": [
@@ -190,7 +260,7 @@
     {
       "id": 2,
       "externalNumber": 112,
-      "initiatorIds": [1, 2],
+      "initiatorIds": [1],
       "datetime": 1552065396000,
       "summary": "another short desc",
       "description": "some desc",
@@ -203,6 +273,23 @@
       "statusId": 2,
       "defectActionIds": [2, 3],
       "defectCommentIds": [1]
+    },
+    {
+      "id": 3,
+      "externalNumber": 113,
+      "initiatorIds": [2],
+      "datetime": 1552065397000,
+      "summary": "shosho short desc",
+      "description": "dasd desc",
+      "componentId": 3,
+      "contractorId": 4,
+      "disciplineId": 3,
+      "categoryId": 3,
+      "expectedWorktime": 8,
+      "photoIds": [],
+      "statusId": 3,
+      "defectActionIds": [4, 5],
+      "defectCommentIds": []
     }
   ],
   "defectComment": [
@@ -235,6 +322,18 @@
       "personId": 2,
       "defectActionTypeId": 2,
       "defectId": 2
+    },
+    {
+      "id": 4,
+      "datetime": 1552065739000,
+      "personId": 2,
+      "defectActionTypeId": 1
+    },
+    {
+      "id": 5,
+      "datetime": 1552065739500,
+      "personId": 2,
+      "defectActionTypeId": 3
     }
   ]
 }

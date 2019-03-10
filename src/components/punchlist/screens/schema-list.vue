@@ -1,76 +1,129 @@
 <template>
   <div class="root">
-
+    <div class="header">
+      <button
+        @click="loadWorkshops()"
+        v-if="selectedWorkshop"
+        class="custom-button"
+      >{{selectedWorkshop.name}} (click to change)</button>
+      <button
+        @click="loadFacilities(selectedWorkshop.id)"
+        v-if="selectedFacility"
+        class="custom-button"
+      >{{selectedFacility.name}} (click to change)</button>
+    </div>
     <div class="list">
       <SchemaListItem
-              v-bind:named="schema"
-              v-bind:key="schema.id"
-              v-for="schema in schemas"
-              class="item"
-              @click.native="clickOnCard(schema.id)"
+        v-bind:named="item"
+        v-bind:key="items.id"
+        v-for="item in items"
+        class="item"
+        @click.native="clickOnCard(item)"
       />
     </div>
-
-
   </div>
-
 </template>
 
 <script>
+import screenMixin from '../../../mixins/screen-mixin'
+import SchemaListItem from '../schema-list-item'
 
-  import screenMixin from '../../../mixins/screen-mixin'
-  import SchemaListItem from '../schema-list-item'
-
-  import api from '../../../services/backend/punchlist-api'
+import api from '../../../services/backend/punchlist-api'
 
 export default {
-    mixins: [screenMixin],
-    components: {
-      SchemaListItem
-    },
-    data () {
-        return {
-          schemas: []
-        }
-    },
-    methods : {
-      clickOnCard: function(schemaId) {
-        this.$router.push('/punchlist/schema/' + schemaId)
+  mixins: [screenMixin],
+  components: {
+    SchemaListItem
+  },
+  data() {
+    return {
+      items: [],
+      schemas: [],
+      selectedWorkshop: null,
+      selectedFacility: null
+    }
+  },
+  methods: {
+    clickOnCard: function(item) {
+      if (!this.selectedWorkshop) {
+        this.selectedWorkshop = item
+        this.loadFacilities(item.id)
+      } else if (!this.selectedFacility) {
+        this.selectedFacility = item
+        this.loadSchemas(item.id)
+      } else {
+        this.$router.push('/punchlist/schema/' + item.id)
       }
     },
-    mounted() {
-      this.$store.commit('setTitle', 'Schema list')
 
-      api.getSchemaList()
-          .then(response => this.schemas = response)
+    loadWorkshops: function() {
+      api.getAny('workshop').then(response => {
+        this.items = response
+        this.selectedWorkshop = null
+        this.selectedFacility = null
+        this.setTitle('Select workshop')
+      })
+    },
+
+    loadSchemas: function(facilityId) {
+      api.getAnyByQuery('schema', { facilityId: facilityId }).then(response => {
+        this.items = response
+        this.setTitle('Select schema')
+      })
+    },
+
+    loadFacilities: function(workshopId) {
+      api
+        .getAnyByQuery('facility', { workshopId: workshopId })
+        .then(response => {
+          this.items = response
+          this.selectedFacility = null
+          this.setTitle('Select facility')
+        })
     }
+  },
+  mounted() {
+    this.$store.commit('setTitle', 'Schema list')
+
+    this.loadWorkshops()
+
+    // api.getSchemaList().then(response => (this.schemas = response))
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.root {
+  height: 100%;
+}
 
-  .root{
-    height: 100%;
-  }
+.header {
+  background-color: var(--color-primary-light);
+  padding: 10px;
+}
+.header :nth-child(1) {
+  margin-right: 10px;
+}
 
-  .list{
+.list {
+  height: calc(100% - 80px);
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: flex-start;
 
-    overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-    padding-bottom: 10px;
+  padding-bottom: 10px;
+}
 
-  }
-
-  .item{
-    margin-top: 20px;
-    flex-basis: 500px;
-    max-width: 500px;
-  }
-
-
+.item {
+  margin: 10px;
+  flex-basis: 500px;
+  max-width: 500px;
+  height: auto;
+}
 </style>

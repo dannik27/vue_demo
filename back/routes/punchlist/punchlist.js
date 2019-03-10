@@ -22,6 +22,12 @@ router.get('/any/:entity/:id', function(req, res) {
     .then(doc => res.send(JSON.stringify(doc)))
 })
 
+router.post('/any/:entity/query', function(req, res) {
+  storage
+    .getByQuery(req.params.entity, req.body)
+    .then(docs => res.send(JSON.stringify(docs)))
+})
+
 router.get('/image/:id', function(req, res) {
   storage
     .getById('image', req.params.id)
