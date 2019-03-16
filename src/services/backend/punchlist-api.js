@@ -149,7 +149,7 @@ export default {
   executeDefectAction: function(defectId, actionTypeId) {
     return new Promise(resolve => {
       let action = {
-        datetime: dateToString(new Date()),
+        datetime: new Date().getTime(),
         personId: store.state.session.user.id,
         defectActionTypeId: actionTypeId
       }
@@ -169,7 +169,7 @@ export default {
   createDefectComment: function(defectId, text) {
     return new Promise(resolve => {
       let comment = {
-        datetime: dateToString(new Date()),
+        datetime: new Date().getTime(),
         personId: store.state.session.user.id,
         text
       }

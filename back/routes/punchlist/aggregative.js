@@ -49,19 +49,26 @@ router.get('/newDefect/:componentId', async function(req, res) {
 
 router.post('/newDefect/', async function(req, res) {
   let defect = req.body
-  let images = await storage.saveAll('image', defect.images)
 
-  delete defect.images
-  defect.imageIds = images.map(image => image.id)
+  let initDate = new Date().getTime()
+
+  for (let [i, attachment] of defect.attachments.entries()) {
+    attachment.datetime = initDate + 1 + i
+  }
+
+  let attachments = await storage.saveAll('attachment', defect.attachments)
+
+  delete defect.attachments
+  defect.attachmentIds = attachments.map(image => image.id)
 
   let defectActions = [
     {
-      datetime: new Date().getTime(),
+      datetime: initDate,
       personId: defect.initiatorIds[0],
       defectActionTypeId: 1
     },
     {
-      datetime: new Date(new Date().getTime() + 10),
+      datetime: initDate + 10,
       personId: defect.initiatorIds[0],
       defectActionTypeId: 2
     }
@@ -129,9 +136,9 @@ function getUserRoleInDefect(user, defect, facility, workshop) {
 }
 
 router.get('/defectCard/:defectId', async function(req, res) {
-  // let user = await storage.getById('person', req.get('Authorization'));
+  let user = await storage.getById('person', req.get('Authorization'))
 
-  let user = await storage.getById('person', 1)
+  // let user = await storage.getById('person', 1)
 
   let defect = await storage.getById('defect', req.params.defectId)
 
@@ -150,6 +157,14 @@ router.get('/defectCard/:defectId', async function(req, res) {
   defect.contractor = await storage.getById('company', facility.contractorId)
   defect.status = await storage.getById('status', defect.statusId)
 
+  defect.attachments = await storage.getByIds(
+    'attachment',
+    defect.attachmentIds
+  )
+  for (let attachment of defect.attachments) {
+    attachment.person = await storage.getById('person', attachment.personId)
+  }
+
   defect.defectActions = await storage.getByIds(
     'defectAction',
     defect.defectActionIds
@@ -159,6 +174,10 @@ router.get('/defectCard/:defectId', async function(req, res) {
     action.defectActionType = await storage.getById(
       'defectActionType',
       action.defectActionTypeId
+    )
+    action.defectActionType.to = await storage.getById(
+      'status',
+      action.defectActionType.to
     )
     action.person = await storage.getById('person', action.personId)
   }

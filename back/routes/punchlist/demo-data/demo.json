@@ -218,7 +218,7 @@
       "responsibleRole": 2
     },
     { "id": 3, "name": "CLOSED", "tag": "CLOSED" },
-    { "id": 4, "name": "APPROVED", "tag": "APPROVED", "responsibleRole": 3 },
+    { "id": 4, "name": "APPROVED", "tag": "APPROVED", "responsibleRole": 4 },
     {
       "id": 5,
       "name": "TAKEN TO WORK",
@@ -229,15 +229,78 @@
     { "id": 7, "name": "CONFIRMED", "tag": "CONFIRMED" }
   ],
   "defectActionType": [
-    { "id": 1, "from": null, "to": 1, "name": "Create defect", "roles": [1] },
-    { "id": 2, "from": 1, "to": 2, "name": "Send to approve", "roles": [1] },
-    { "id": 3, "from": 1, "to": 3, "name": "Close defect", "roles": [1, 2] },
-    { "id": 4, "from": 2, "to": 4, "name": "Approve defect", "roles": [2] },
-    { "id": 5, "from": 2, "to": 1, "name": "Reject defect", "roles": [2] },
-    { "id": 6, "from": 4, "to": 5, "name": "Take to work", "roles": [4] },
-    { "id": 7, "from": 5, "to": 6, "name": "Work done", "roles": [3] },
-    { "id": 8, "from": 6, "to": 7, "name": "Confirm completion", "roles": [2] },
-    { "id": 9, "from": 6, "to": 5, "name": "Reject completion", "roles": [2] }
+    {
+      "id": 1,
+      "from": null,
+      "to": 1,
+      "name": "Create defect",
+      "positive": true,
+      "roles": [1]
+    },
+    {
+      "id": 2,
+      "from": 1,
+      "to": 2,
+      "name": "Send to approve",
+      "positive": true,
+      "roles": [1]
+    },
+    {
+      "id": 3,
+      "from": 1,
+      "to": 3,
+      "name": "Close defect",
+      "positive": false,
+      "roles": [1, 2]
+    },
+    {
+      "id": 4,
+      "from": 2,
+      "to": 4,
+      "name": "Approve defect",
+      "positive": true,
+      "roles": [2]
+    },
+    {
+      "id": 5,
+      "from": 2,
+      "to": 1,
+      "name": "Reject defect",
+      "positive": false,
+      "roles": [2]
+    },
+    {
+      "id": 6,
+      "from": 4,
+      "to": 5,
+      "name": "Take to work",
+      "positive": true,
+      "roles": [4]
+    },
+    {
+      "id": 7,
+      "from": 5,
+      "to": 6,
+      "name": "Work done",
+      "positive": true,
+      "roles": [3]
+    },
+    {
+      "id": 8,
+      "from": 6,
+      "to": 7,
+      "name": "Confirm completion",
+      "positive": true,
+      "roles": [2]
+    },
+    {
+      "id": 9,
+      "from": 6,
+      "to": 5,
+      "name": "Reject completion",
+      "positive": false,
+      "roles": [2]
+    }
   ],
   "defect": [
     {
@@ -245,6 +308,7 @@
       "externalNumber": 111,
       "initiatorIds": [1, 2],
       "datetime": 1552065336000,
+      "estimatedDoneDate": null,
       "summary": "short desc",
       "description": "some desc",
       "componentId": 1,
@@ -252,16 +316,18 @@
       "disciplineId": 1,
       "categoryId": 1,
       "expectedWorktime": 10,
-      "photoIds": [1, 2],
+      "imageIds": [1, 2],
       "statusId": 1,
       "defectActionIds": [1],
-      "defectCommentIds": []
+      "defectCommentIds": [],
+      "attachmentIds": [1]
     },
     {
       "id": 2,
       "externalNumber": 112,
       "initiatorIds": [1],
       "datetime": 1552065396000,
+      "estimatedDoneDate": null,
       "summary": "another short desc",
       "description": "some desc",
       "componentId": 2,
@@ -269,16 +335,18 @@
       "disciplineId": 1,
       "categoryId": 2,
       "expectedWorktime": 15,
-      "photoIds": [3],
+      "imageIds": [3],
       "statusId": 2,
       "defectActionIds": [2, 3],
-      "defectCommentIds": [1]
+      "defectCommentIds": [1],
+      "attachmentIds": []
     },
     {
       "id": 3,
       "externalNumber": 113,
       "initiatorIds": [2],
       "datetime": 1552065397000,
+      "estimatedDoneDate": null,
       "summary": "shosho short desc",
       "description": "dasd desc",
       "componentId": 3,
@@ -286,10 +354,11 @@
       "disciplineId": 3,
       "categoryId": 3,
       "expectedWorktime": 8,
-      "photoIds": [],
+      "imageIds": [],
       "statusId": 3,
       "defectActionIds": [4, 5],
-      "defectCommentIds": []
+      "defectCommentIds": [],
+      "attachmentIds": []
     }
   ],
   "defectComment": [
@@ -334,6 +403,16 @@
       "datetime": 1552065739500,
       "personId": 2,
       "defectActionTypeId": 3
+    }
+  ],
+  "attachment": [
+    {
+      "id": 1,
+      "datetime": 1552065739600,
+      "personId": 1,
+      "type": "png",
+      "source": "kek",
+      "text": "description"
     }
   ]
 }

@@ -1,9 +1,7 @@
 <template>
   <div class="root">
     <div class="action-bar">
-      <button @click="save" class="custom-button" style="margin-right: 10px;">
-        Save
-      </button>
+      <button @click="save" class="custom-button" style="margin-right: 10px;">Save</button>
       <button class="custom-button">Cancel</button>
     </div>
     <div class="flex-container">
@@ -38,8 +36,7 @@
             v-for="category in formData.categories"
             v-bind:key="category.id"
             v-bind:value="category.id"
-            >{{ category.name }}</option
-          >
+          >{{ category.name }}</option>
         </select>
         <p class="label">Discipline</p>
         <select v-model="selectedDiscipline">
@@ -47,11 +44,10 @@
             v-for="discipline in formData.disciplines"
             v-bind:key="discipline.id"
             v-bind:value="discipline.id"
-            >{{ discipline.name }}</option
-          >
+          >{{ discipline.name }}</option>
         </select>
         <p class="label">Expected worktime</p>
-        <input v-model.number="expectedWorktime" type="number" />
+        <input v-model.number="expectedWorktime" type="number">
         <span style="margin-left: 10px">(amount in hours)</span>
         <p class="label">Date of registration</p>
         <Datepicker></Datepicker>
@@ -70,7 +66,7 @@
         <h4>Images</h4>
         <transition-group class="tg" name="image-list" tag="div">
           <div v-for="image in images" :key="image.id" class="image-list-item">
-            <img :src="'data:image/png;base64,' + image.base64" />
+            <img :src="'data:image/png;base64,' + image.source">
             <textarea v-model="image.text"></textarea>
             <font-awesome-icon
               class="remove-image-button"
@@ -117,24 +113,7 @@ export default {
       formData: {},
       expectedWorktime: 0,
       summary: '',
-      images: [
-        {
-          id: -1,
-          base64: 'kek',
-          text:
-            'sadasda asd asd asd asd asd asd asd asd asda sda sdas dasd asd asd asd assdasda asda sd asda sda sda sdas das das dasd asd as dasd asd asda sdasda sda sds'
-        },
-        {
-          id: -2,
-          base64: 'kek',
-          text: 'uyiyuoyuouoyu'
-        },
-        {
-          id: -3,
-          base64: 'kek',
-          text: 'czxczxczxczxc'
-        }
-      ]
+      images: []
     }
   },
   methods: {
@@ -150,14 +129,14 @@ export default {
       api
         .postNewDefectForm({
           initiatorIds: [this.user.id],
-          datetime: '11.11.1111 11:11',
+          datetime: new Date().getTime(),
           summary: this.summary,
           description: this.summary,
           componentId: parseInt(this.componentId),
           disciplineId: this.selectedDiscipline,
           categoryId: this.selectedCategory,
           expectedWorktime: this.expectedWorktime,
-          images: this.images
+          attachments: this.images
         })
         .then(res => this.redirect('defect-list'))
     },
@@ -165,8 +144,11 @@ export default {
     redirectResult: function(result) {
       this.images.push({
         id: (1 + this.images.length) * -1,
+        datetime: new Date().getTime(),
+        personId: this.user.id,
+        type: 'png',
         text: '',
-        base64: result.dataUrl.split(',')[1]
+        source: result.dataUrl.split(',')[1]
       })
     }
   },

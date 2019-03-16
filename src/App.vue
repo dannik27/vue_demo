@@ -55,6 +55,9 @@ Vue.use(Loading, {
   height: 128
 })
 
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
+
 Vue.use(VueRouter)
 
 import Cards from './components/cards/cards'
@@ -168,6 +171,8 @@ export default {
 <style>
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/hooper/dist/hooper.css';
+
+@import '../node_modules/vue-image-lightbox/dist/vue-image-lightbox.min.css';
 
 @import 'assets/material-button.css';
 @import 'assets/custom-elements.css';

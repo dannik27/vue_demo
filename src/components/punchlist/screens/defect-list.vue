@@ -122,7 +122,8 @@ export default {
         .filter(
           defect =>
             !this.filter.waitsForMe ||
-            defect.userRole == defect.status.responsibleRole
+            (defect.status.responsibleRole &&
+              defect.userRole == defect.status.responsibleRole)
         )
         .filter(
           defect =>

@@ -19,7 +19,11 @@ export function dateToString(date) {
 }
 
 export function timestampToString(timestamp) {
-  return dateToString(new Date(timestamp))
+  if (timestamp) {
+    return dateToString(new Date(timestamp))
+  } else {
+    return 'undefined'
+  }
 }
 
 export function stringToDate(string) {
