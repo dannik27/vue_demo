@@ -28,7 +28,6 @@ function getId(collection) {
 function runNext() {
   if (queue.length > 0) {
     let job = queue.pop()
-
     let oldId = cache[job.collection.id]
     if (oldId) {
       let newId = oldId + 1

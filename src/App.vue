@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+
+    <popup></popup>
+
     <div class="menu" v-show="false">
       <router-link to="/cards" tag="button">Cards</router-link>
       <router-link to="/charts" tag="button">Перейти к charts</router-link>
@@ -79,6 +82,23 @@ import PunchlistCamera from './components/punchlist/screens/camera'
 import PunchlistDefectList from './components/punchlist/screens/defect-list'
 import PunchlistDefectCard from './components/punchlist/screens/defect-card'
 import PunchlistAuthorization from './components/punchlist/screens/authorization'
+
+import PopupPlugin from './plugins/popup-plugin'
+Vue.use(PopupPlugin);
+
+Vue.directive('click-outside', {
+  bind: function (el, binding, vnode) {
+    el.clickOutsideEvent = function (event) {
+      if (!(el == event.target || el.contains(event.target))) {
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent)
+  },
+  unbind: function (el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent)
+  },
+});
 
 const router = new VueRouter({
   routes: [
@@ -174,6 +194,8 @@ export default {
 
 @import '../node_modules/vue-image-lightbox/dist/vue-image-lightbox.min.css';
 
+@import '../node_modules/vue-datetime/dist/vue-datetime.css';
+
 @import 'assets/material-button.css';
 @import 'assets/custom-elements.css';
 
@@ -181,6 +203,7 @@ export default {
   --color-primary: #00796b;
   --color-primary-dark: #004c40;
   --color-primary-light: #48a999;
+  --color-primary-light-opacity: rgba(72, 169, 153, 0.2);
   --color-secondary: #ffa000;
   --color-secondary-dark: #c67100;
   --color-secondary-light: #ffd149;

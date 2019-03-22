@@ -52,17 +52,17 @@
         <h6>People</h6>
         <p class="label">Initiators:</p>
         <p>
-          <span v-for="person in defect.initiators" :key="person.id">{{ person | shortName }}</span>
+          <span v-for="person in defect.initiators" :key="person.id">{{ person | shortPersonName }}</span>
         </p>
         <p class="label">Linear:</p>
-        <p>{{ defect.linear | shortName }}</p>
+        <p>{{ defect.linear | shortPersonName }}</p>
         <p class="label">Contractor:</p>
         <p>{{ defect.contractor.name }}</p>
       </div>
 
       <div class="description custom-panel">
         <h6>Description</h6>
-        <div>asd asd as d asdasd sd asda as das das das das dsad asdsdsa dsfdng dgkjfdg fhg fhk hfkj ghfjhfkj hgkfjhgkjfgk jfhg kjfghk</div>
+        <div>{{ defect.description}}</div>
       </div>
 
       <div class="attachments custom-panel">
@@ -83,7 +83,7 @@
             <div>
               <p class="history-item-header">
                 <span>{{ item.datetime | timestampToString }}</span>
-                <span>{{ item.person | shortName }}</span>
+                <span>{{ item.person | shortPersonName }}</span>
               </p>
               <p>{{ item.text }}</p>
             </div>
@@ -98,22 +98,11 @@
 import screenMixin from '../../../mixins/screen-mixin'
 
 import api from '../../../services/backend/punchlist-api'
-import { timestampToString } from './../../../utils/formatters'
+import { timestampToString, shortPersonName } from './../../../utils/formatters'
 
 import Dialog from '../../elements/dialog'
 
 import LightBox from 'vue-image-lightbox'
-
-function shortName(person) {
-  return (
-    person.secondname +
-    ' ' +
-    person.firstname.split('')[0] +
-    '. ' +
-    person.thirdname.split('')[0] +
-    '. '
-  )
-}
 
 function markAsAction(object) {
   object.type = 'action'
@@ -244,7 +233,7 @@ export default {
     }
   },
   filters: {
-    shortName,
+    shortPersonName,
     timestampToString
   },
   mounted() {

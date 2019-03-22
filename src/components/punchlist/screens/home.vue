@@ -1,21 +1,8 @@
 <template>
   <div>
     <div class="menu">
-      <router-link
-        to="/punchlist/schema-list"
-        tag="button"
-        class="custom-button"
-        >schemas</router-link
-      >
-      <router-link to="/punchlist/camera" tag="button" class="custom-button"
-        >camera</router-link
-      >
-      <router-link
-        to="/punchlist/defect-list"
-        tag="button"
-        class="custom-button"
-        >defects</router-link
-      >
+      <router-link to="/punchlist/schema-list" tag="button" class="custom-button">schemas</router-link>
+      <router-link to="/punchlist/defect-list" tag="button" class="custom-button">defects</router-link>
       <button class="custom-button" @click="logout">logout</button>
     </div>
   </div>

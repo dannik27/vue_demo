@@ -146,6 +146,33 @@ export default {
     })
   },
 
+  getComponentLinkWidgetFormData(componentId) {
+    return new Promise(resolve => {
+      axios
+        .get(
+          config.BACKEND_URL +
+            `punchlist/form/componentLinkWidget/${componentId}`,
+          getDefaultConfig()
+        )
+        .then(response => {
+          resolve(response.data)
+        })
+    })
+  },
+
+  getPopupObject: function(entityName, entityId) {
+    return new Promise(resolve => {
+      axios
+        .get(
+          config.BACKEND_URL + `punchlist/form/popup/${entityName}/${entityId}`,
+          getDefaultConfig()
+        )
+        .then(response => {
+          resolve(response.data)
+        })
+    })
+  },
+
   executeDefectAction: function(defectId, actionTypeId) {
     return new Promise(resolve => {
       let action = {

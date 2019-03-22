@@ -50,10 +50,8 @@ router.get('/newDefect/:componentId', async function(req, res) {
 router.post('/newDefect/', async function(req, res) {
   let defect = req.body
 
-  let initDate = new Date().getTime()
-
   for (let [i, attachment] of defect.attachments.entries()) {
-    attachment.datetime = initDate + 1 + i
+    attachment.datetime = defect.datetime + 1 + i
   }
 
   let attachments = await storage.saveAll('attachment', defect.attachments)
@@ -63,12 +61,12 @@ router.post('/newDefect/', async function(req, res) {
 
   let defectActions = [
     {
-      datetime: initDate,
+      datetime: defect.datetime,
       personId: defect.initiatorIds[0],
       defectActionTypeId: 1
     },
     {
-      datetime: initDate + 10,
+      datetime: defect.datetime + 10,
       personId: defect.initiatorIds[0],
       defectActionTypeId: 2
     }
@@ -117,6 +115,10 @@ router.get('/defectList', async function(req, res) {
 
     defect.system = system
   }
+
+  defects = defects.sort((a, b) => {
+    return a.datetime > b.datetime ? -1 : 1
+  })
 
   res.send(defects)
 })
@@ -218,6 +220,38 @@ router.post('/newComponentLink/:schemaId', async function(req, res) {
   storage.save('schema', schema)
 
   res.send(mark)
+})
+
+router.get('/componentLinkWidget/:componentId', async function(req, res) {
+  let component = await storage.getById('component', req.params.componentId)
+
+  let defects = await storage.getByQuery('defect', {
+    componentId: parseInt(component.id)
+  })
+
+  for (let defect of defects) {
+    defect.initiators = await storage.getByIds('person', defect.initiatorIds)
+    defect.status = await storage.getById('status', defect.statusId)
+  }
+
+  component.defects = defects
+
+  res.send(component)
+})
+
+router.get('/popup/:entityName/:entityId', async function(req, res) {
+  let entityName = req.params.entityName
+  let entityId = parseInt(req.params.entityId)
+
+  if (entityName == 'defect') {
+    let defect = await storage.getById('defect', entityId)
+    defect.status = await storage.getById('status', defect.statusId)
+    defect.initiators = await storage.getByIds('person', defect.initiatorIds)
+
+    res.send(defect)
+  } else {
+    res.status(404).send('Invalid entity name: ' + entityName)
+  }
 })
 
 module.exports = router

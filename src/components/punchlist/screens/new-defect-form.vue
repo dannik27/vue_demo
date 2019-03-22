@@ -6,20 +6,13 @@
     </div>
     <div class="flex-container">
       <div id="component" class="custom-panel item">
-        <h4>Component</h4>
+        <h4>Component information</h4>
         <span class="label">Tag</span>
         <span>{{ formData.component.tag }}</span>
         <span class="label">Location</span>
         <span>{{ formData.component.name }}</span>
         <span class="label">Facility</span>
         <span>{{ formData.facility.name }}</span>
-      </div>
-
-      <!--<div id="schema" class="custom-panel">-->
-      <!--<img src="img/apple.png">-->
-      <!--</div>-->
-      <div id="participants" class="custom-panel item">
-        <h4>Participants</h4>
         <span class="label">Initiators</span>
         <span>{{ user | shortName }}</span>
         <span class="label">Linear</span>
@@ -30,36 +23,47 @@
 
       <div id="params" class="custom-panel item">
         <h4>Parameters</h4>
-        <p class="label">Category</p>
-        <select v-model="selectedCategory">
-          <option
-            v-for="category in formData.categories"
-            v-bind:key="category.id"
-            v-bind:value="category.id"
-          >{{ category.name }}</option>
-        </select>
-        <p class="label">Discipline</p>
-        <select v-model="selectedDiscipline">
-          <option
-            v-for="discipline in formData.disciplines"
-            v-bind:key="discipline.id"
-            v-bind:value="discipline.id"
-          >{{ discipline.name }}</option>
-        </select>
-        <p class="label">Expected worktime</p>
-        <input v-model.number="expectedWorktime" type="number">
-        <span style="margin-left: 10px">(amount in hours)</span>
-        <p class="label">Date of registration</p>
-        <Datepicker></Datepicker>
-      </div>
+        <div class="params-summary">
+          <p class="label">Summary</p>
+          <input v-model="summary">
+        </div>
 
-      <!--<div id="photo" class="custom-panel">-->
-      <!--<img src="img/apple.png">-->
-      <!--</div>-->
-      <div id="description" class="custom-panel item">
-        <h4>Description</h4>
-        <p class="label">Date of registration</p>
-        <textarea v-model="summary" placeholder="enter text"></textarea>
+        <div>
+          <p class="label">Category</p>
+          <select v-model="selectedCategory">
+            <option
+              v-for="category in formData.categories"
+              v-bind:key="category.id"
+              v-bind:value="category.id"
+            >{{ category.name }}</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="label">Discipline</p>
+          <select v-model="selectedDiscipline">
+            <option
+              v-for="discipline in formData.disciplines"
+              v-bind:key="discipline.id"
+              v-bind:value="discipline.id"
+            >{{ discipline.name }}</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="label">Expected worktime (in hours)</p>
+          <input v-model.number="expectedWorktime" type="number">
+        </div>
+
+        <div>
+          <p class="label">Date of registration</p>
+          <datetime class="datetime-picker" v-model="datetime" v-bind="dateTimePickerOptions"></datetime>
+        </div>
+
+        <div class="params-description">
+          <p class="label">Description</p>
+          <textarea v-model="description" placeholder="enter text"></textarea>
+        </div>
       </div>
 
       <div id="images" class="custom-panel item">
@@ -84,7 +88,7 @@
 <script>
 import screenMixin from '../../../mixins/screen-mixin'
 
-import Datepicker from 'vuejs-datepicker'
+import { Datetime } from 'vue-datetime'
 import api from '../../../services/backend/punchlist-api'
 import { mapState } from 'vuex'
 
@@ -104,7 +108,7 @@ function shortName(person) {
 export default {
   mixins: [screenMixin],
   screen: {},
-  components: { Datepicker },
+  components: { Datetime },
   props: ['componentId'],
   data() {
     return {
@@ -113,7 +117,15 @@ export default {
       formData: {},
       expectedWorktime: 0,
       summary: '',
-      images: []
+      description: '',
+      datetime: new Date().toISOString(),
+      images: [],
+      dateTimePickerOptions: {
+        type: 'datetime',
+        auto: true,
+        format: 'dd.MM.yyyy HH:mm',
+        'input-class': 'datetime-picker-input'
+      }
     }
   },
   methods: {
@@ -129,9 +141,9 @@ export default {
       api
         .postNewDefectForm({
           initiatorIds: [this.user.id],
-          datetime: new Date().getTime(),
+          datetime: Date.parse(this.datetime),
           summary: this.summary,
-          description: this.summary,
+          description: this.description,
           componentId: parseInt(this.componentId),
           disciplineId: this.selectedDiscipline,
           categoryId: this.selectedCategory,
@@ -202,65 +214,60 @@ export default {
   grid-area: comp;
 
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto 1fr;
   grid-template-rows: auto auto auto auto;
-  grid-template-areas: 'title title' 'a aa' 'b bb' 'c cc';
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   padding: 10px;
 }
 
 #component h4 {
-  grid-area: title;
+  grid-column: 1/5;
 }
 
 #schema {
   grid-area: schema;
 }
 
-#participants {
-  grid-area: part;
-
+#params {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto auto;
-  grid-template-areas: 'title title' 'a aa' 'b bb' 'c cc';
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   padding: 10px;
 }
 
-#participants h4 {
-  grid-area: title;
+.params-summary,
+.params-description {
+  grid-column: 1/3;
 }
 
-#params {
-  grid-area: params;
+#params input,
+#params select,
+.datetime-picker-input {
+  width: 100%;
 }
 
-#photo {
-  grid-area: photo;
+.params-description textarea {
+  width: 100%;
+  height: 100px;
 }
 
-#description {
-  grid-area: desc;
+.datetime-picker >>> .vdatetime-popup__header,
+.datetime-picker >>> .vdatetime-calendar__month__day--selected > span > span,
+.datetime-picker
+  >>> .vdatetime-calendar__month__day--selected:hover
+  > span
+  > span {
+  background: #ff9800;
 }
 
-#schema img {
-  display: block;
-  margin: auto;
-
-  height: auto;
-  min-height: 15vh;
-  max-height: 100%;
-
-  width: auto;
-  max-width: 100%;
+.datetime-picker >>> .vdatetime-year-picker__item--selected,
+.datetime-picker >>> .vdatetime-time-picker__item--selected,
+.datetime-picker >>> .vdatetime-popup__actions__button {
+  color: #ff9800;
 }
-
-/*#params input {*/
-/*width: 100%;*/
-/*}*/
 
 .label {
   font-family: var(--font);
@@ -278,11 +285,6 @@ export default {
 
   width: auto;
   max-width: 100%;
-}
-
-textarea {
-  width: 100%;
-  height: 100px;
 }
 
 #images .tg {

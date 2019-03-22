@@ -8,7 +8,7 @@ export function dateToString(date) {
   return (
     expandToTwoDigits(date.getDate()) +
     '.' +
-    expandToTwoDigits(date.getMonth()) +
+    expandToTwoDigits(date.getMonth() + 1) +
     '.' +
     date.getFullYear() +
     ' ' +
@@ -22,7 +22,7 @@ export function timestampToString(timestamp) {
   if (timestamp) {
     return dateToString(new Date(timestamp))
   } else {
-    return 'undefined'
+    return undefined
   }
 }
 
@@ -34,4 +34,15 @@ export function stringToDate(string) {
   let [hours, minutes] = time.split(':')
 
   return new Date(year, month - 1, day, hours, minutes, 0, 0)
+}
+
+export function shortPersonName(person) {
+  return (
+    person.secondname +
+    ' ' +
+    person.firstname.split('')[0] +
+    '. ' +
+    person.thirdname.split('')[0] +
+    '. '
+  )
 }
