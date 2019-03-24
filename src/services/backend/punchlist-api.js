@@ -173,12 +173,13 @@ export default {
     })
   },
 
-  executeDefectAction: function(defectId, actionTypeId) {
+  executeDefectAction: function(defectId, actionTypeId, parameters = {}) {
     return new Promise(resolve => {
       let action = {
         datetime: new Date().getTime(),
         personId: store.state.session.user.id,
-        defectActionTypeId: actionTypeId
+        defectActionTypeId: actionTypeId,
+        parameters
       }
 
       axios

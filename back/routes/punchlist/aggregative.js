@@ -124,9 +124,12 @@ router.get('/defectList', async function(req, res) {
 })
 
 function getUserRoleInDefect(user, defect, facility, workshop) {
-  if (facility.contractorId === user.companyId) {
+  if (
+    facility.contractorId === user.companyId &&
+    user.systemRoleIds.includes(3)
+  ) {
     return 4
-  } else if (defect.contractorId === user.id) {
+  } else if (defect.executorId === user.id) {
     return 3
   } else if (workshop.linearId === user.id) {
     return 2
@@ -158,6 +161,21 @@ router.get('/defectCard/:defectId', async function(req, res) {
   defect.linear = await storage.getById('person', workshop.linearId)
   defect.contractor = await storage.getById('company', facility.contractorId)
   defect.status = await storage.getById('status', defect.statusId)
+  defect.executor = await storage.getById('person', defect.executorId)
+
+  if (defect.status.tag === 'APPROVED') {
+    let contractorMembersQuery = {
+      $and: [
+        { systemRoleIds: { $elemMatch: 5 } },
+        { companyId: defect.contractor.id }
+      ]
+    }
+
+    defect.contractor.members = await storage.getByQuery(
+      'person',
+      contractorMembersQuery
+    )
+  }
 
   defect.attachments = await storage.getByIds(
     'attachment',

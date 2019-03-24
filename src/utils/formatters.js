@@ -37,12 +37,16 @@ export function stringToDate(string) {
 }
 
 export function shortPersonName(person) {
-  return (
-    person.secondname +
-    ' ' +
-    person.firstname.split('')[0] +
-    '. ' +
-    person.thirdname.split('')[0] +
-    '. '
-  )
+  if (person) {
+    return (
+      person.secondname +
+      ' ' +
+      person.firstname.split('')[0] +
+      '. ' +
+      person.thirdname.split('')[0] +
+      '. '
+    )
+  } else {
+    return 'not defined'
+  }
 }

@@ -1,4 +1,31 @@
 {
+  "systemRole": [
+    {
+      "id": 1,
+      "name": "Administrator",
+      "tag": "ADMIN"
+    },
+    {
+      "id": 2,
+      "name": "OKS employee",
+      "tag": "EDITOR"
+    },
+    {
+      "id": 3,
+      "name": "Contractor manager",
+      "tag": "CONTRACTOR"
+    },
+    {
+      "id": 4,
+      "name": "Operator",
+      "tag": "OPERATOR"
+    },
+    {
+      "id": 5,
+      "name": "Contractor member",
+      "tag": "EXECUTOR"
+    }
+  ],
   "company": [
     { "id": 1, "name": "ourCompany" },
     { "id": 2, "name": "RosGasStroy" },
@@ -8,7 +35,9 @@
     { "id": 1, "login": "1", "password": "1", "personId": 1 },
     { "id": 2, "login": "2", "password": "2", "personId": 2 },
     { "id": 3, "login": "3", "password": "3", "personId": 3 },
-    { "id": 4, "login": "4", "password": "4", "personId": 4 }
+    { "id": 4, "login": "4", "password": "4", "personId": 4 },
+    { "id": 5, "login": "5", "password": "5", "personId": 5 },
+    { "id": 6, "login": "6", "password": "6", "personId": 6 }
   ],
   "person": [
     {
@@ -16,28 +45,48 @@
       "firstname": "Ivan",
       "secondname": "Petrov",
       "thirdname": "Serveevich",
-      "companyId": 1
+      "companyId": 1,
+      "systemRoleIds": [4]
     },
     {
       "id": 2,
       "firstname": "Anatolyi",
       "secondname": "Sidorov",
       "thirdname": "Ivanovich",
-      "companyId": 1
+      "companyId": 1,
+      "systemRoleIds": [4]
     },
     {
       "id": 3,
       "firstname": "Petr",
       "secondname": "Lineikin",
       "thirdname": "Borisovich",
-      "companyId": 1
+      "companyId": 1,
+      "systemRoleIds": []
     },
     {
       "id": 4,
       "firstname": "Sergei",
       "secondname": "Rabotyagin",
       "thirdname": "Sidorovich",
-      "companyId": 2
+      "companyId": 2,
+      "systemRoleIds": [5]
+    },
+    {
+      "id": 5,
+      "firstname": "Anatoliy",
+      "secondname": "Rabotyagin",
+      "thirdname": "Sidorovich",
+      "companyId": 2,
+      "systemRoleIds": [5]
+    },
+    {
+      "id": 6,
+      "firstname": "Vasiliy",
+      "secondname": "Managin",
+      "thirdname": "Aleksandrovich",
+      "companyId": 2,
+      "systemRoleIds": [3]
     }
   ],
   "workshop": [
@@ -291,7 +340,7 @@
       "to": 7,
       "name": "Confirm completion",
       "positive": true,
-      "roles": [2]
+      "roles": [1]
     },
     {
       "id": 9,
@@ -299,7 +348,7 @@
       "to": 5,
       "name": "Reject completion",
       "positive": false,
-      "roles": [2]
+      "roles": [1]
     }
   ],
   "defect": [
@@ -308,15 +357,14 @@
       "externalNumber": 111,
       "initiatorIds": [1, 2],
       "datetime": 1552065336000,
-      "estimatedDoneDate": null,
+      "estimatedDueDate": null,
       "summary": "short desc",
       "description": "some desc",
       "componentId": 1,
-      "contractorId": 4,
+      "executorId": null,
       "disciplineId": 1,
       "categoryId": 1,
       "expectedWorktime": 10,
-      "imageIds": [1, 2],
       "statusId": 1,
       "defectActionIds": [1],
       "defectCommentIds": [],
@@ -327,15 +375,14 @@
       "externalNumber": 112,
       "initiatorIds": [1],
       "datetime": 1552065396000,
-      "estimatedDoneDate": null,
+      "estimatedDueDate": null,
       "summary": "another short desc",
       "description": "some desc",
       "componentId": 2,
-      "contractorId": 4,
+      "executorId": null,
       "disciplineId": 1,
       "categoryId": 2,
       "expectedWorktime": 15,
-      "imageIds": [3],
       "statusId": 2,
       "defectActionIds": [2, 3],
       "defectCommentIds": [1],
@@ -346,17 +393,34 @@
       "externalNumber": 113,
       "initiatorIds": [2],
       "datetime": 1552065397000,
-      "estimatedDoneDate": null,
+      "estimatedDueDate": null,
       "summary": "shosho short desc",
       "description": "dasd desc",
       "componentId": 3,
-      "contractorId": 4,
+      "executorId": null,
       "disciplineId": 3,
       "categoryId": 3,
       "expectedWorktime": 8,
-      "imageIds": [],
       "statusId": 3,
       "defectActionIds": [4, 5],
+      "defectCommentIds": [],
+      "attachmentIds": []
+    },
+    {
+      "id": 4,
+      "externalNumber": 114,
+      "initiatorIds": [1, 2],
+      "datetime": 1552065398000,
+      "estimatedDueDate": null,
+      "summary": "summasumma",
+      "description": "dedededededede",
+      "componentId": 3,
+      "executorId": null,
+      "disciplineId": 2,
+      "categoryId": 1,
+      "expectedWorktime": 16,
+      "statusId": 4,
+      "defectActionIds": [6, 7, 8],
       "defectCommentIds": [],
       "attachmentIds": []
     }
@@ -403,6 +467,24 @@
       "datetime": 1552065739500,
       "personId": 2,
       "defectActionTypeId": 3
+    },
+    {
+      "id": 6,
+      "datetime": 1552065398000,
+      "personId": 2,
+      "defectActionTypeId": 1
+    },
+    {
+      "id": 7,
+      "datetime": 1552065398100,
+      "personId": 2,
+      "defectActionTypeId": 2
+    },
+    {
+      "id": 8,
+      "datetime": 1552065398200,
+      "personId": 3,
+      "defectActionTypeId": 4
     }
   ],
   "attachment": [

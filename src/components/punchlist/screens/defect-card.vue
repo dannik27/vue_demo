@@ -1,16 +1,36 @@
 <template>
-  <div class="root">
+  <div class="root" v-if="!loading">
     <Dialog v-if="isDialogVisible" @close="abortCommentDialog" :buttons="dialogButtons">
       <h3 slot="header">New comment</h3>
       <div slot="body">
-        <textarea autofocus v-model="commentMessage"></textarea>
+        <textarea class="comment-textarea" autofocus v-model="commentMessage"></textarea>
       </div>
     </Dialog>
 
     <Dialog v-if="selectedAction" @close="abortActionDialog" :buttons="actionDialogButtons">
       <h3 slot="header">{{ selectedAction.name }}</h3>
       <div slot="body">
-        <span>Are you sure to commit "{{ selectedAction.name }}" action</span>
+        <div v-if="defect.status.tag === 'APPROVED'" class="take-to-work-options">
+          <p class="label">Work executor:</p>
+          <select v-model="takeToWorkParams.contractorMemberId">
+            <option :value="null" disabled>Select executor</option>
+            <option
+              v-for="person in defect.contractor.members"
+              v-bind:key="person.id"
+              v-bind:value="person.id"
+            >{{ person | shortPersonName }}</option>
+          </select>
+          <p class="label">Estimated due date:</p>
+          <datetime
+            class="datetime-picker"
+            v-model="takeToWorkParams.estimatedDueDate"
+            v-bind="dateTimePickerOptions"
+          ></datetime>
+          <span>Are you sure to commit "{{ selectedAction.name }}" action</span>
+        </div>
+        <div v-else>
+          <span>Are you sure to commit "{{ selectedAction.name }}" action</span>
+        </div>
       </div>
     </Dialog>
 
@@ -23,7 +43,7 @@
         @click="selectedAction = action"
         class="custom-button"
       >{{ action.name }}</button>
-      <button @click="isDialogVisible = true" class="custom-button secondary-button">Comment</button>
+      <button @click="showCommentDialog()" class="custom-button secondary-button">Comment</button>
       <button @click="lookAtSchema" class="custom-button secondary-button">Look at schema</button>
     </div>
 
@@ -41,7 +61,7 @@
         <p class="label">Discipline:</p>
         <p>{{ defect.discipline.name }}</p>
         <p class="label">Estimated date:</p>
-        <p>{{ defect.estimatedDate | timestampToString }}</p>
+        <p>{{ defect.estimatedDueDate | timestampToString }}</p>
         <p class="label">Category:</p>
         <p>{{ defect.category.name }}</p>
         <p class="label">Expected worktime:</p>
@@ -57,7 +77,7 @@
         <p class="label">Linear:</p>
         <p>{{ defect.linear | shortPersonName }}</p>
         <p class="label">Contractor:</p>
-        <p>{{ defect.contractor.name }}</p>
+        <p>{{ defect.executor | shortPersonName}} ({{ defect.contractor.name }} company)</p>
       </div>
 
       <div class="description custom-panel">
@@ -104,6 +124,8 @@ import Dialog from '../../elements/dialog'
 
 import LightBox from 'vue-image-lightbox'
 
+import { Datetime } from 'vue-datetime'
+
 function markAsAction(object) {
   object.type = 'action'
   if (object.defectActionType.positive) {
@@ -136,11 +158,17 @@ export default {
   mixins: [screenMixin],
   components: {
     Dialog,
-    LightBox
+    LightBox,
+    Datetime
   },
   props: ['defectId'],
   data() {
     return {
+      loading: true,
+      takeToWorkParams: {
+        contractorMemberId: null,
+        estimatedDueDate: new Date().toISOString()
+      },
       defect: null,
       selectedAction: null,
       isDialogVisible: false,
@@ -169,12 +197,26 @@ export default {
         showCaption: true,
         showThumbs: false,
         showLightBox: false
+      },
+      dateTimePickerOptions: {
+        type: 'date',
+        auto: true,
+        format: 'dd.MM.yyyy',
+        'input-class': 'datetime-picker-input'
       }
     }
   },
   methods: {
     init: function() {
-      api.getDefectCardFormData(this.defectId).then(res => (this.defect = res))
+      api.getDefectCardFormData(this.defectId).then(res => {
+        this.defect = res
+        this.readyToRender()
+      })
+    },
+
+    showCommentDialog() {
+      this.commentMessage = ''
+      this.isDialogVisible = true
     },
 
     commitCommentDialog() {
@@ -191,7 +233,10 @@ export default {
 
     commitActionDialog() {
       api
-        .executeDefectAction(this.defectId, this.selectedAction.id)
+        .executeDefectAction(this.defectId, this.selectedAction.id, {
+          estimatedDueDate: Date.parse(this.takeToWorkParams.estimatedDueDate),
+          contractorMemberId: this.takeToWorkParams.contractorMemberId
+        })
         .then(res => {
           this.init()
         })
@@ -268,6 +313,41 @@ export default {
 
 .action-bar > .secondary-button {
   margin-left: 20px;
+}
+
+.take-to-work-options {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+.take-to-work-options span {
+  grid-column: 1/3;
+}
+
+.datetime-picker >>> .vdatetime-popup__header,
+.datetime-picker >>> .vdatetime-calendar__month__day--selected > span > span,
+.datetime-picker
+  >>> .vdatetime-calendar__month__day--selected:hover
+  > span
+  > span {
+  background: #ff9800;
+}
+
+.datetime-picker >>> .vdatetime-year-picker__item--selected,
+.datetime-picker >>> .vdatetime-time-picker__item--selected,
+.datetime-picker >>> .vdatetime-popup__actions__button {
+  color: #ff9800;
+}
+
+.datetime-picker >>> .datetime-picker-input {
+  width: 100%;
+  height: 100%;
+}
+
+.comment-textarea {
+  width: 100%;
 }
 
 .card-content {

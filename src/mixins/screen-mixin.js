@@ -1,13 +1,19 @@
 let savedState = null
 let redirectResult = null
 
-let isUserValid = function(user) {
-  console.log('User validation:' + !!user)
-  return !!user
-}
-
 export default {
+  data() {
+    return {
+      loading: false,
+      loader: null
+    }
+  },
   methods: {
+    readyToRender() {
+      this.loading = false
+      this.loader.hide()
+    },
+
     redirect(name, params = {}) {
       this.$router.push({ name, params })
     },
@@ -26,10 +32,15 @@ export default {
       this.$store.commit('setTitle', newTitle)
     },
 
+    isUserValid(user) {
+      console.log('User validation:' + !!user)
+      return !!user
+    },
+
     validateCurrentUser: function() {
       let currentUser = this.$store.state.session.user
 
-      if (!isUserValid(currentUser)) {
+      if (!this.isUserValid(currentUser)) {
         this.$router.push('/punchlist/authorization')
       }
     },
@@ -47,6 +58,10 @@ export default {
   beforeDestroy: function() {},
 
   mounted: function() {
+    if (this.loading) {
+      this.loader = this.$loading.show({})
+    }
+
     if (savedState && redirectResult) {
       Object.entries(savedState).forEach((key, value) => {
         this.$data[key[0]] = key[1]

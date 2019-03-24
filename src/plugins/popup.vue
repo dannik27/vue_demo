@@ -95,7 +95,7 @@ export default {
             },
             {
               name: 'Estimated date',
-              path: 'estimatedDoneDate',
+              path: 'estimatedDueDate',
               formatter: timestampToString
             }
           ],

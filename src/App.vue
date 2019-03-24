@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <popup></popup>
 
     <div class="menu" v-show="false">
@@ -84,21 +83,21 @@ import PunchlistDefectCard from './components/punchlist/screens/defect-card'
 import PunchlistAuthorization from './components/punchlist/screens/authorization'
 
 import PopupPlugin from './plugins/popup-plugin'
-Vue.use(PopupPlugin);
+Vue.use(PopupPlugin)
 
 Vue.directive('click-outside', {
-  bind: function (el, binding, vnode) {
-    el.clickOutsideEvent = function (event) {
+  bind: function(el, binding, vnode) {
+    el.clickOutsideEvent = function(event) {
       if (!(el == event.target || el.contains(event.target))) {
-        vnode.context[binding.expression](event);
+        vnode.context[binding.expression](event)
       }
-    };
+    }
     document.body.addEventListener('click', el.clickOutsideEvent)
   },
-  unbind: function (el) {
+  unbind: function(el) {
     document.body.removeEventListener('click', el.clickOutsideEvent)
-  },
-});
+  }
+})
 
 const router = new VueRouter({
   routes: [
@@ -195,6 +194,8 @@ export default {
 @import '../node_modules/vue-image-lightbox/dist/vue-image-lightbox.min.css';
 
 @import '../node_modules/vue-datetime/dist/vue-datetime.css';
+
+@import '../node_modules/vue-loading-overlay/dist/vue-loading.css';
 
 @import 'assets/material-button.css';
 @import 'assets/custom-elements.css';

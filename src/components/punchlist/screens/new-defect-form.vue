@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root" v-if="!loading">
     <div class="action-bar">
       <button @click="save" class="custom-button" style="margin-right: 10px;">Save</button>
       <button class="custom-button">Cancel</button>
@@ -91,8 +91,7 @@ import screenMixin from '../../../mixins/screen-mixin'
 import { Datetime } from 'vue-datetime'
 import api from '../../../services/backend/punchlist-api'
 import { mapState } from 'vuex'
-
-import 'vue-loading-overlay/dist/vue-loading.css'
+import { setTimeout } from 'timers'
 
 function shortName(person) {
   return (
@@ -112,6 +111,7 @@ export default {
   props: ['componentId'],
   data() {
     return {
+      loading: true,
       selectedDiscipline: -1,
       selectedCategory: -1,
       formData: {},
@@ -175,11 +175,9 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'New defect' + this.componentId)
 
-    let loader = this.$loading.show({})
-
     api.getNewDefectFormData(this.componentId).then(resp => {
       this.formData = resp
-      loader.hide()
+      this.readyToRender()
     })
   }
 }

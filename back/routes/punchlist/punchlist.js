@@ -63,6 +63,9 @@ router.post('/defect/:defectId/defectAction', async function(req, res) {
   let action = req.body
   action.id = await storage.nextId('defectAction')
 
+  let params = action.parameters
+  delete action.parameters
+
   let defectActionType = await storage.getById(
     'defectActionType',
     action.defectActionTypeId
@@ -71,6 +74,11 @@ router.post('/defect/:defectId/defectAction', async function(req, res) {
   let defect = await storage.getById('defect', req.params.defectId)
   defect.defectActionIds.push(action.id)
   defect.statusId = defectActionType.to
+
+  if (defectActionType.id == 6) {
+    defect.executorId = params.contractorMemberId
+    defect.estimatedDueDate = params.estimatedDueDate
+  }
 
   await storage.save('defectAction', action)
   await storage.save('defect', defect)
