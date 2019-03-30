@@ -109,6 +109,7 @@ router.post('/login', async function(req, res) {
   })
   if (credentials.length != 0) {
     user = await storage.getById('person', credentials[0].personId)
+    user.token = credentials[0].id
   }
 
   res.send(JSON.stringify(user))

@@ -1,8 +1,19 @@
 <template>
   <div class="root">
     <div class="custom-panel">
-      <input @keyup.enter="authorize" autofocus placeholder="login" v-model="login" type="text">
-      <input @keyup.enter="authorize" placeholder="password" v-model="password" type="text">
+      <input
+        @keyup.enter="authorize"
+        autofocus
+        placeholder="login"
+        v-model="login"
+        type="text"
+      />
+      <input
+        @keyup.enter="authorize"
+        placeholder="password"
+        v-model="password"
+        type="text"
+      />
       <p v-if="incorrectCredentials">Login or password is incorrect</p>
       <button class="custom-button" @click="authorize">Log in</button>
     </div>
@@ -28,6 +39,7 @@ export default {
       api.authorize(this.login, this.password).then(result => {
         if (result) {
           this.$store.commit('SET_USER', result)
+          localStorage.setItem('token', result.token)
           this.redirect()
         } else {
           this.incorrectCredentials = true
@@ -42,10 +54,9 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'PunchList')
 
-    let currentUser = this.$store.state.session.user
-    if (this.isUserValid(currentUser)) {
-      this.redirect()
-    }
+    this.invalidateToken()
+      .then(() => this.redirect())
+      .catch(() => console.log('need auth'))
   }
 }
 </script>

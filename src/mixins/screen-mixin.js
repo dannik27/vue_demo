@@ -1,3 +1,5 @@
+import { resolve } from 'q'
+
 let savedState = null
 let redirectResult = null
 
@@ -9,6 +11,12 @@ export default {
     }
   },
   methods: {
+    toggleLoader() {
+      if (this.loading) {
+        this.loader = this.$loading.show({})
+      }
+    },
+
     readyToRender() {
       this.loading = false
       this.loader.hide()
@@ -37,30 +45,39 @@ export default {
       return !!user
     },
 
-    validateCurrentUser: function() {
-      let currentUser = this.$store.state.session.user
+    invalidateToken() {
+      return new Promise((resolve, reject) => {
+        let token = localStorage.getItem('token')
 
-      if (!this.isUserValid(currentUser)) {
-        this.$router.push('/punchlist/authorization')
-      }
+        if (token) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    },
+
+    validateCurrentUser: function() {
+      this.invalidateToken()
+        .then(() => {})
+        .catch(() => {
+          this.$router.push('/punchlist/authorization')
+        })
     },
 
     logout: function() {
       this.$store.commit('SET_USER', null)
+      localStorage.removeItem('token')
       this.validateCurrentUser()
     }
   },
 
-  created: function() {
-    this.validateCurrentUser()
-  },
+  created: function() {},
 
   beforeDestroy: function() {},
 
   mounted: function() {
-    if (this.loading) {
-      this.loader = this.$loading.show({})
-    }
+    this.toggleLoader()
 
     if (savedState && redirectResult) {
       Object.entries(savedState).forEach((key, value) => {

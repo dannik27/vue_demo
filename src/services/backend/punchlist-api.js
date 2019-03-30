@@ -5,15 +5,11 @@ import store from '../../store/store'
 import { dateToString } from '../../utils/formatters'
 
 function getDefaultConfig() {
-  let currentUser = store.state.session.user
 
   let defaultConfig = {
     headers: {}
   }
-
-  if (currentUser) {
-    defaultConfig.headers.Authorization = currentUser.id
-  }
+  defaultConfig.headers.Authorization = localStorage.getItem('token')
 
   return defaultConfig
 }
@@ -154,6 +150,16 @@ export default {
             `punchlist/form/componentLinkWidget/${componentId}`,
           getDefaultConfig()
         )
+        .then(response => {
+          resolve(response.data)
+        })
+    })
+  },
+
+  getHomeFormData() {
+    return new Promise(resolve => {
+      axios
+        .get(config.BACKEND_URL + `punchlist/form/home`, getDefaultConfig())
         .then(response => {
           resolve(response.data)
         })

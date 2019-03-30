@@ -28,6 +28,7 @@
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "firebase": "^5.9.1",
     "fuse-js-latest": "^3.1.0",
     "fuse.js": "^3.3.0",
     "hooper": "0.0.6",
@@ -45,6 +46,7 @@
     "uuid": "^3.3.2",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
+    "vue-cookie": "^1.1.4",
     "vue-datetime": "^1.0.0-beta.10",
     "vue-dynamic-star-rating": "^1.0.7",
     "vue-image-lightbox": "^6.1.2",
@@ -54,6 +56,7 @@
     "vue-smooth-dnd": "^0.2.8",
     "vue-star-rating": "^1.6.1",
     "vue-yandex-maps": "^0.7.15",
+    "vuefire": "^2.0.0-alpha.21",
     "vuex": "^3.0.1",
     "weekstart": "^1.0.0"
   },

@@ -1,36 +1,19 @@
-
 function copyObject(src) {
-  return src
-      ? Object.assign({}, src)
-      : null;
+  return src ? Object.assign({}, src) : null
 }
 
 function copyArray(src) {
-  return src
-      ? src.slice()
-      : null;
+  return src ? src.slice() : null
 }
 
 export default {
   state: {
-    user: {
-      id:2,
-      firstname:"Anatolyi",
-      secondname:"Sidorov",
-      thirdname:"Ivanovich",
-      companyId:1
-    }
-
+    user: null
   },
   mutations: {
-
     SET_USER(state, user) {
-      state.user = copyObject(user);
+      state.user = copyObject(user)
     }
-
   },
-  actions: {
-
-  }
-
-};
+  actions: {}
+}

@@ -272,4 +272,21 @@ router.get('/popup/:entityName/:entityId', async function(req, res) {
   }
 })
 
+router.get('/home', async function(req, res) {
+  let token = req.get('Authorization')
+  if (!token) {
+    res.status(401).send('Token is not present')
+  }
+
+  let credentials = await storage.getById('credentials', parseInt(token))
+
+  if (credentials) {
+    let user = await storage.getById('person', credentials.personId)
+    user.company = await storage.getById('company', user.companyId)
+    res.send(user)
+  } else {
+    res.status(401).send('Invalid token')
+  }
+})
+
 module.exports = router
