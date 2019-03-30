@@ -289,4 +289,80 @@ router.get('/home', async function(req, res) {
   }
 })
 
+router.get('/report', async function(req, res) {
+  let response = []
+
+  let defects = await storage.getAll('defect')
+  let disciplines = await storage.getAll('discipline')
+  let categories = await storage.getAll('category')
+  let components = await storage.getAll('component')
+  let subsystems = await storage.getAll('subsystem')
+  let systems = await storage.getAll('system')
+  let statuses = await storage.getAll('status')
+
+  for (let defect of defects) {
+    let component = components.find(el => el.id == defect.componentId)
+    let subsystem = subsystems.find(el => el.id == component.subsystemId)
+    let system = systems.find(el => el.id == subsystem.systemId)
+    let discipline = disciplines.find(el => el.id == defect.disciplineId)
+    let category = categories.find(el => el.id == defect.categoryId)
+    let status = statuses.find(el => el.id == defect.statusId)
+
+    let systemRow = response.find(el => el.id == system.id)
+    if (!systemRow) {
+      systemRow = {
+        id: system.id,
+        name: system.name,
+        disciplines: [],
+        values: {
+          total: 0,
+          actual: 0,
+          a: 0,
+          b: 0,
+          c: 0
+        }
+      }
+      response.push(systemRow)
+    }
+    let disciplineRow = systemRow.disciplines.find(el => el.id == discipline.id)
+    if (!disciplineRow) {
+      disciplineRow = {
+        id: discipline.id,
+        name: discipline.name,
+        total: 0,
+        actual: 0,
+        a: 0,
+        b: 0,
+        c: 0
+      }
+      systemRow.disciplines.push(disciplineRow)
+    }
+
+    let isActual = ['CLOSED', 'CONFIRMED'].includes(status.tag)
+    let categoryTag
+    switch (category.tag) {
+      case 'A1':
+        categoryTag = 'a'
+        break
+      case 'B1':
+        categoryTag = 'b'
+        break
+      case 'C1':
+        categoryTag = 'c'
+        break
+    }
+
+    // add defect to report
+
+    disciplineRow.total += 1
+    if (isActual) disciplineRow.actual += 1
+    disciplineRow[categoryTag] += 1
+
+    systemRow.values.total += 1
+    if (isActual) systemRow.values.actual += 1
+    systemRow.values[categoryTag] += 1
+  }
+  res.send(response)
+})
+
 module.exports = router

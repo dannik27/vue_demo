@@ -5,7 +5,6 @@ import store from '../../store/store'
 import { dateToString } from '../../utils/formatters'
 
 function getDefaultConfig() {
-
   let defaultConfig = {
     headers: {}
   }
@@ -160,6 +159,16 @@ export default {
     return new Promise(resolve => {
       axios
         .get(config.BACKEND_URL + `punchlist/form/home`, getDefaultConfig())
+        .then(response => {
+          resolve(response.data)
+        })
+    })
+  },
+
+  getReportFormData() {
+    return new Promise(resolve => {
+      axios
+        .get(config.BACKEND_URL + `punchlist/form/report`, getDefaultConfig())
         .then(response => {
           resolve(response.data)
         })

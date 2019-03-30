@@ -14,43 +14,52 @@
         <div class="sidebar custom-panel">
           <div class="filter-header">
             <h3>Filter</h3>
-            <button v-if="!filter.clean" class="custom-button" @click="resetFilter">reset</button>
+            <button
+              v-if="!mergedFilter.clean"
+              class="custom-button"
+              @click="resetFilter"
+            >
+              reset
+            </button>
           </div>
           <label>
-            <input type="checkbox" v-model="filter.my">
+            <input type="checkbox" v-model="mergedFilter.my" />
             My defects only
           </label>
           <label>
-            <input type="checkbox" v-model="filter.actual">
+            <input type="checkbox" v-model="mergedFilter.actual" />
             Actual defects
           </label>
           <label>
-            <input type="checkbox" v-model="filter.waitsForMe">
+            <input type="checkbox" v-model="mergedFilter.waitsForMe" />
             Waits my action
           </label>
-          <select v-model="filter.system">
+          <select v-model="mergedFilter.systemId">
             <option :value="null" disabled>Filter by System</option>
             <option
               v-for="system in systems"
               v-bind:key="system.id"
-              v-bind:value="system"
-            >{{ system.name }}</option>
+              v-bind:value="system.id"
+              >{{ system.name }}</option
+            >
           </select>
-          <select v-model="filter.category">
+          <select v-model="mergedFilter.categoryId">
             <option :value="null" disabled>Filter by category</option>
             <option
               v-for="category in categories"
               v-bind:key="category.id"
-              v-bind:value="category"
-            >{{ category.name }}</option>
+              v-bind:value="category.id"
+              >{{ category.name }}</option
+            >
           </select>
-          <select v-model="filter.discipline">
+          <select v-model="mergedFilter.disciplineId">
             <option :value="null" disabled>Filter by disciplinene</option>
             <option
               v-for="discipline in disciplines"
               v-bind:key="discipline.id"
-              v-bind:value="discipline"
-            >{{ discipline.name }}</option>
+              v-bind:value="discipline.id"
+              >{{ discipline.name }}</option
+            >
           </select>
         </div>
       </div>
@@ -70,16 +79,26 @@ export default {
   components: {
     DefectListItem
   },
+  props: ['filter'],
   data() {
     return {
       defects: [],
-      filter: {
+      mergedFilter: {
         my: false,
         waitForMe: false,
         actual: false,
-        system: null,
-        discipline: null,
-        category: null,
+        systemId: null,
+        disciplineId: null,
+        categoryId: null,
+        clean: true
+      },
+      defaultFilter: {
+        my: false,
+        waitForMe: false,
+        actual: false,
+        systemId: null,
+        disciplineId: null,
+        categoryId: null,
         clean: true
       },
       systems: [],
@@ -88,15 +107,15 @@ export default {
     }
   },
   watch: {
-    filter: {
+    mergedFilter: {
       handler: function(filter) {
         filter.clean =
           !filter.my &&
           !filter.actual &&
           !filter.waitsForMe &&
-          !filter.system &&
-          !filter.discipline &&
-          !filter.category
+          !filter.systemId &&
+          !filter.disciplineId &&
+          !filter.categoryId
       },
       deep: true
     }
@@ -107,42 +126,38 @@ export default {
     },
 
     resetFilter() {
-      this.filter.my = false
-      this.filter.actual = false
-      this.filter.waitsForMe = false
-      this.filter.system = null
-      this.filter.discipline = null
-      this.filter.category = null
+      this.mergedFilter = Object.assign({}, this.defaultFilter)
     }
   },
   computed: {
     filteredDefects: function() {
       return this.defects
-        .filter(defect => !this.filter.my || defect.userRole != -1)
+        .filter(defect => !this.mergedFilter.my || defect.userRole != -1)
         .filter(
           defect =>
-            !this.filter.waitsForMe ||
+            !this.mergedFilter.waitsForMe ||
             (defect.status.responsibleRole &&
               defect.userRole == defect.status.responsibleRole)
         )
         .filter(
           defect =>
-            !this.filter.actual ||
+            !this.mergedFilter.actual ||
             !['CLOSED', 'CONFIRMED'].includes(defect.status.tag)
         )
         .filter(
           defect =>
-            !this.filter.system || defect.system.id == this.filter.system.id
+            !this.mergedFilter.systemId ||
+            defect.system.id == this.mergedFilter.systemId
         )
         .filter(
           defect =>
-            !this.filter.category ||
-            defect.categoryId == this.filter.category.id
+            !this.mergedFilter.categoryId ||
+            defect.categoryId == this.mergedFilter.categoryId
         )
         .filter(
           defect =>
-            !this.filter.discipline ||
-            defect.disciplineId == this.filter.discipline.id
+            !this.mergedFilter.disciplineId ||
+            defect.disciplineId == this.mergedFilter.disciplineId
         )
     }
   },
@@ -154,6 +169,8 @@ export default {
     api.getAny('system').then(res => (this.systems = res))
     api.getAny('category').then(res => (this.categories = res))
     api.getAny('discipline').then(res => (this.disciplines = res))
+
+    Object.assign(this.mergedFilter, this.defaultFilter, this.filter)
   }
 }
 </script>

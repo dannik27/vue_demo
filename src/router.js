@@ -25,6 +25,7 @@ import PunchlistCamera from './components/punchlist/screens/camera'
 import PunchlistDefectList from './components/punchlist/screens/defect-list'
 import PunchlistDefectCard from './components/punchlist/screens/defect-card'
 import PunchlistAuthorization from './components/punchlist/screens/authorization'
+import PunchlistReport from './components/punchlist/screens/report'
 
 const router = new VueRouter({
   routes: [
@@ -60,6 +61,11 @@ const router = new VueRouter({
           path: '/punchlist/authorization',
           name: 'authorization',
           component: PunchlistAuthorization
+        },
+        {
+          path: '/punchlist/report',
+          name: 'report',
+          component: PunchlistReport
         },
         {
           path: '/punchlist/home',

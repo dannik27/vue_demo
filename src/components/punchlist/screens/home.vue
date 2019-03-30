@@ -46,6 +46,9 @@
             class="custom-button"
             >defect list</router-link
           >
+          <router-link to="/punchlist/report" tag="button" class="custom-button"
+            >report</router-link
+          >
           <button class="custom-button" @click="logout">logout</button>
         </div>
       </div>
