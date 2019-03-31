@@ -6,19 +6,22 @@ let redirectResult = null
 export default {
   data() {
     return {
-      loading: false,
-      loader: null
+      loader: null,
+      meta: {
+        loading: false,
+        persistFields: []
+      }
     }
   },
   methods: {
     toggleLoader() {
-      if (this.loading) {
+      if (this.meta.loading) {
         this.loader = this.$loading.show({})
       }
     },
 
     readyToRender() {
-      this.loading = false
+      this.meta.loading = false
       this.loader.hide()
     },
 
@@ -27,7 +30,13 @@ export default {
     },
 
     redirectForResult(name, params = {}) {
-      savedState = JSON.parse(JSON.stringify(this.$data))
+      savedState = {}
+
+      for (let field of this.meta.persistFields) {
+        console.log(savedState[field])
+        savedState[field] = JSON.parse(JSON.stringify(this.$data[field]))
+      }
+
       this.redirect(name, params)
     },
 

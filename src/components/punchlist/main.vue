@@ -8,9 +8,9 @@
     </div>
 
     <div class="content">
-      <!--<keep-alive>-->
+      <!-- <keep-alive> -->
       <router-view></router-view>
-      <!--</keep-alive>-->
+      <!-- </keep-alive> -->
     </div>
   </div>
 </template>
@@ -31,15 +31,11 @@ export default {
     home: function() {
       this.$router.push('/punchlist/home')
     }
-    },
-    computed: {
-
-        ...mapState(['title'])
-
-    },
-    mounted() {
-
-    }
+  },
+  computed: {
+    ...mapState(['title'])
+  },
+  mounted() {}
 }
 </script>
 

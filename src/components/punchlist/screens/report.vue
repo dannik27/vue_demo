@@ -1,5 +1,5 @@
 <template>
-  <div class="root" v-if="!loading">
+  <div class="root" v-if="!meta.loading">
     <div class="content custom-panel">
       <table>
         <thead>
@@ -68,9 +68,11 @@ export default {
   mixins: [ScreenMixin],
   data() {
     return {
-      loading: true,
       systems: [],
-      categories: []
+      categories: [],
+      meta: {
+        loading: true
+      }
     }
   },
   methods: {

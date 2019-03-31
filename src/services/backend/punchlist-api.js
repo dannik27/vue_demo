@@ -85,7 +85,10 @@ export default {
   getNewDefectFormData: function(componentId) {
     return new Promise(resolve => {
       axios
-        .get(config.BACKEND_URL + `punchlist/form/newDefect/${componentId}`)
+        .get(
+          config.BACKEND_URL + `punchlist/form/newDefect/${componentId}`,
+          getDefaultConfig()
+        )
         .then(response => {
           resolve(response.data)
         })
@@ -192,7 +195,6 @@ export default {
     return new Promise(resolve => {
       let action = {
         datetime: new Date().getTime(),
-        personId: store.state.session.user.id,
         defectActionTypeId: actionTypeId,
         parameters
       }
@@ -213,7 +215,6 @@ export default {
     return new Promise(resolve => {
       let comment = {
         datetime: new Date().getTime(),
-        personId: store.state.session.user.id,
         text
       }
 

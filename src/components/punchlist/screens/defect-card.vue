@@ -1,16 +1,31 @@
 <template>
-  <div class="root" v-if="!loading">
-    <Dialog v-if="isDialogVisible" @close="abortCommentDialog" :buttons="dialogButtons">
+  <div class="root" v-if="!meta.loading">
+    <Dialog
+      v-if="isDialogVisible"
+      @close="abortCommentDialog"
+      :buttons="dialogButtons"
+    >
       <h3 slot="header">New comment</h3>
       <div slot="body">
-        <textarea class="comment-textarea" autofocus v-model="commentMessage"></textarea>
+        <textarea
+          class="comment-textarea"
+          autofocus
+          v-model="commentMessage"
+        ></textarea>
       </div>
     </Dialog>
 
-    <Dialog v-if="selectedAction" @close="abortActionDialog" :buttons="actionDialogButtons">
+    <Dialog
+      v-if="selectedAction"
+      @close="abortActionDialog"
+      :buttons="actionDialogButtons"
+    >
       <h3 slot="header">{{ selectedAction.name }}</h3>
       <div slot="body">
-        <div v-if="defect.status.tag === 'APPROVED'" class="take-to-work-options">
+        <div
+          v-if="defect.status.tag === 'APPROVED'"
+          class="take-to-work-options"
+        >
           <p class="label">Work executor:</p>
           <select v-model="takeToWorkParams.contractorMemberId">
             <option :value="null" disabled>Select executor</option>
@@ -18,7 +33,8 @@
               v-for="person in defect.contractor.members"
               v-bind:key="person.id"
               v-bind:value="person.id"
-            >{{ person | shortPersonName }}</option>
+              >{{ person | shortPersonName }}</option
+            >
           </select>
           <p class="label">Estimated due date:</p>
           <datetime
@@ -34,7 +50,11 @@
       </div>
     </Dialog>
 
-    <LightBox ref="lightBox" v-bind="lightBoxOptions" :images="attachments"></LightBox>
+    <LightBox
+      ref="lightBox"
+      v-bind="lightBoxOptions"
+      :images="attachments"
+    ></LightBox>
 
     <div class="action-bar">
       <button
@@ -42,9 +62,18 @@
         v-bind:key="action.id"
         @click="selectedAction = action"
         class="custom-button"
-      >{{ action.name }}</button>
-      <button @click="showCommentDialog()" class="custom-button secondary-button">Comment</button>
-      <button @click="lookAtSchema" class="custom-button secondary-button">Look at schema</button>
+      >
+        {{ action.name }}
+      </button>
+      <button
+        @click="showCommentDialog()"
+        class="custom-button secondary-button"
+      >
+        Comment
+      </button>
+      <button @click="lookAtSchema" class="custom-button secondary-button">
+        Look at schema
+      </button>
     </div>
 
     <div class="card-content">
@@ -72,24 +101,29 @@
         <h6>People</h6>
         <p class="label">Initiators:</p>
         <p>
-          <span v-for="person in defect.initiators" :key="person.id">{{ person | shortPersonName }}</span>
+          <span v-for="person in defect.initiators" :key="person.id">{{
+            person | shortPersonName
+          }}</span>
         </p>
         <p class="label">Linear:</p>
         <p>{{ defect.linear | shortPersonName }}</p>
         <p class="label">Contractor:</p>
-        <p>{{ defect.executor | shortPersonName}} ({{ defect.contractor.name }} company)</p>
+        <p>
+          {{ defect.executor | shortPersonName }} ({{ defect.contractor.name }}
+          company)
+        </p>
       </div>
 
       <div class="description custom-panel">
         <h6>Description</h6>
-        <div>{{ defect.description}}</div>
+        <div>{{ defect.description }}</div>
       </div>
 
       <div class="attachments custom-panel">
         <h6>Attachments</h6>
         <div>
           <div v-for="(attachment, i) in attachments">
-            <img :src="attachment.src" @click="showImage(i)">
+            <img :src="attachment.src" @click="showImage(i)" />
           </div>
         </div>
       </div>
@@ -97,9 +131,9 @@
       <div class="history custom-panel">
         <h6>History</h6>
         <div v-for="item in historyItems" :key="item.id + item.type">
-          <hr>
+          <hr />
           <div class="history-item">
-            <img :src="item.src">
+            <img :src="item.src" />
             <div>
               <p class="history-item-header">
                 <span>{{ item.datetime | timestampToString }}</span>
@@ -164,7 +198,6 @@ export default {
   props: ['defectId'],
   data() {
     return {
-      loading: true,
       takeToWorkParams: {
         contractorMemberId: null,
         estimatedDueDate: new Date().toISOString()
@@ -203,6 +236,9 @@ export default {
         auto: true,
         format: 'dd.MM.yyyy',
         'input-class': 'datetime-picker-input'
+      },
+      meta: {
+        loading: true
       }
     }
   },

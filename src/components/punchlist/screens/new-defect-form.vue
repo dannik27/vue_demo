@@ -1,7 +1,9 @@
 <template>
-  <div class="root" v-if="!loading">
+  <div class="root" v-if="!meta.loading">
     <div class="action-bar">
-      <button @click="save" class="custom-button" style="margin-right: 10px;">Save</button>
+      <button @click="save" class="custom-button" style="margin-right: 10px;">
+        Save
+      </button>
       <button class="custom-button">Cancel</button>
     </div>
     <div class="flex-container">
@@ -14,8 +16,8 @@
         <span class="label">Facility</span>
         <span>{{ formData.facility.name }}</span>
         <span class="label">Initiators</span>
-        <span>{{ user | shortName }}</span>
-        <span class="label">Linear</span>
+        <span>{{ formData.user | shortName }}</span>
+        <span class="lnabel">Linear</span>
         <span>{{ formData.linear | shortName }}</span>
         <span class="label">Contractor</span>
         <span>{{ formData.contractor.name }}</span>
@@ -25,52 +27,65 @@
         <h4>Parameters</h4>
         <div class="params-summary">
           <p class="label">Summary</p>
-          <input v-model="summary">
+          <input v-model="input.summary" />
         </div>
 
         <div>
           <p class="label">Category</p>
-          <select v-model="selectedCategory">
+          <select v-model="input.selectedCategory">
             <option
               v-for="category in formData.categories"
               v-bind:key="category.id"
               v-bind:value="category.id"
-            >{{ category.name }}</option>
+              >{{ category.name }}</option
+            >
           </select>
         </div>
 
         <div>
           <p class="label">Discipline</p>
-          <select v-model="selectedDiscipline">
+          <select v-model="input.selectedDiscipline">
             <option
               v-for="discipline in formData.disciplines"
               v-bind:key="discipline.id"
               v-bind:value="discipline.id"
-            >{{ discipline.name }}</option>
+              >{{ discipline.name }}</option
+            >
           </select>
         </div>
 
         <div>
           <p class="label">Expected worktime (in hours)</p>
-          <input v-model.number="expectedWorktime" type="number">
+          <input v-model.number="input.expectedWorktime" type="number" />
         </div>
 
         <div>
           <p class="label">Date of registration</p>
-          <datetime class="datetime-picker" v-model="datetime" v-bind="dateTimePickerOptions"></datetime>
+          <datetime
+            class="datetime-picker"
+            v-model="input.datetime"
+            v-bind="dateTimePickerOptions"
+          ></datetime>
         </div>
 
         <div class="params-description">
           <p class="label">Description</p>
-          <textarea v-model="description" placeholder="enter text"></textarea>
+          <textarea
+            v-model="input.description"
+            placeholder="enter text"
+          ></textarea>
         </div>
       </div>
 
       <div id="images" class="custom-panel item">
         <h4>Images</h4>
         <transition-group class="tg" name="image-list" tag="div">
-          <div v-for="image in images" :key="image.id" class="image-list-item">
-            <img :src="'data:image/png;base64,' + image.source">
+          <div
+            v-for="image in input.images"
+            :key="image.id"
+            class="image-list-item"
+          >
+            <img :src="'data:image/png;base64,' + image.source" />
             <textarea v-model="image.text"></textarea>
             <font-awesome-icon
               class="remove-image-button"
@@ -111,26 +126,31 @@ export default {
   props: ['componentId'],
   data() {
     return {
-      loading: true,
-      selectedDiscipline: -1,
-      selectedCategory: -1,
+      input: {
+        selectedDiscipline: -1,
+        selectedCategory: -1,
+        expectedWorktime: 0,
+        summary: '',
+        description: '',
+        datetime: new Date().toISOString(),
+        images: []
+      },
       formData: {},
-      expectedWorktime: 0,
-      summary: '',
-      description: '',
-      datetime: new Date().toISOString(),
-      images: [],
       dateTimePickerOptions: {
         type: 'datetime',
         auto: true,
         format: 'dd.MM.yyyy HH:mm',
         'input-class': 'datetime-picker-input'
+      },
+      meta: {
+        loading: true,
+        persistFields: ['input', 'formData']
       }
     }
   },
   methods: {
     removeImage: function(image) {
-      this.images = this.images.filter(el => el.id !== image.id)
+      this.images = this.input.images.filter(el => el.id !== image.id)
     },
 
     addImage: function() {
@@ -140,24 +160,24 @@ export default {
     save: function() {
       api
         .postNewDefectForm({
-          initiatorIds: [this.user.id],
-          datetime: Date.parse(this.datetime),
-          summary: this.summary,
-          description: this.description,
+          initiatorIds: [this.formData.user.id],
+          datetime: Date.parse(this.input.datetime),
+          summary: this.input.summary,
+          description: this.input.description,
           componentId: parseInt(this.componentId),
-          disciplineId: this.selectedDiscipline,
-          categoryId: this.selectedCategory,
-          expectedWorktime: this.expectedWorktime,
-          attachments: this.images
+          disciplineId: this.input.selectedDiscipline,
+          categoryId: this.input.selectedCategory,
+          expectedWorktime: this.input.expectedWorktime,
+          attachments: this.input.images
         })
         .then(res => this.redirect('defect-list'))
     },
 
     redirectResult: function(result) {
-      this.images.push({
-        id: (1 + this.images.length) * -1,
+      this.input.images.push({
+        id: (1 + this.input.images.length) * -1,
         datetime: new Date().getTime(),
-        personId: this.user.id,
+        personId: this.formData.user.id,
         type: 'png',
         text: '',
         source: result.dataUrl.split(',')[1]
@@ -165,9 +185,9 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      user: state => state.session.user
-    })
+    // ...mapState({
+    //   user: state => state.session.user
+    // })
   },
   filters: {
     shortName

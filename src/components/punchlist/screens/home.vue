@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!meta.loading">
     <div class="menu"></div>
     <div class="root">
       <div class="left-side">
@@ -79,7 +79,9 @@ export default {
       dbStatus: 'ONLINE',
       lastUpdate: new Date().getTime(),
       user: null,
-      loading: true
+      meta: {
+        loading: true
+      }
     }
   },
   methods: {},

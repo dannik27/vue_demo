@@ -2,6 +2,23 @@ var express = require('express')
 var router = express.Router()
 var storage = require('./storage')
 
+async function getUserInfo(request) {
+  let token = request.get('Authorization')
+
+  if (!token) {
+    return null
+  }
+
+  let credentials = await storage.getById('credentials', parseInt(token))
+  console.log(credentials)
+
+  if (!credentials) {
+    return null
+  }
+
+  return await storage.getById('person', credentials.personId)
+}
+
 router.get('/schema/:schemaId', async function(req, res) {
   let schema = await storage.getById('schema', req.params.schemaId)
   schema.image = await storage.getById('image', schema.imageId)
@@ -20,6 +37,11 @@ router.get('/schema/:schemaId', async function(req, res) {
 })
 
 router.get('/newDefect/:componentId', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   try {
     let component = await storage.getById('component', req.params.componentId)
     let subsystem = await storage.getById('subsystem', component.subsystemId)
@@ -28,16 +50,15 @@ router.get('/newDefect/:componentId', async function(req, res) {
     let workshop = await storage.getById('workshop', facility.workshopId)
     let linear = await storage.getById('person', workshop.linearId)
     let contractor = await storage.getById('company', facility.contractorId)
-    let disciplines = await storage.getAll('discipline')
-    let categories = await storage.getAll('category')
 
     let response = {
       component,
       linear,
       contractor,
       facility,
-      disciplines,
-      categories
+      disciplines: await storage.getAll('discipline'),
+      categories: await storage.getAll('category'),
+      user
     }
 
     res.send(JSON.stringify(response))

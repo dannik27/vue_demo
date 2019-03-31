@@ -6,6 +6,23 @@ var aggregativeRoute = require('./aggregative')
 
 router.use('/form', aggregativeRoute)
 
+async function getUserInfo(request) {
+  let token = request.get('Authorization')
+
+  if (!token) {
+    return null
+  }
+
+  let credentials = await storage.getById('credentials', parseInt(token))
+  console.log(credentials)
+
+  if (!credentials) {
+    return null
+  }
+
+  return await storage.getById('person', credentials.personId)
+}
+
 router.get('/any/:entity', function(req, res) {
   storage.getAll(req.params.entity).then(docs => res.send(JSON.stringify(docs)))
 })
@@ -60,8 +77,13 @@ router.get('/schema/:id/componentLink', async function(req, res) {
 })
 
 router.post('/defect/:defectId/defectAction', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   let action = req.body
-  action.id = await storage.nextId('defectAction')
+  action.personId = user.id
 
   let params = action.parameters
   delete action.parameters
@@ -70,6 +92,8 @@ router.post('/defect/:defectId/defectAction', async function(req, res) {
     'defectActionType',
     action.defectActionTypeId
   )
+
+  action = await storage.save('defectAction', action)
 
   let defect = await storage.getById('defect', req.params.defectId)
   defect.defectActionIds.push(action.id)
@@ -80,20 +104,25 @@ router.post('/defect/:defectId/defectAction', async function(req, res) {
     defect.estimatedDueDate = params.estimatedDueDate
   }
 
-  await storage.save('defectAction', action)
   await storage.save('defect', defect)
 
   res.send(JSON.stringify(action))
 })
 
 router.post('/defect/:defectId/defectComment', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   let comment = req.body
-  comment.id = await storage.nextId('defectComment')
+  comment.personId = user.id
+
+  comment = await storage.save('defectComment', comment)
 
   let defect = await storage.getById('defect', req.params.defectId)
   defect.defectCommentIds.push(comment.id)
 
-  await storage.save('defectComment', comment)
   await storage.save('defect', defect)
 
   res.send(JSON.stringify(comment))
