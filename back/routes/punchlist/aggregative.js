@@ -18,8 +18,15 @@ async function getUserInfo(request) {
   return await storage.getById('person', credentials.personId)
 }
 
-router.get('/schema/:schemaId', async function(req, res) {
-  let schema = await storage.getById('schema', req.params.schemaId)
+router.post('/schema', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let schemaId = req.body.schemaId
+
+  let schema = await storage.getById('schema', schemaId)
   schema.image = await storage.getById('image', schema.imageId)
   schema.componentLinks = await storage.getByIds(
     'componentLink',
@@ -35,14 +42,16 @@ router.get('/schema/:schemaId', async function(req, res) {
   res.send(JSON.stringify(schema))
 })
 
-router.get('/newDefect/:componentId', async function(req, res) {
+router.post('/newDefect', async function(req, res) {
   let user = await getUserInfo(req)
   if (!user) {
     res.status(401).send('Unauthorized')
   }
 
+  let componentId = parseInt(req.body.componentId)
+
   try {
-    let component = await storage.getById('component', req.params.componentId)
+    let component = await storage.getById('component', componentId)
     let subsystem = await storage.getById('subsystem', component.subsystemId)
     let system = await storage.getById('system', subsystem.systemId)
     let facility = await storage.getById('facility', system.facilityId)
@@ -67,7 +76,12 @@ router.get('/newDefect/:componentId', async function(req, res) {
   }
 })
 
-router.post('/newDefect/', async function(req, res) {
+router.post('/createDefect/', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   let defect = req.body
 
   for (let [i, attachment] of defect.attachments.entries()) {
@@ -104,12 +118,15 @@ router.post('/newDefect/', async function(req, res) {
   storage.save('defect', defect).then(() => res.send('ok'))
 })
 
-router.get('/defectList', async function(req, res) {
+router.post('/defectList', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   let defects = await storage.getAll('defect')
 
   //todo: сделать асинхронно
-
-  let user = await storage.getById('person', req.get('Authorization'))
 
   for (let defect of defects) {
     defect.component = await storage.getById('component', defect.componentId)
@@ -158,12 +175,15 @@ function getUserRoleInDefect(user, defect) {
   }
 }
 
-router.get('/defectCard/:defectId', async function(req, res) {
-  let user = await storage.getById('person', req.get('Authorization'))
+router.post('/defectCard', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
 
-  // let user = await storage.getById('person', 1)
+  let defectId = req.body.defectId
 
-  let defect = await storage.getById('defect', req.params.defectId)
+  let defect = await storage.getById('defect', defectId)
 
   let component = await storage.getById('component', defect.componentId)
   let subsystem = await storage.getById('subsystem', component.subsystemId)
@@ -250,23 +270,96 @@ router.get('/defectCard/:defectId', async function(req, res) {
   res.send(defect)
 })
 
-router.post('/newComponentLink/:schemaId', async function(req, res) {
+router.post('/createDefectAction', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let action = req.body
+  action.personId = user.id
+
+  let params = action.parameters
+  delete action.parameters
+
+  let defectId = params.defectId
+
+  let defectActionType = await storage.getById(
+    'defectActionType',
+    action.defectActionTypeId
+  )
+
+  action = await storage.save('defectAction', action)
+
+  let defect = await storage.getById('defect', defectId)
+  defect.defectActionIds.push(action.id)
+  defect.statusId = defectActionType.to
+
+  if (defectActionType.id == 6) {
+    defect.executorId = params.contractorMemberId
+    defect.estimatedDueDate = params.estimatedDueDate
+  }
+
+  await storage.save('defect', defect)
+
+  res.send(JSON.stringify(action))
+})
+
+router.post('/createDefectComment', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let comment = req.body
+  comment.personId = user.id
+
+  let defectId = comment.defectId
+  delete comment.defectId
+
+  comment = await storage.save('defectComment', comment)
+
+  let defect = await storage.getById('defect', defectId)
+  defect.defectCommentIds.push(comment.id)
+
+  await storage.save('defect', defect)
+
+  res.send(JSON.stringify(comment))
+})
+
+router.post('/createComponentLink', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
   let mark = req.body
+  let schemaId = mark.schemaId
+  delete mark.schemaId
+
   if (mark.component) {
     let component = await storage.save('component', mark.component)
     mark.componentId = component.id
+    delete mark.component
   }
 
   mark = await storage.save('componentLink', mark)
-  let schema = await storage.getById('schema', req.params.schemaId)
+  let schema = await storage.getById('schema', schemaId)
   schema.componentLinkIds.push(mark.id)
   storage.save('schema', schema)
 
   res.send(mark)
 })
 
-router.get('/componentLinkWidget/:componentId', async function(req, res) {
-  let component = await storage.getById('component', req.params.componentId)
+router.post('/componentLinkWidget', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let componentId = req.body.componentId
+
+  let component = await storage.getById('component', componentId)
 
   let defects = await storage.getByQuery('defect', {
     componentId: parseInt(component.id)
@@ -282,9 +375,14 @@ router.get('/componentLinkWidget/:componentId', async function(req, res) {
   res.send(component)
 })
 
-router.get('/popup/:entityName/:entityId', async function(req, res) {
-  let entityName = req.params.entityName
-  let entityId = parseInt(req.params.entityId)
+router.post('/popup', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let entityName = req.body.entityName
+  let entityId = parseInt(req.body.entityId)
 
   if (entityName == 'defect') {
     let defect = await storage.getById('defect', entityId)
@@ -297,7 +395,7 @@ router.get('/popup/:entityName/:entityId', async function(req, res) {
   }
 })
 
-router.get('/home', async function(req, res) {
+router.post('/home', async function(req, res) {
   let user = await getUserInfo(req)
   if (!user) {
     res.status(401).send('Token is not present')
@@ -335,7 +433,12 @@ router.get('/home', async function(req, res) {
   res.send({ user, waitsForMe })
 })
 
-router.get('/report', async function(req, res) {
+router.post('/report', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Token is not present')
+  }
+
   let response = []
 
   let defects = await storage.getAll('defect')
@@ -409,6 +512,13 @@ router.get('/report', async function(req, res) {
     systemRow.values[categoryTag] += 1
   }
   res.send(response)
+})
+
+router.post('/lel', async function(req, res) {
+  console.log(req.body)
+  console.log('sdas')
+
+  res.send('ok')
 })
 
 module.exports = router

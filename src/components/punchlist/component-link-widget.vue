@@ -1,5 +1,5 @@
 <template>
-  <div class="parent custom-panel">
+  <div class="parent custom-panel" v-if="component">
     <p>{{component.name}}</p>
     <p>{{component.tag}}</p>
     <hr>
@@ -32,7 +32,7 @@ export default {
   methods: {
     init: function() {
       api
-        .getComponentLinkWidgetFormData(this.componentId)
+        .getFormData('componentLinkWidget',{componentId: this.componentId})
         .then(res => (this.component = res))
     },
 

@@ -243,8 +243,8 @@ export default {
     }
   },
   methods: {
-    init: function() {
-      api.getDefectCardFormData(this.defectId).then(res => {
+    init: function () {
+      api.getFormData('defectCard', { defectId: this.defectId }).then(res => {
         this.defect = res
         this.readyToRender()
       })
@@ -256,7 +256,14 @@ export default {
     },
 
     commitCommentDialog() {
-      api.createDefectComment(this.defectId, this.commentMessage).then(res => {
+
+      let comment = {
+        defectId: this.defectId,
+        datetime: new Date().getTime(),
+        text: this.commentMessage
+      }
+
+      api.postFormData('createDefectComment', comment).then(res => {
         this.init()
       })
 
@@ -268,11 +275,19 @@ export default {
     },
 
     commitActionDialog() {
-      api
-        .executeDefectAction(this.defectId, this.selectedAction.id, {
+
+      let action = {
+        datetime: new Date().getTime(),
+        defectActionTypeId: this.selectedAction.id,
+        parameters: {
+          defectId: this.defectId,
           estimatedDueDate: Date.parse(this.takeToWorkParams.estimatedDueDate),
           contractorMemberId: this.takeToWorkParams.contractorMemberId
-        })
+        }
+      }
+
+      api
+        .postFormData('createDefectAction', action)
         .then(res => {
           this.init()
         })

@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted() {
-    api.getSchemaFormData(this.schemaId).then(schema => {
+    api.getFormData('schema', { schemaId: this.schemaId }).then(schema => {
       this.schema = schema
       if (this.componentLinkId) {
         let componentLink = schema.componentLinks.find(
@@ -115,13 +115,14 @@ export default {
 
     createDefectWithComponent(component) {
       let componentLink = {
+        schemaId: this.schema.id,
         x: this.tempMark.x,
         y: this.tempMark.y,
         radius: this.tempMark.radius,
         component
       }
 
-      api.saveComponentLink(this.schema.id, componentLink).then(res => {
+      api.postFormData('createComponentLink', componentLink).then(res => {
         this.$router.push('/punchlist/new-defect/' + res.componentId)
       })
     },
@@ -152,12 +153,12 @@ export default {
         canvas.width = canvas.offsetWidth
         canvas.height = canvas.offsetHeight
 
-        image.onload = function() {
+        image.onload = function () {
           ctx.drawImage(this, 0, 0)
           start()
         }
 
-        canvas.onmousemove = function(e) {
+        canvas.onmousemove = function (e) {
           let realX = e.offsetX * zoomLevel + sx
           let realY = e.offsetY * zoomLevel + sy
 
@@ -268,7 +269,7 @@ export default {
       }
 
       function initZoom() {
-        canvas.addEventListener('wheel', function(e) {
+        canvas.addEventListener('wheel', function (e) {
           if (e.wheelDelta > 0) {
             zoom(e.offsetX, e.offsetY, 0.3)
           } else {

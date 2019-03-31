@@ -57,6 +57,8 @@ export default {
     this.invalidateToken()
       .then(() => this.redirect())
       .catch(() => console.log('need auth'))
+
+    api.getFormData('lel', {kek: 'shmek'})
   }
 }
 </script>

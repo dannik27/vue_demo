@@ -7,11 +7,11 @@
     v-bind:style="boxstyle"
   >
     <h6>{{ params.type }}</h6>
-    <hr>
-    <p>{{object[structure.title]}}</p>
+    <hr />
+    <p>{{ object[structure.title] }}</p>
     <div class="table">
       <template v-for="field in fieldsRenderResult">
-        <span class="label">{{field.name}}</span>
+        <span class="label">{{ field.name }}</span>
         <span>{{ field.value }}</span>
       </template>
     </div>
@@ -20,7 +20,9 @@
       v-for="action in structure.actions"
       :key="action.caption"
       @click="action.handler"
-    >{{action.caption}}</button>
+    >
+      {{ action.caption }}
+    </button>
   </div>
 </template>
 
@@ -129,12 +131,12 @@ export default {
       let vm = this
       this.timer = setTimeout(() => (vm.timeout = true), 2000)
 
-      api.getPopupObject(this.params.type, this.params.objectId).then(res => {
+      api.getFormData('popup', { entityName: this.params.type, entityId: this.params.objectId }).then(res => {
         this.object = res
         this.timeout = false
       })
     },
-    hide() {},
+    hide() { },
     onEnter() {
       this.mouseInside = true
     },
@@ -150,19 +152,19 @@ export default {
     }
   },
   computed: {
-    visible: function() {
+    visible: function () {
       return this.mouseInside || !this.timeout
     },
-    boxstyle: function() {
+    boxstyle: function () {
       return {
         left: this.params.left + 'px',
         top: this.params.top + 'px'
       }
     },
-    structure: function() {
+    structure: function () {
       return this.content[this.params.type]
     },
-    fieldsRenderResult: function() {
+    fieldsRenderResult: function () {
       return this.structure.fields
         .map(field => {
           return {
@@ -173,7 +175,7 @@ export default {
         .filter(field => field.value != undefined)
     }
   },
-  mounted() {},
+  mounted() { },
   beforeMount() {
     PopupPlugin.EventBus.$on('show', params => {
       this.show(params)

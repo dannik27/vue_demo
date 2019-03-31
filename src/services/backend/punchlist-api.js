@@ -5,12 +5,11 @@ import store from '../../store/store'
 import { dateToString } from '../../utils/formatters'
 
 function getDefaultConfig() {
-  let defaultConfig = {
-    headers: {}
+  return {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
   }
-  defaultConfig.headers.Authorization = localStorage.getItem('token')
-
-  return defaultConfig
 }
 
 export default {
@@ -53,127 +52,12 @@ export default {
     })
   },
 
-  getNewDefectFormData: function(componentId) {
+  getFormData: function(formName, payload) {
     return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL + `punchlist/form/newDefect/${componentId}`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  postNewDefectForm: function(defect) {
-    return new Promise(resolve => {
-      axios
-        .post(config.BACKEND_URL + `punchlist/form/newDefect`, defect)
-        .then(response => {
-          resolve(defect)
-        })
-    })
-  },
-
-  getDefectListFormData: function() {
-    return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL + `punchlist/form/defectList`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getDefectCardFormData: function(defectId) {
-    return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL + `punchlist/form/defectCard/${defectId}`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getSchemaFormData: function(schemaId) {
-    return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL + `punchlist/form/schema/${schemaId}`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getComponentLinkWidgetFormData(componentId) {
-    return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL +
-            `punchlist/form/componentLinkWidget/${componentId}`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getHomeFormData() {
-    return new Promise(resolve => {
-      axios
-        .get(config.BACKEND_URL + `punchlist/form/home`, getDefaultConfig())
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getReportFormData() {
-    return new Promise(resolve => {
-      axios
-        .get(config.BACKEND_URL + `punchlist/form/report`, getDefaultConfig())
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getPopupObject: function(entityName, entityId) {
-    return new Promise(resolve => {
-      axios
-        .get(
-          config.BACKEND_URL + `punchlist/form/popup/${entityName}/${entityId}`,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  executeDefectAction: function(defectId, actionTypeId, parameters = {}) {
-    return new Promise(resolve => {
-      let action = {
-        datetime: new Date().getTime(),
-        defectActionTypeId: actionTypeId,
-        parameters
-      }
-
       axios
         .post(
-          config.BACKEND_URL + `punchlist/defect/${defectId}/defectAction`,
-          action,
+          config.BACKEND_URL + `punchlist/form/${formName}`,
+          payload,
           getDefaultConfig()
         )
         .then(response => {
@@ -182,17 +66,12 @@ export default {
     })
   },
 
-  createDefectComment: function(defectId, text) {
+  postFormData: function(formActionName, payload = {}) {
     return new Promise(resolve => {
-      let comment = {
-        datetime: new Date().getTime(),
-        text
-      }
-
       axios
         .post(
-          config.BACKEND_URL + `punchlist/defect/${defectId}/defectComment`,
-          comment,
+          config.BACKEND_URL + `punchlist/form/${formActionName}`,
+          payload,
           getDefaultConfig()
         )
         .then(response => {

@@ -159,7 +159,7 @@ export default {
 
     save: function() {
       api
-        .postNewDefectForm({
+        .postFormData('createDefect',{
           initiatorIds: [this.formData.user.id],
           linearId: this.formData.linear.id,
           datetime: Date.parse(this.input.datetime),
@@ -197,7 +197,7 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'New defect' + this.componentId)
 
-    api.getNewDefectFormData(this.componentId).then(resp => {
+    api.getFormData('newDefect', {componentId: this.componentId}).then(resp => {
       this.formData = resp
       this.readyToRender()
     })

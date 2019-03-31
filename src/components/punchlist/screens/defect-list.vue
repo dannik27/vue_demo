@@ -164,7 +164,7 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'Defect list')
 
-    api.getDefectListFormData().then(res => (this.defects = res))
+    api.getFormData('defectList').then(res => (this.defects = res))
 
     api.select('system').then(res => (this.systems = res))
     api.select('category').then(res => (this.categories = res))

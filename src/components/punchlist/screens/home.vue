@@ -114,7 +114,7 @@ export default {
   },
   mounted() {
     this.$store.commit('setTitle', 'PunchList')
-    api.getHomeFormData().then(result => {
+    api.getFormData('home').then(result => {
       ;(this.formData = result), this.readyToRender()
     })
   }
