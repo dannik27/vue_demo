@@ -33,7 +33,6 @@ export default {
       savedState = {}
 
       for (let field of this.meta.persistFields) {
-        console.log(savedState[field])
         savedState[field] = JSON.parse(JSON.stringify(this.$data[field]))
       }
 

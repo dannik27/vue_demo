@@ -23,57 +23,35 @@ async function getUserInfo(request) {
   return await storage.getById('person', credentials.personId)
 }
 
-router.get('/any/:entity', function(req, res) {
-  storage.getAll(req.params.entity).then(docs => res.send(JSON.stringify(docs)))
+router.post('/select/:entity', function(req, res) {
+  let parameters = req.body
+  let resultCondition = {}
+
+  if (parameters.conditions) {
+    let conditions = parameters.conditions.map(condition => {
+      let res = {}
+      if (condition.operator == 'equals') {
+        res[condition.field] = condition.value
+        return res
+      }
+    })
+
+    resultCondition = {
+      $and: conditions
+    }
+  }
+
+  storage
+    .select(req.params.entity, parameters.sort, resultCondition)
+    .then(docs => {
+      res.send(JSON.stringify(docs))
+    })
 })
 
 router.post('/any/:entity', function(req, res) {
   storage
     .save(req.params.entity, req.body)
     .then(docs => res.send(JSON.stringify(docs)))
-})
-
-router.get('/any/:entity/:id', function(req, res) {
-  storage
-    .getById(req.params.entity, req.params.id)
-    .then(doc => res.send(JSON.stringify(doc)))
-})
-
-router.post('/any/:entity/query', function(req, res) {
-  storage
-    .getByQuery(req.params.entity, req.body)
-    .then(docs => res.send(JSON.stringify(docs)))
-})
-
-router.get('/image/:id', function(req, res) {
-  storage
-    .getById('image', req.params.id)
-    .then(doc => res.send(JSON.stringify(doc)))
-})
-
-router.get('/schema', function(req, res) {
-  storage.getAll('schema').then(docs => res.send(JSON.stringify(docs)))
-})
-
-router.get('/schema/:id', function(req, res) {
-  storage
-    .getAll('schema', req.params.id)
-    .then(doc => res.send(JSON.stringify(doc)))
-})
-
-router.get('/schema/:id/image', async function(req, res) {
-  let schema = await storage.getById('schema', req.params.id)
-  let image = await storage.getById('image', schema.imageId)
-
-  res.send(JSON.stringify(image))
-})
-
-router.get('/schema/:id/componentLink', async function(req, res) {
-  let componentLinks = await storage.getByQuery('componentLink', {
-    schemaId: parseInt(req.params.id)
-  })
-
-  res.send(JSON.stringify(componentLinks))
 })
 
 router.post('/defect/:defectId/defectAction', async function(req, res) {

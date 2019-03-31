@@ -166,9 +166,9 @@ export default {
 
     api.getDefectListFormData().then(res => (this.defects = res))
 
-    api.getAny('system').then(res => (this.systems = res))
-    api.getAny('category').then(res => (this.categories = res))
-    api.getAny('discipline').then(res => (this.disciplines = res))
+    api.select('system').then(res => (this.systems = res))
+    api.select('category').then(res => (this.categories = res))
+    api.select('discipline').then(res => (this.disciplines = res))
 
     Object.assign(this.mergedFilter, this.defaultFilter, this.filter)
   }

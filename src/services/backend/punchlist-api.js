@@ -14,38 +14,29 @@ function getDefaultConfig() {
 }
 
 export default {
-  getImage: function(imageId) {
-    return new Promise(resolve => {
-      axios
-        .get(config.BACKEND_URL + `punchlist/image/${imageId}`)
-        .then(response => {
-          resolve(response.data)
-        })
-    })
+  defaultSelectPayload: {
+    sort: {
+      id: 1
+    },
+    // conditions:[
+    //   {
+    //     field: 'field1',
+    //     operator: 'equals',
+    //     value: 'value'
+    //   }
+    // ],
+    single: false
   },
 
-  getSchemaList: function() {
-    return new Promise(resolve => {
-      axios.get(config.BACKEND_URL + `punchlist/schema`).then(response => {
-        resolve(response.data)
-      })
-    })
-  },
-
-  getComponentLinks: function(schemaId) {
+  select: function(entityName, payload = {}) {
+    let resultPayload = {}
     return new Promise(resolve => {
       axios
-        .get(config.BACKEND_URL + `punchlist/schema/${schemaId}/componentLink`)
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getAny: function(entityName) {
-    return new Promise(resolve => {
-      axios
-        .get(config.BACKEND_URL + `punchlist/any/${entityName}`)
+        .post(
+          config.BACKEND_URL + `punchlist/select/${entityName}`,
+          Object.assign(resultPayload, this.defaultSelectPayload, payload),
+          getDefaultConfig()
+        )
         .then(response => {
           resolve(response.data)
         })
@@ -56,26 +47,6 @@ export default {
     return new Promise(resolve => {
       axios
         .post(config.BACKEND_URL + `punchlist/any/${entityName}`, object)
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getAnyById: function(entityName, id) {
-    return new Promise(resolve => {
-      axios
-        .get(config.BACKEND_URL + `punchlist/any/${entityName}/${id}`)
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  getAnyByQuery: function(entityName, query) {
-    return new Promise(resolve => {
-      axios
-        .post(config.BACKEND_URL + `punchlist/any/${entityName}/query`, query)
         .then(response => {
           resolve(response.data)
         })

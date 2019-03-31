@@ -5,15 +5,15 @@
     <div v-show="false" id="hud" class="custom-panel">
       <p>
         Mouse X
-        <span>{{mouseX}}</span>
+        <span>{{ mouseX }}</span>
       </p>
       <p>
         Mouse Y
-        <span>{{mouseY}}</span>
+        <span>{{ mouseY }}</span>
       </p>
       <p>
         Zoom
-        <span>{{zoom}}</span>
+        <span>{{ zoom }}</span>
       </p>
     </div>
 
@@ -39,22 +39,27 @@ import api from '../../../services/backend/punchlist-api'
 
 import ComponentLinkWidget from '../component-link-widget'
 import NewComponentLinkWidget from '../new-component-link-widget'
+import componentLinkWidgetVue from '../component-link-widget.vue'
 
 export default {
   mixins: [screenMixin],
   components: { ComponentLinkWidget, NewComponentLinkWidget },
-  props: ['schemaId'],
+  props: ['schemaId', 'componentLinkId'],
   data() {
     return {
       image: {
         id: 0,
         base64: ''
       },
+      initParams: {
+        offsetX: 1000,
+        offsetY: 1000,
+        zoom: 1
+      },
       mouseX: 0,
       mouseY: 0,
       zoom: 1,
       schema: {},
-      marks: [],
       tempMark: {
         x: 0,
         y: 0,
@@ -68,6 +73,32 @@ export default {
   mounted() {
     api.getSchemaFormData(this.schemaId).then(schema => {
       this.schema = schema
+      if (this.componentLinkId) {
+        let componentLink = schema.componentLinks.find(
+          link => link.id == this.componentLinkId
+        )
+
+        let markWidth = componentLink.radius
+          ? componentLink.radius
+          : componentLink.width
+
+        let markHeight = componentLink.radius
+          ? componentLink.radius
+          : componentLink.height
+
+        this.initParams.offsetX =
+          componentLink.x -
+          document.getElementById('canvas').offsetWidth / 2 +
+          markWidth / 2
+        this.initParams.offsetY =
+          componentLink.y -
+          document.getElementById('canvas').offsetHeight / 2 +
+          markHeight / 2
+        this.zoom = 1.5
+
+        this.selectedMark = componentLink
+      }
+
       this.initCanvas()
     })
   },
@@ -107,7 +138,7 @@ export default {
       let sx, sy
       let dx, dy, dWidth, dHeight
 
-      let zoomLevel = 1
+      let zoomLevel = self.initParams.zoom
 
       init()
 
@@ -297,8 +328,8 @@ export default {
         dWidth = canvas.width
         dHeight = canvas.height
 
-        sx = 1000
-        sy = 1000
+        sx = self.initParams.offsetX
+        sy = self.initParams.offsetY
 
         render()
       }

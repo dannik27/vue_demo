@@ -43,6 +43,23 @@ module.exports.getByQuery = async function(entityName, query) {
   return store.find(query)
 }
 
+module.exports.select = async function(entityName, sort, condition) {
+  let store = getCollection(entityName)
+
+  return new Promise((resolve, reject) => {
+    store
+      .getCursor(condition)
+      .sort(sort)
+      .exec((err, docs) => {
+        if (err) {
+          reject('DB error: ' + err.message)
+        } else {
+          resolve(docs)
+        }
+      })
+  })
+}
+
 let save = async function(entityName, entity) {
   let store = getCollection(entityName)
   if (entity.id && entity.id > 0) {

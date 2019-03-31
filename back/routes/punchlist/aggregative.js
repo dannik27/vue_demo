@@ -10,7 +10,6 @@ async function getUserInfo(request) {
   }
 
   let credentials = await storage.getById('credentials', parseInt(token))
-  console.log(credentials)
 
   if (!credentials) {
     return null
@@ -126,10 +125,8 @@ router.get('/defectList', async function(req, res) {
       defect.component.subsystemId
     )
     let system = await storage.getById('system', subsystem.systemId)
-    let facility = await storage.getById('facility', system.facilityId)
-    let workshop = await storage.getById('workshop', facility.workshopId)
 
-    defect.userRole = getUserRoleInDefect(user, defect, facility, workshop)
+    defect.userRole = getUserRoleInDefect(user, defect)
 
     // TODO: nekrasivo
     // add system
@@ -144,15 +141,15 @@ router.get('/defectList', async function(req, res) {
   res.send(defects)
 })
 
-function getUserRoleInDefect(user, defect, facility, workshop) {
+function getUserRoleInDefect(user, defect) {
   if (
-    facility.contractorId === user.companyId &&
+    defect.contractorId === user.companyId &&
     user.systemRoleIds.includes(3)
   ) {
     return 4
   } else if (defect.executorId === user.id) {
     return 3
-  } else if (workshop.linearId === user.id) {
+  } else if (defect.linearId === user.id) {
     return 2
   } else if (defect.initiatorIds.includes(user.id)) {
     return 1
@@ -183,6 +180,13 @@ router.get('/defectCard/:defectId', async function(req, res) {
   defect.contractor = await storage.getById('company', facility.contractorId)
   defect.status = await storage.getById('status', defect.statusId)
   defect.executor = await storage.getById('person', defect.executorId)
+
+  defect.componentLink = (await storage.getByQuery('componentLink', {
+    componentId: parseInt(component.id)
+  }))[0]
+  defect.componentLink.schemaId = (await storage.getByQuery('schema', {
+    componentLinkIds: { $elemMatch: defect.componentLink.id }
+  }))[0].id
 
   if (defect.status.tag === 'APPROVED') {
     let contractorMembersQuery = {
@@ -232,7 +236,7 @@ router.get('/defectCard/:defectId', async function(req, res) {
     comment.person = await storage.getById('person', comment.personId)
   }
 
-  let userRole = getUserRoleInDefect(user, defect, facility, workshop)
+  let userRole = getUserRoleInDefect(user, defect)
 
   let actionsQuery = {
     $and: [{ roles: { $elemMatch: userRole } }, { from: defect.statusId }]
@@ -294,20 +298,41 @@ router.get('/popup/:entityName/:entityId', async function(req, res) {
 })
 
 router.get('/home', async function(req, res) {
-  let token = req.get('Authorization')
-  if (!token) {
+  let user = await getUserInfo(req)
+  if (!user) {
     res.status(401).send('Token is not present')
   }
 
-  let credentials = await storage.getById('credentials', parseInt(token))
+  user.company = await storage.getById('company', user.companyId)
 
-  if (credentials) {
-    let user = await storage.getById('person', credentials.personId)
-    user.company = await storage.getById('company', user.companyId)
-    res.send(user)
-  } else {
-    res.status(401).send('Invalid token')
+  let defects = await storage.getAll('defect')
+  let statuses = await storage.getAll('status')
+
+  let waitsForMe = defects.filter(defect => {
+    let role = getUserRoleInDefect(user, defect)
+    return (
+      statuses.filter(
+        status =>
+          status.id === defect.statusId && status.responsibleRole === role
+      ).length > 0
+    )
+  })
+
+  for (let defect of waitsForMe) {
+    defect.component = await storage.getById('component', defect.componentId)
+    defect.initiators = await storage.getByIds('person', defect.initiatorIds)
+    defect.category = await storage.getById('category', defect.categoryId)
+    defect.discipline = await storage.getById('discipline', defect.disciplineId)
+    defect.status = await storage.getById('status', defect.statusId)
+
+    defect.userRole = getUserRoleInDefect(user, defect)
   }
+
+  defects = defects.sort((a, b) => {
+    return a.datetime > b.datetime ? -1 : 1
+  })
+
+  res.send({ user, waitsForMe })
 })
 
 router.get('/report', async function(req, res) {

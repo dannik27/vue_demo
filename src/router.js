@@ -81,8 +81,11 @@ const router = new VueRouter({
         },
         {
           path: '/punchlist/schema/:schemaId',
+          name: 'schema',
           component: PunchlistSchema,
-          props: true
+          props: route => ({
+            ...route.params
+          })
         },
         {
           path: '/punchlist/new-defect/:componentId',

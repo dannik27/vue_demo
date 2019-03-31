@@ -12,13 +12,13 @@
             User:
           </span>
           <span>
-            {{ user | shortPersonName }}
+            {{ formData.user | shortPersonName }}
           </span>
           <span class="label">
             Company:
           </span>
           <span>
-            {{ user.company.name }}
+            {{ formData.user.company.name }}
           </span>
           <span class="label">
             DB Status:
@@ -53,10 +53,16 @@
         </div>
       </div>
       <div class="right-side">
-        <div class="custom-panel"></div>
-        <div class="custom-panel"></div>
-        <div class="custom-panel"></div>
-        <div class="custom-panel"></div>
+        <h3>Waits for your action</h3>
+        <div class="list">
+          <DefectListItem
+            v-for="defect in formData.waitsForMe"
+            v-bind:key="defect.id"
+            v-bind:defect="defect"
+            class="item"
+            @click.native="clickOnCard(defect.id)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -70,21 +76,26 @@ import { shortPersonName, timestampToString } from '../../../utils/formatters'
 import { mapState } from 'vuex'
 
 import api from '../../../services/backend/punchlist-api'
+import DefectListItem from '../defect-list-item'
 
 export default {
   mixins: [screenMixin],
-  components: {},
+  components: { DefectListItem },
   data() {
     return {
       dbStatus: 'ONLINE',
       lastUpdate: new Date().getTime(),
-      user: null,
+      formData: null,
       meta: {
         loading: true
       }
     }
   },
-  methods: {},
+  methods: {
+    clickOnCard: function(defectId) {
+      this.$router.push('/punchlist/defect-card/' + defectId)
+    }
+  },
   filters: { shortPersonName, timestampToString },
   computed: {
     dbStatusColor() {
@@ -104,7 +115,7 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'PunchList')
     api.getHomeFormData().then(result => {
-      ;(this.user = result), this.readyToRender()
+      ;(this.formData = result), this.readyToRender()
     })
   }
 }
@@ -163,5 +174,28 @@ hr,
 h4,
 p {
   margin: 3px 0;
+}
+
+.right-side h3 {
+  border-bottom: 3px solid rgba(0, 0, 0, 0.589);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* align-items: center; */
+  align-content: flex-start;
+  overflow: auto;
+  padding-bottom: 10px;
+  flex-grow: 1;
+}
+
+.item {
+  margin-top: 20px;
+  flex-basis: 440px;
+  max-width: 440px;
+  height: auto;
+  display: block;
 }
 </style>

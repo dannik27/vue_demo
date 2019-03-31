@@ -284,7 +284,13 @@ export default {
     },
 
     lookAtSchema() {
-      console.log('to schema')
+      this.$router.push({
+        name: 'schema',
+        params: {
+          schemaId: this.defect.componentLink.schemaId,
+          componentLinkId: this.defect.componentLink.id
+        }
+      })
     },
 
     showImage(index) {

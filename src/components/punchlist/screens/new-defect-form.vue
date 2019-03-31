@@ -161,10 +161,12 @@ export default {
       api
         .postNewDefectForm({
           initiatorIds: [this.formData.user.id],
+          linearId: this.formData.linear.id,
           datetime: Date.parse(this.input.datetime),
           summary: this.input.summary,
           description: this.input.description,
           componentId: parseInt(this.componentId),
+          contractorId: this.formData.contractor.id,
           disciplineId: this.input.selectedDiscipline,
           categoryId: this.input.selectedCategory,
           expectedWorktime: this.input.expectedWorktime,
@@ -211,10 +213,10 @@ export default {
 }
 
 .flex-container {
-  /*height: 100%;*/
+  /* height: 100%; */
 
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   align-content: flex-start;
@@ -223,7 +225,7 @@ export default {
 }
 
 .item {
-  flex-basis: 45vw;
+  /* flex-basis: 45vw; */
   min-width: 550px;
   margin-top: 10px;
 }

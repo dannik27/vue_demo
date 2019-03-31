@@ -5,12 +5,16 @@
         @click="loadWorkshops()"
         v-if="selectedWorkshop"
         class="custom-button"
-      >{{selectedWorkshop.name}} (click to change)</button>
+      >
+        {{ selectedWorkshop.name }} (click to change)
+      </button>
       <button
         @click="loadFacilities(selectedWorkshop.id)"
         v-if="selectedFacility"
         class="custom-button"
-      >{{selectedFacility.name}} (click to change)</button>
+      >
+        {{ selectedFacility.name }} (click to change)
+      </button>
     </div>
     <div class="list">
       <SchemaListItem
@@ -52,29 +56,60 @@ export default {
         this.selectedFacility = item
         this.loadSchemas(item.id)
       } else {
-        this.$router.push('/punchlist/schema/' + item.id)
+        this.$router.push({
+          name: 'schema',
+          params: {
+            schemaId: item.id
+          }
+        })
       }
     },
 
     loadWorkshops: function() {
-      api.getAny('workshop').then(response => {
-        this.items = response
-        this.selectedWorkshop = null
-        this.selectedFacility = null
-        this.setTitle('Select workshop')
-      })
+      api
+        .select('workshop', {
+          sort: {
+            name: 1
+          }
+        })
+        .then(response => {
+          this.items = response
+          this.selectedWorkshop = null
+          this.selectedFacility = null
+          this.setTitle('Select workshop')
+        })
     },
 
     loadSchemas: function(facilityId) {
-      api.getAnyByQuery('schema', { facilityId: facilityId }).then(response => {
-        this.items = response
-        this.setTitle('Select schema')
-      })
+      api
+        .select('schema', {
+          sort: { name: 1 },
+          conditions: [
+            {
+              field: 'facilityId',
+              operator: 'equals',
+              value: facilityId
+            }
+          ]
+        })
+        .then(response => {
+          this.items = response
+          this.setTitle('Select schema')
+        })
     },
 
     loadFacilities: function(workshopId) {
       api
-        .getAnyByQuery('facility', { workshopId: workshopId })
+        .select('facility', {
+          sort: { name: 1 },
+          conditions: [
+            {
+              field: 'workshopId',
+              operator: 'equals',
+              value: workshopId
+            }
+          ]
+        })
         .then(response => {
           this.items = response
           this.selectedFacility = null
@@ -86,8 +121,6 @@ export default {
     this.$store.commit('setTitle', 'Schema list')
 
     this.loadWorkshops()
-
-    // api.getSchemaList().then(response => (this.schemas = response))
   }
 }
 </script>
