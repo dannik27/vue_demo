@@ -1,0 +1,68 @@
+{
+  "defect": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "number"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "initiators",
+        "type": "array",
+        "generic": "initiator"
+      },
+      {
+        "name": "component",
+        "type": "ref",
+        "generic": "component"
+      }
+    ]
+  },
+
+  "initiator": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "number"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+
+  "component": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "number"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "facility",
+        "type": "ref",
+        "generic": "facility"
+      }
+    ]
+  },
+
+  "facility": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "number"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  }
+}

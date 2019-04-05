@@ -108,7 +108,7 @@ export default {
   },
   watch: {
     mergedFilter: {
-      handler: function(filter) {
+      handler: function (filter) {
         filter.clean =
           !filter.my &&
           !filter.actual &&
@@ -121,7 +121,7 @@ export default {
     }
   },
   methods: {
-    clickOnCard: function(defectId) {
+    clickOnCard: function (defectId) {
       this.$router.push('/punchlist/defect-card/' + defectId)
     },
 
@@ -130,7 +130,7 @@ export default {
     }
   },
   computed: {
-    filteredDefects: function() {
+    filteredDefects: function () {
       return this.defects
         .filter(defect => !this.mergedFilter.my || defect.userRole != -1)
         .filter(
@@ -166,9 +166,9 @@ export default {
 
     api.getFormData('defectList').then(res => (this.defects = res))
 
-    api.select('system').then(res => (this.systems = res))
-    api.select('category').then(res => (this.categories = res))
-    api.select('discipline').then(res => (this.disciplines = res))
+    api.selectQuery('system').findAll().then(res => (this.systems = res))
+    api.selectQuery('category').findAll().then(res => (this.categories = res))
+    api.selectQuery('discipline').findAll().then(res => (this.disciplines = res))
 
     Object.assign(this.mergedFilter, this.defaultFilter, this.filter)
   }

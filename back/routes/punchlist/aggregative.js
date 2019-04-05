@@ -28,17 +28,9 @@ router.post('/schema', async function(req, res) {
 
   let schema = await storage.getById('schema', schemaId)
   schema.image = await storage.getById('image', schema.imageId)
-  schema.componentLinks = await storage.getByIds(
-    'componentLink',
-    schema.componentLinkIds
-  )
+  schema.marks = await storage.getByIds('mark', schema.markIds)
   schema.subsystems = await storage.getByIds('subsystem', schema.subsystemIds)
-  for (let componentLink of schema.componentLinks) {
-    componentLink.component = await storage.getById(
-      'component',
-      componentLink.componentId
-    )
-  }
+
   res.send(JSON.stringify(schema))
 })
 
@@ -201,11 +193,12 @@ router.post('/defectCard', async function(req, res) {
   defect.status = await storage.getById('status', defect.statusId)
   defect.executor = await storage.getById('person', defect.executorId)
 
-  defect.componentLink = (await storage.getByQuery('componentLink', {
-    componentId: parseInt(component.id)
-  }))[0]
-  defect.componentLink.schemaId = (await storage.getByQuery('schema', {
-    componentLinkIds: { $elemMatch: defect.componentLink.id }
+  defect.markId = (await storage.getByQuery('mark', {
+    entityName: 'component',
+    objectId: parseInt(component.id)
+  }))[0].id
+  defect.schemaId = (await storage.getByQuery('schema', {
+    markIds: { $elemMatch: defect.markId }
   }))[0].id
 
   if (defect.status.tag === 'APPROVED') {
@@ -375,6 +368,24 @@ router.post('/componentLinkWidget', async function(req, res) {
   res.send(component)
 })
 
+router.post('/searchWidget', async function(req, res) {
+  let user = await getUserInfo(req)
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let schemaId = parseInt(req.body.schemaId)
+
+  let schema = await storage.getById('schema', schemaId)
+  let marks = await storage.getByIds('mark', schema.markIds)
+
+  for (let mark of marks) {
+    mark.object = await storage.getById(mark.entityName, mark.objectId)
+  }
+
+  res.send(marks)
+})
+
 router.post('/popup', async function(req, res) {
   let user = await getUserInfo(req)
   if (!user) {
@@ -388,8 +399,14 @@ router.post('/popup', async function(req, res) {
     let defect = await storage.getById('defect', entityId)
     defect.status = await storage.getById('status', defect.statusId)
     defect.initiators = await storage.getByIds('person', defect.initiatorIds)
-
     res.send(defect)
+  } else if (entityName == 'schemaComment') {
+    let comment = await storage.getById('schemaComment', entityId)
+    comment.person = await storage.getById('person', comment.personId)
+    res.send(comment)
+  } else if (entityName == 'schema') {
+    let schema = await storage.getById('schema', entityId)
+    res.send(schema)
   } else {
     res.status(404).send('Invalid entity name: ' + entityName)
   }

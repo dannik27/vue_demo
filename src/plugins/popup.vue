@@ -6,9 +6,9 @@
     @mouseleave="onLeave()"
     v-bind:style="boxstyle"
   >
-    <h6>{{ params.type }}</h6>
+    <h6>{{ structure.title }}</h6>
     <hr />
-    <p>{{ object[structure.title] }}</p>
+    <p>{{ object[structure.text] }}</p>
     <div class="table">
       <template v-for="field in fieldsRenderResult">
         <span class="label">{{ field.name }}</span>
@@ -75,7 +75,8 @@ export default {
       },
       content: {
         defect: {
-          title: 'summary',
+          title: 'Defect',
+          text: 'summary',
           fields: [
             {
               name: 'Number',
@@ -107,6 +108,28 @@ export default {
               handler: this.toDefect
             }
           ]
+        },
+        schemaComment: {
+          title: "Comment",
+          text: "text",
+          fields: [
+            {
+              name: 'Author',
+              path: 'person',
+              formatter: shortPersonName
+            },
+          ]
+        },
+        schema: {
+          title: "Schema",
+          text: "name",
+          actions: [
+            {
+              caption: 'GO TO',
+              handler: this.toSchema
+            }
+          ],
+          fields: []
         }
       }
     }
@@ -126,6 +149,11 @@ export default {
     },
 
     show(params) {
+
+      if (!(params.type in this.content)) {
+        return;
+      }
+
       this.params = params
 
       let vm = this
@@ -149,6 +177,18 @@ export default {
       this.timeout = true
       this.onLeave()
       this.$router.push('/punchlist/defect-card/' + this.object.id)
+    },
+
+    toSchema() {
+      clearTimeout(this.timer)
+      this.timeout = true
+      this.onLeave()
+      this.$router.push({
+        name: 'schema',
+        params: {
+          schemaId: this.object.id
+        }
+      })
     }
   },
   computed: {

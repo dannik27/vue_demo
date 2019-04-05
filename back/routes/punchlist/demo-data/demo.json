@@ -166,7 +166,7 @@
       "imageId": 1,
       "facilityId": 1,
       "subsystemIds": [1, 2, 3],
-      "componentLinkIds": [1, 2, 3]
+      "markIds": [1, 2, 3, 4, 5, 6, 7]
     },
     {
       "id": 2,
@@ -175,7 +175,7 @@
       "imageId": 2,
       "facilityId": 1,
       "subsystemIds": [2, 3],
-      "componentLinkIds": []
+      "markIds": []
     },
     {
       "id": 3,
@@ -184,7 +184,7 @@
       "imageId": 3,
       "facilityId": 1,
       "subsystemIds": [3, 4],
-      "componentLinkIds": []
+      "markIds": []
     },
     {
       "id": 4,
@@ -193,7 +193,7 @@
       "imageId": 4,
       "facilityId": 1,
       "subsystemIds": [3, 4, 5],
-      "componentLinkIds": []
+      "markIds": []
     },
     {
       "id": 5,
@@ -202,7 +202,80 @@
       "imageId": 5,
       "facilityId": 1,
       "subsystemIds": [1, 5],
-      "componentLinkIds": []
+      "markIds": []
+    }
+  ],
+  "schemaComment": [
+    {
+      "id": 1,
+      "personId": 1,
+      "text": "kakoi to teks dliiiiinnii sad asd asd asd sffd vfd fh t g e wr were yr yc cvc vb h rthff"
+    }
+  ],
+  "mark": [
+    {
+      "id": 1,
+      "x": 2643,
+      "y": 2446,
+      "width": 145,
+      "height": 130,
+      "componentId": 1,
+      "entityName": "component",
+      "objectId": 1
+    },
+    {
+      "id": 2,
+      "x": 3934,
+      "y": 3060,
+      "width": 75,
+      "height": 45,
+      "entityName": "component",
+      "objectId": 2
+    },
+    {
+      "id": 3,
+      "x": 3010,
+      "y": 2100,
+      "radius": 50,
+      "entityName": "component",
+      "objectId": 3
+    },
+    {
+      "id": 4,
+      "x": 3150,
+      "y": 2300,
+      "width": 100,
+      "height": 100,
+      "img": "img/pointer.png",
+      "entityName": "schemaComment",
+      "objectId": 1
+    },
+    {
+      "id": 5,
+      "x": 5200,
+      "y": 1280,
+      "width": 380,
+      "height": 150,
+      "entityName": "schema",
+      "objectId": 3
+    },
+    {
+      "id": 6,
+      "x": 5240,
+      "y": 3200,
+      "width": 360,
+      "height": 160,
+      "entityName": "schema",
+      "objectId": 4
+    },
+    {
+      "id": 7,
+      "x": 5240,
+      "y": 3540,
+      "width": 360,
+      "height": 130,
+      "entityName": "schema",
+      "objectId": 5
     }
   ],
   "system": [
@@ -221,25 +294,6 @@
     { "id": 1, "name": "component1", "tag": "tag1", "subsystemId": 1 },
     { "id": 2, "name": "component2", "tag": "tag2", "subsystemId": 1 },
     { "id": 3, "name": "component3", "tag": "tag3", "subsystemId": 2 }
-  ],
-  "componentLink": [
-    {
-      "id": 1,
-      "x": 2643,
-      "y": 2446,
-      "width": 145,
-      "height": 130,
-      "componentId": 1
-    },
-    {
-      "id": 2,
-      "x": 3934,
-      "y": 3060,
-      "width": 75,
-      "height": 45,
-      "componentId": 2
-    },
-    { "id": 3, "x": 3010, "y": 2100, "radius": 50, "componentId": 3 }
   ],
   "category": [
     { "id": 1, "name": "category A1", "tag": "A1" },

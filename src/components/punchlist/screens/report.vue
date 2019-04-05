@@ -101,7 +101,7 @@ export default {
     }
   },
   mounted() {
-    Promise.all([api.select('category'), api.getFormData('report')]).then(
+    Promise.all([api.selectQuery('category').findAll(), api.getFormData('report')]).then(
       ([categories, systems]) => {
         this.categories = categories
         this.systems = systems

@@ -1,0 +1,22 @@
+{
+  "id": 123,
+  "name": "defecto",
+  "initiators": [
+    {
+      "id": 1,
+      "name": "Petya"
+    },
+    {
+      "id": 2,
+      "name": "Vasya"
+    }
+  ],
+  "component": {
+    "id": 1,
+    "name": "comp1",
+    "facility": {
+      "id": 2,
+      "name": "superfac"
+    }
+  }
+}

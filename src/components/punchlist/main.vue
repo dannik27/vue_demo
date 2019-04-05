@@ -9,7 +9,7 @@
 
     <div class="content">
       <!-- <keep-alive> -->
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
       <!-- </keep-alive> -->
     </div>
   </div>
@@ -24,18 +24,18 @@ export default {
     return {}
   },
   methods: {
-    back: function() {
+    back: function () {
       this.$router.go(-1)
     },
 
-    home: function() {
+    home: function () {
       this.$router.push('/punchlist/home')
     }
   },
   computed: {
     ...mapState(['title'])
   },
-  mounted() {}
+  mounted() { }
 }
 </script>
 

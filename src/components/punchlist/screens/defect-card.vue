@@ -302,8 +302,8 @@ export default {
       this.$router.push({
         name: 'schema',
         params: {
-          schemaId: this.defect.componentLink.schemaId,
-          componentLinkId: this.defect.componentLink.id
+          schemaId: this.defect.schemaId,
+          markId: this.defect.markId
         }
       })
     },

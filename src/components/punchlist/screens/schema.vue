@@ -13,14 +13,14 @@
       </p>
       <p>
         Zoom
-        <span>{{ zoom }}</span>
+        <span>{{ internal.zoom }}</span>
       </p>
     </div>
 
     <ComponentLinkWidget
-      v-if="selectedMark"
+      v-if="selectedMark && selectedMark.entityName == 'component'"
       class="componentLinkWidget"
-      v-bind:componentId="selectedMark.component.id"
+      v-bind:componentId="selectedMark.objectId"
       v-on:new-defect="createDefect($event)"
     />
 
@@ -30,6 +30,11 @@
       v-bind:subsystems="schema.subsystems"
       v-on:new-defect-with-component="createDefectWithComponent($event)"
     />
+
+    <div class="right-widget-container">
+      <SearchWidget :schemaId="schemaId" @selected="moveToMark($event)">
+      </SearchWidget>
+    </div>
   </div>
 </template>
 
@@ -39,27 +44,21 @@ import api from '../../../services/backend/punchlist-api'
 
 import ComponentLinkWidget from '../component-link-widget'
 import NewComponentLinkWidget from '../new-component-link-widget'
-import componentLinkWidgetVue from '../component-link-widget.vue'
+import SearchWidget from '../search-widget'
 
 export default {
   mixins: [screenMixin],
-  components: { ComponentLinkWidget, NewComponentLinkWidget },
-  props: ['schemaId', 'componentLinkId'],
+  components: { ComponentLinkWidget, NewComponentLinkWidget, SearchWidget },
+  props: ['schemaId', 'markId'],
   data() {
     return {
       image: {
         id: 0,
         base64: ''
       },
-      initParams: {
-        offsetX: 1000,
-        offsetY: 1000,
-        zoom: 1
-      },
       mouseX: 0,
       mouseY: 0,
-      zoom: 1,
-      schema: {},
+      schema: null,
       tempMark: {
         x: 0,
         y: 0,
@@ -67,44 +66,62 @@ export default {
         color: 'green',
         visible: false
       },
-      selectedMark: null
+      selectedMark: null,
+      internal: {
+        sx: 1000,
+        sy: 1000,
+        zoom: 1,
+        renderFunction: null
+      },
+
     }
   },
   mounted() {
     api.getFormData('schema', { schemaId: this.schemaId }).then(schema => {
       this.schema = schema
-      if (this.componentLinkId) {
-        let componentLink = schema.componentLinks.find(
-          link => link.id == this.componentLinkId
-        )
-
-        let markWidth = componentLink.radius
-          ? componentLink.radius
-          : componentLink.width
-
-        let markHeight = componentLink.radius
-          ? componentLink.radius
-          : componentLink.height
-
-        this.initParams.offsetX =
-          componentLink.x -
-          document.getElementById('canvas').offsetWidth / 2 +
-          markWidth / 2
-        this.initParams.offsetY =
-          componentLink.y -
-          document.getElementById('canvas').offsetHeight / 2 +
-          markHeight / 2
-        this.zoom = 1.5
-
-        this.selectedMark = componentLink
+      if (this.markId) {
+        this.moveToMark(this.markId)
       }
 
       this.initCanvas()
     })
   },
   methods: {
+
+    moveToMark(markId) {
+      console.log(markId)
+      let mark = this.schema.marks.find(
+        link => link.id == markId
+      )
+
+      let markWidth = mark.radius
+        ? mark.radius
+        : mark.width
+
+      let markHeight = mark.radius
+        ? mark.radius
+        : mark.height
+
+      let zoomLevel = 1.5
+
+      this.internal.sx =
+        mark.x -
+        document.getElementById('canvas').offsetWidth * zoomLevel / 2 +
+        markWidth / 2
+      this.internal.sy =
+        mark.y -
+        document.getElementById('canvas').offsetHeight * zoomLevel / 2 +
+        markHeight / 2
+      this.internal.zoom = zoomLevel
+
+      this.selectedMark = mark
+
+      if (this.renderFunction) {
+        this.internal.renderFunction()
+      }
+    },
+
     createDefect(componentId) {
-      // this.$router.push('/punchlist/new-defect/' + componentId)
       this.$router.push({
         name: 'new-defect',
         params: {
@@ -136,10 +153,8 @@ export default {
       let ctx
       let image
 
-      let sx, sy
+      // let sx, sy
       let dx, dy, dWidth, dHeight
-
-      let zoomLevel = self.initParams.zoom
 
       init()
 
@@ -159,8 +174,8 @@ export default {
         }
 
         canvas.onmousemove = function (e) {
-          let realX = e.offsetX * zoomLevel + sx
-          let realY = e.offsetY * zoomLevel + sy
+          let realX = e.offsetX * self.internal.zoom + self.internal.sx
+          let realY = e.offsetY * self.internal.zoom + self.internal.sy
 
           self.mouseX = e.offsetX + '(' + realX + ')'
           self.mouseY = e.offsetY + '(' + realY + ')'
@@ -169,6 +184,8 @@ export default {
         initDrag()
         initMarkEvents()
         initZoom()
+
+        self.internal.renderFunction = render;
 
         console.log('init')
       }
@@ -236,7 +253,7 @@ export default {
         function pressStart(x, y) {
           if (pressTimer === null) {
             pressTimer = setTimeout(() => {
-              schemaLongClick(x * zoomLevel + sx, y * zoomLevel + sy)
+              schemaLongClick(x * self.internal.zoom + self.internal.sx, y * self.internal.zoom + self.internal.sy)
             }, 400)
           }
         }
@@ -255,14 +272,14 @@ export default {
         canvas.addEventListener('click', e => {
           pressEnd()
 
-          let realX = e.offsetX * zoomLevel + sx
-          let realY = e.offsetY * zoomLevel + sy
+          let realX = e.offsetX * self.internal.zoom + self.internal.sx
+          let realY = e.offsetY * self.internal.zoom + self.internal.sy
 
-          self.schema.componentLinks
+          self.schema.marks
             .filter(mark => {
               return contains(mark, realX, realY)
             })
-            .forEach(markClicked)
+            .forEach(mark => markClicked(mark, e))
         })
 
         canvas.addEventListener('mousemove', pressEnd)
@@ -279,39 +296,44 @@ export default {
       }
 
       function zoom(x, y, change) {
-        if (zoomLevel + change <= 0.1 || zoomLevel + change > 5) {
+        if (self.internal.zoom + change <= 0.1 || self.internal.zoom + change > 5) {
           return
         }
 
-        let realX = x * zoomLevel
-        let realY = y * zoomLevel
+        let realX = x * self.internal.zoom
+        let realY = y * self.internal.zoom
 
-        let newX = (realX * (zoomLevel + change)) / zoomLevel
-        let newY = (realY * (zoomLevel + change)) / zoomLevel
+        let newX = (realX * (self.internal.zoom + change)) / self.internal.zoom
+        let newY = (realY * (self.internal.zoom + change)) / self.internal.zoom
 
-        zoomLevel += change
+        self.internal.zoom += change
 
         shift(
-          ((realX - newX) / zoomLevel) * -1,
-          ((realY - newY) / zoomLevel) * -1
+          ((realX - newX) / self.internal.zoom) * -1,
+          ((realY - newY) / self.internal.zoom) * -1
         )
 
-        self.zoom = zoomLevel
       }
 
       function shift(x, y) {
         // console.log('drag' + ' -> ' + x + ' ' + y);
 
-        sx -= x * zoomLevel
-        sy -= y * zoomLevel
+        self.internal.sx -= x * self.internal.zoom
+        self.internal.sy -= y * self.internal.zoom
 
         render()
       }
 
-      function markClicked(mark) {
+      function markClicked(mark, event) {
         self.selectedMark = mark
         self.tempMark.visible = false
         render()
+        self.$popup.show({
+          left: event.x,
+          top: event.y,
+          type: mark.entityName,
+          objectId: mark.objectId
+        })
       }
 
       function schemaLongClick(x, y) {
@@ -329,19 +351,16 @@ export default {
         dWidth = canvas.width
         dHeight = canvas.height
 
-        sx = self.initParams.offsetX
-        sy = self.initParams.offsetY
-
         render()
       }
 
       function render() {
         ctx.drawImage(
           image,
-          sx,
-          sy,
-          dWidth * zoomLevel,
-          dHeight * zoomLevel,
+          self.internal.sx,
+          self.internal.sy,
+          dWidth * self.internal.zoom,
+          dHeight * self.internal.zoom,
           dx,
           dy,
           dWidth,
@@ -356,37 +375,54 @@ export default {
 
         if (self.tempMark.visible) {
           ctx.beginPath()
-          ctx.lineWidth = 6 - zoomLevel
+          ctx.lineWidth = 6 - self.internal.zoom
           ctx.strokeStyle = self.tempMark.color
           ctx.arc(
-            (self.tempMark.x - sx) / zoomLevel,
-            (self.tempMark.y - sy) / zoomLevel,
-            self.tempMark.radius / zoomLevel,
+            (self.tempMark.x - self.internal.sx) / self.internal.zoom,
+            (self.tempMark.y - self.internal.sy) / self.internal.zoom,
+            self.tempMark.radius / self.internal.zoom,
             0,
             Math.PI * 2
           )
           ctx.stroke()
         }
 
-        self.schema.componentLinks.forEach(mark => {
+        self.schema.marks.forEach(mark => {
           ctx.beginPath()
-          ctx.lineWidth = 6 - zoomLevel
-          ctx.strokeStyle = 'blue'
+          ctx.lineWidth = 6 - self.internal.zoom
+
+          switch (mark.entityName) {
+            case 'schema': ctx.strokeStyle = '#ffa000'; break;
+            default: ctx.strokeStyle = 'blue'; break;
+          }
+
           if (mark.radius) {
             ctx.arc(
-              (mark.x - sx) / zoomLevel,
-              (mark.y - sy) / zoomLevel,
-              mark.radius / zoomLevel,
+              (mark.x - self.internal.sx) / self.internal.zoom,
+              (mark.y - self.internal.sy) / self.internal.zoom,
+              mark.radius / self.internal.zoom,
               0,
               Math.PI * 2
             )
           } else {
-            ctx.rect(
-              (mark.x - sx) / zoomLevel,
-              (mark.y - sy) / zoomLevel,
-              mark.width / zoomLevel,
-              mark.height / zoomLevel
-            )
+            if (mark.img) {
+              let markImage = new Image();
+              markImage.src = mark.img;
+              ctx.drawImage(
+                markImage,
+                (mark.x - self.internal.sx) / self.internal.zoom,
+                (mark.y - self.internal.sy) / self.internal.zoom,
+                mark.width / self.internal.zoom,
+                mark.height / self.internal.zoom
+              )
+            } else {
+              ctx.rect(
+                (mark.x - self.internal.sx) / self.internal.zoom,
+                (mark.y - self.internal.sy) / self.internal.zoom,
+                mark.width / self.internal.zoom,
+                mark.height / self.internal.zoom
+              )
+            }
           }
           ctx.stroke()
         })
@@ -436,5 +472,16 @@ export default {
   width: 250px;
   top: 20px;
   left: 20px;
+}
+
+.right-widget-container {
+  position: absolute;
+  width: 300px;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>

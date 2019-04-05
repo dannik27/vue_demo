@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    clickOnCard: function(item) {
+    clickOnCard: function (item) {
       if (!this.selectedWorkshop) {
         this.selectedWorkshop = item
         this.loadFacilities(item.id)
@@ -65,13 +65,9 @@ export default {
       }
     },
 
-    loadWorkshops: function() {
+    loadWorkshops: function () {
       api
-        .select('workshop', {
-          sort: {
-            name: 1
-          }
-        })
+        .selectQuery('workshop').addSort('name', 1).findAll()
         .then(response => {
           this.items = response
           this.selectedWorkshop = null
@@ -80,36 +76,24 @@ export default {
         })
     },
 
-    loadSchemas: function(facilityId) {
+    loadSchemas: function (facilityId) {
       api
-        .select('schema', {
-          sort: { name: 1 },
-          conditions: [
-            {
-              field: 'facilityId',
-              operator: 'equals',
-              value: facilityId
-            }
-          ]
-        })
+        .selectQuery('schema')
+        .addSort('name', 1)
+        .addCondition('facilityId', 'equals', facilityId)
+        .findAll()
         .then(response => {
           this.items = response
           this.setTitle('Select schema')
         })
     },
 
-    loadFacilities: function(workshopId) {
+    loadFacilities: function (workshopId) {
       api
-        .select('facility', {
-          sort: { name: 1 },
-          conditions: [
-            {
-              field: 'workshopId',
-              operator: 'equals',
-              value: workshopId
-            }
-          ]
-        })
+        .selectQuery('facility')
+        .addSort('name', 1)
+        .addCondition('workshopId', 'equals', workshopId)
+        .findAll()
         .then(response => {
           this.items = response
           this.selectedFacility = null

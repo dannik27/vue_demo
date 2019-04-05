@@ -1,16 +1,21 @@
 <template>
   <div class="parent custom-panel" v-if="component">
-    <p>{{component.name}}</p>
-    <p>{{component.tag}}</p>
-    <hr>
+    <p>{{ component.name }}</p>
+    <p>{{ component.tag }}</p>
+    <hr />
     <div v-for="defect in component.defects" :key="defect.id">
-      <span @click="showPopup($event, defect.id)" class="custom-link">{{defect.summary}}</span>
-      <br>
+      <span @click="showPopup($event, defect.id)" class="custom-link">{{
+        defect.summary
+      }}</span>
+      <br />
     </div>
-
-    <!-- <DefectListItem v-bind:defect="component.defects[0]"/> -->
-    <hr>
-    <button class="custom-button" v-on:click="$emit('new-defect', component.id)">New defect</button>
+    <hr />
+    <button
+      class="custom-button"
+      v-on:click="$emit('new-defect', component.id)"
+    >
+      New defect
+    </button>
   </div>
 </template>
 
@@ -21,22 +26,19 @@ import DefectListItem from './defect-list-item'
 
 export default {
   props: ['componentId'],
-  components: {
-    DefectListItem
-  },
   data() {
     return {
       component: null
     }
   },
   methods: {
-    init: function() {
+    init: function () {
       api
-        .getFormData('componentLinkWidget',{componentId: this.componentId})
+        .getFormData('componentLinkWidget', { componentId: this.componentId })
         .then(res => (this.component = res))
     },
 
-    showPopup: function(event, defectId) {
+    showPopup: function (event, defectId) {
       this.$popup.show({
         left: event.x,
         top: event.y,
@@ -46,7 +48,7 @@ export default {
     }
   },
   watch: {
-    componentId: function(oldVal, newVal) {
+    componentId: function (oldVal, newVal) {
       this.init()
     }
   },

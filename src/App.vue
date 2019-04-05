@@ -31,7 +31,9 @@ import {
   faArrowLeft,
   faHome,
   faUser,
-  faCircle
+  faCircle,
+  faAngleDoubleLeft,
+  faAngleDoubleRight
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Loading from 'vue-loading-overlay'
@@ -47,7 +49,9 @@ library.add(
   faArrowLeft,
   faHome,
   faUser,
-  faCircle
+  faCircle,
+  faAngleDoubleLeft,
+  faAngleDoubleRight
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
@@ -73,15 +77,15 @@ import { firestorePlugin } from 'vuefire'
 Vue.use(firestorePlugin)
 
 Vue.directive('click-outside', {
-  bind: function(el, binding, vnode) {
-    el.clickOutsideEvent = function(event) {
+  bind: function (el, binding, vnode) {
+    el.clickOutsideEvent = function (event) {
       if (!(el == event.target || el.contains(event.target))) {
         vnode.context[binding.expression](event)
       }
     }
     document.body.addEventListener('click', el.clickOutsideEvent)
   },
-  unbind: function(el) {
+  unbind: function (el) {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   }
 })

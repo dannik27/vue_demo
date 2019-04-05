@@ -26,6 +26,7 @@ import PunchlistDefectList from './components/punchlist/screens/defect-list'
 import PunchlistDefectCard from './components/punchlist/screens/defect-card'
 import PunchlistAuthorization from './components/punchlist/screens/authorization'
 import PunchlistReport from './components/punchlist/screens/report'
+import PunchlistMergeTool from './components/punchlist/merge-tool/merge-tool'
 
 const router = new VueRouter({
   routes: [
@@ -104,6 +105,14 @@ const router = new VueRouter({
           path: '/punchlist/defect-list',
           name: 'defect-list',
           component: PunchlistDefectList,
+          props: route => ({
+            ...route.params
+          })
+        },
+        {
+          path: '/punchlist/merge-tool',
+          name: 'merge-tool',
+          component: PunchlistMergeTool,
           props: route => ({
             ...route.params
           })

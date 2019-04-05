@@ -1,0 +1,22 @@
+{
+  "id": 123,
+  "name": "defectus",
+  "initiators": [
+    {
+      "id": 1,
+      "name": "Sasha"
+    },
+    {
+      "id": 2,
+      "name": "Grisha"
+    },
+    {
+      "id": 3,
+      "name": "Kesha"
+    }
+  ],
+  "component": {
+    "id": 2,
+    "name": "comp2"
+  }
+}

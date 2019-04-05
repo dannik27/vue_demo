@@ -27,6 +27,59 @@ export default {
     single: false
   },
 
+  selectQuery: function(entityName) {
+    class Builder {
+      constructor(entityName, api) {
+        this.entityName = entityName
+        this.sort = {}
+        this.conditions = []
+        this.single = false
+        this.api = api
+      }
+
+      addSort(fieldName, direction) {
+        if (![-1, 1].includes(direction)) {
+          throw new Error('direction can be -1 or 1, not ' + direction)
+        }
+        this.sort[fieldName] = direction
+        return this
+      }
+
+      addCondition(field, operator, value) {
+        if (!['equals'].includes(operator)) {
+          throw new Error('invalid condition operator ' + operator)
+        }
+        this.conditions.push({
+          field,
+          operator,
+          value
+        })
+        return this
+      }
+
+      build() {
+        return {
+          entityName: this.entityName,
+          sort: this.sort,
+          conditions: this.conditions,
+          single: this.single
+        }
+      }
+
+      findOne() {
+        this.single = true
+        return this.api.select(this.entityName, this.build())
+      }
+
+      findAll() {
+        this.single = false
+        return this.api.select(this.entityName, this.build())
+      }
+    }
+    return new Builder(entityName, this)
+  },
+
+  // DEPRECATED - use query
   select: function(entityName, payload = {}) {
     let resultPayload = {}
     return new Promise(resolve => {
@@ -88,20 +141,6 @@ export default {
         .post(
           config.BACKEND_URL + `punchlist/login`,
           payload,
-          getDefaultConfig()
-        )
-        .then(response => {
-          resolve(response.data)
-        })
-    })
-  },
-
-  saveComponentLink: function(schemaId, componentLink) {
-    return new Promise(resolve => {
-      axios
-        .post(
-          config.BACKEND_URL + `punchlist/form/newComponentLink/` + schemaId,
-          componentLink,
           getDefaultConfig()
         )
         .then(response => {
