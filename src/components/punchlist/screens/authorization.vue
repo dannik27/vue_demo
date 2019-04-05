@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    authorize: function() {
+    authorize: function () {
       api.authorize(this.login, this.password).then(result => {
         if (result) {
           this.$store.commit('SET_USER', result)
@@ -47,7 +47,7 @@ export default {
       })
     },
 
-    redirect: function() {
+    redirect: function () {
       this.$router.push('/punchlist/home')
     }
   },
@@ -58,7 +58,6 @@ export default {
       .then(() => this.redirect())
       .catch(() => console.log('need auth'))
 
-    api.getFormData('lel', {kek: 'shmek'})
   }
 }
 </script>

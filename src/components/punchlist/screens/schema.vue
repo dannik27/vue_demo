@@ -131,16 +131,16 @@ export default {
     },
 
     createDefectWithComponent(component) {
-      let componentLink = {
-        schemaId: this.schema.id,
+      let mark = {
         x: this.tempMark.x,
         y: this.tempMark.y,
         radius: this.tempMark.radius,
-        component
+        entityName: 'component',
+        object: component
       }
 
-      api.postFormData('createComponentLink', componentLink).then(res => {
-        this.$router.push('/punchlist/new-defect/' + res.componentId)
+      api.postFormData('createMark', { mark, schemaId: this.schema.id }).then(res => {
+        this.$router.push('/punchlist/new-defect/' + res.objectId)
       })
     },
 

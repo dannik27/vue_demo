@@ -320,25 +320,24 @@ router.post('/createDefectComment', async function(req, res) {
   res.send(JSON.stringify(comment))
 })
 
-router.post('/createComponentLink', async function(req, res) {
+router.post('/createMark', async function(req, res) {
   let user = await getUserInfo(req)
   if (!user) {
     res.status(401).send('Unauthorized')
   }
 
-  let mark = req.body
-  let schemaId = mark.schemaId
-  delete mark.schemaId
+  let mark = req.body.mark
+  let schemaId = parseInt(req.body.schemaId)
 
-  if (mark.component) {
-    let component = await storage.save('component', mark.component)
-    mark.componentId = component.id
-    delete mark.component
+  if (mark.object) {
+    let object = await storage.save(mark.entityName, mark.object)
+    mark.objectId = object.id
+    delete mark.object
   }
 
-  mark = await storage.save('componentLink', mark)
+  mark = await storage.save('mark', mark)
   let schema = await storage.getById('schema', schemaId)
-  schema.componentLinkIds.push(mark.id)
+  schema.markIds.push(mark.id)
   storage.save('schema', schema)
 
   res.send(mark)
