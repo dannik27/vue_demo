@@ -89,7 +89,6 @@ export default {
   methods: {
 
     moveToMark(markId) {
-      console.log(markId)
       let mark = this.schema.marks.find(
         link => link.id == markId
       )
@@ -116,7 +115,7 @@ export default {
 
       this.selectedMark = mark
 
-      if (this.renderFunction) {
+      if (this.internal.renderFunction) {
         this.internal.renderFunction()
       }
     },

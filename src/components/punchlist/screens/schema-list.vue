@@ -67,7 +67,7 @@ export default {
 
     loadWorkshops: function () {
       api
-        .selectQuery('workshop').addSort('name', 1).findAll()
+        .selectQuery('workshop').addSort('id', 1).findAll()
         .then(response => {
           this.items = response
           this.selectedWorkshop = null
@@ -79,7 +79,7 @@ export default {
     loadSchemas: function (facilityId) {
       api
         .selectQuery('schema')
-        .addSort('name', 1)
+        .addSort('id', 1)
         .addCondition('facilityId', 'equals', facilityId)
         .findAll()
         .then(response => {
@@ -91,7 +91,7 @@ export default {
     loadFacilities: function (workshopId) {
       api
         .selectQuery('facility')
-        .addSort('name', 1)
+        .addSort('id', 1)
         .addCondition('workshopId', 'equals', workshopId)
         .findAll()
         .then(response => {
@@ -117,8 +117,10 @@ export default {
 
 .header {
   background-color: var(--color-primary-light);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 10px;
 }
+
 .header :nth-child(1) {
   margin-right: 10px;
 }

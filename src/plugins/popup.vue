@@ -157,7 +157,7 @@ export default {
       this.params = params
 
       let vm = this
-      this.timer = setTimeout(() => (vm.timeout = true), 2000)
+      this.timer = setTimeout(() => (vm.timeout = true), 20000)
 
       api.getFormData('popup', { entityName: this.params.type, entityId: this.params.objectId }).then(res => {
         this.object = res

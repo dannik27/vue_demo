@@ -1,0 +1,120 @@
+[
+  {
+    "id": 2,
+    "name": "Separator 2",
+    "disciplines": [
+      {
+        "id": 1,
+        "name": "Technology",
+        "total": 3,
+        "actual": 1,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      },
+      {
+        "id": 2,
+        "name": "Electronics",
+        "total": 2,
+        "actual": 2,
+        "a": 1,
+        "b": 0,
+        "c": 1
+      },
+      {
+        "id": 4,
+        "name": "Measurement",
+        "total": 1,
+        "actual": 0,
+        "a": 0,
+        "b": 0,
+        "c": 1
+      }
+    ],
+    "values": { "total": 6, "actual": 3, "a": 2, "b": 0, "c": 2 }
+  },
+  {
+    "id": 3,
+    "name": "Condensate stabilizer",
+    "disciplines": [
+      {
+        "id": 1,
+        "name": "Technology",
+        "total": 4,
+        "actual": 3,
+        "a": 1,
+        "b": 1,
+        "c": 1
+      },
+      {
+        "id": 2,
+        "name": "Electronics",
+        "total": 5,
+        "actual": 4,
+        "a": 1,
+        "b": 0,
+        "c": 3
+      }
+    ],
+    "values": { "total": 9, "actual": 7, "a": 2, "b": 1, "c": 4 }
+  },
+  {
+    "id": 4,
+    "name": "Metanol regenerator",
+    "disciplines": [
+      {
+        "id": 4,
+        "name": "Measurement",
+        "total": 2,
+        "actual": 2,
+        "a": 1,
+        "b": 0,
+        "c": 1
+      },
+      {
+        "id": 5,
+        "name": "Air flow",
+        "total": 3,
+        "actual": 1,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    ],
+    "values": { "total": 5, "actual": 3, "a": 2, "b": 0, "c": 1 }
+  },
+  {
+    "id": 5,
+    "name": "Wastewater",
+    "disciplines": [
+      {
+        "id": 1,
+        "name": "Technology",
+        "total": 4,
+        "actual": 1,
+        "a": 0,
+        "b": 1,
+        "c": 0
+      },
+      {
+        "id": 2,
+        "name": "Electronics",
+        "total": 3,
+        "actual": 3,
+        "a": 1,
+        "b": 2,
+        "c": 0
+      },
+      {
+        "id": 4,
+        "name": "Measurement",
+        "total": 3,
+        "actual": 3,
+        "a": 2,
+        "b": 0,
+        "c": 1
+      }
+    ],
+    "values": { "total": 10, "actual": 7, "a": 3, "b": 3, "c": 1 }
+  }
+]

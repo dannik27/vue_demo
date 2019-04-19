@@ -1,22 +1,37 @@
 {
   "id": 123,
-  "name": "defectus",
+  "externalNumber": "D-145",
   "initiators": [
     {
       "id": 1,
-      "name": "Sasha"
-    },
-    {
-      "id": 2,
-      "name": "Grisha"
+      "secondname": "Petya"
     },
     {
       "id": 3,
-      "name": "Kesha"
+      "secondname": "Kesha"
     }
   ],
+  "executor": {
+    "id": 6,
+    "secondname": "Ivanov"
+  },
+  "estimatedDueDate": 1552065396000,
+  "summary": "Long studs",
   "component": {
     "id": 2,
-    "name": "comp2"
+    "tag": "079-MBV-21312"
+  },
+  "expectedWorktime": 13,
+  "category": {
+    "id": 2,
+    "name": "C1"
+  },
+  "status": {
+    "id": 1,
+    "name": "APPROVED"
+  },
+  "discipline": {
+    "id": 1,
+    "name": "Technology"
   }
 }

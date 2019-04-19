@@ -503,7 +503,7 @@ router.post('/report', async function(req, res) {
       systemRow.disciplines.push(disciplineRow)
     }
 
-    let isActual = ['CLOSED', 'CONFIRMED'].includes(status.tag)
+    let isActual = !['CLOSED', 'CONFIRMED'].includes(status.tag)
     let categoryTag
     switch (category.tag) {
       case 'A1':
@@ -527,6 +527,12 @@ router.post('/report', async function(req, res) {
     if (isActual) systemRow.values.actual += 1
     systemRow.values[categoryTag] += 1
   }
+
+  Array.prototype.push.apply(
+    response,
+    require('../../../resources/fake-report')
+  )
+
   res.send(response)
 })
 

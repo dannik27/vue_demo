@@ -1,42 +1,34 @@
 <template>
   <div :style="indent">
-    <template v-for="field in structure[type].fields">
-      <div v-if="field.type == 'number'">
-        <span :key="field.name">{{field.name}}</span>
-        <span class="separator">:</span>
-        <span>{{object[field.name]}}</span>
-      </div>
+    <div v-if="structure[type].stringValue">
+      {{ object[structure[type].stringValue] }}
+    </div>
+    <div v-else>
+      <template v-for="field in filteredFields">
+        <div v-if="field.type == 'number'">
+          <span :key="field.name">{{ field.name }}</span>
+          <span class="separator">:</span>
+          <span>{{ object[field.name] }}</span>
+        </div>
 
-      <div v-if="field.type == 'string'">
-        <span>{{field.name}}</span>
-        <span class="separator">:</span>
-        <span>{{object[field.name]}}</span>
-      </div>
+        <div v-if="field.type == 'string'">
+          <span>{{ field.name }}</span>
+          <span class="separator">:</span>
+          <span>{{ object[field.name] }}</span>
+        </div>
 
-      <template v-if="field.type == 'ref'">
-        <div>{{field.name}}</div>
-        <tree :type="field.generic" :object="object[field.name]" :depth="depth + 1"/>
+        <template v-if="field.type == 'ref'">
+          <span>{{ field.name }}</span>
+          <tree
+            v-if="object[field.name]"
+            :type="field.generic"
+            :object="object[field.name]"
+            :depth="depth + 1"
+          />
+          <span v-else>: null</span>
+        </template>
       </template>
-
-      <!-- <template v-if="field.type == 'array'">
-        <div>{{field.name}}</div>
-        <div>
-          <div v-for="(item, i) in first[field.name]">
-            {{i}}
-            <tree :type="field.generic" :first="item" :depth="depth + 1"/>
-          </div>
-        </div>
-        <div>
-          <div v-for="(item, i) in second[field.name]">
-            {{i}}
-            <tree :type="field.generic" :second="item" :depth="depth + 1"/>
-          </div>
-        </div>
-      </template>-->
-    </template>
-
-    <!-- <button @click="ss">sada</button> -->
-    <!-- <tree v-if="value != ''" :value="val"></tree> -->
+    </div>
   </div>
 </template>
 
@@ -53,6 +45,11 @@ export default {
     };
   },
   computed: {
+
+    filteredFields() {
+      return this.structure[this.type].fields.filter(field => !field.hide)
+    },
+
     val() {
       let kek = this.value;
       return kek.substring(0, kek.length - 1);

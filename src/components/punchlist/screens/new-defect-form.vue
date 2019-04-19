@@ -149,17 +149,17 @@ export default {
     }
   },
   methods: {
-    removeImage: function(image) {
+    removeImage: function (image) {
       this.images = this.input.images.filter(el => el.id !== image.id)
     },
 
-    addImage: function() {
+    addImage: function () {
       this.redirectForResult('camera')
     },
 
-    save: function() {
+    save: function () {
       api
-        .postFormData('createDefect',{
+        .postFormData('createDefect', {
           initiatorIds: [this.formData.user.id],
           linearId: this.formData.linear.id,
           datetime: Date.parse(this.input.datetime),
@@ -175,7 +175,7 @@ export default {
         .then(res => this.redirect('defect-list'))
     },
 
-    redirectResult: function(result) {
+    redirectResult: function (result) {
       this.input.images.push({
         id: (1 + this.input.images.length) * -1,
         datetime: new Date().getTime(),
@@ -195,10 +195,11 @@ export default {
     shortName
   },
   mounted() {
-    this.$store.commit('setTitle', 'New defect' + this.componentId)
+    this.$store.commit('setTitle', 'New defect')
 
-    api.getFormData('newDefect', {componentId: this.componentId}).then(resp => {
+    api.getFormData('newDefect', { componentId: this.componentId }).then(resp => {
       this.formData = resp
+      this.$store.commit('setTitle', this.formData.component.name + ' ' + this.formData.component.tag)
       this.readyToRender()
     })
   }

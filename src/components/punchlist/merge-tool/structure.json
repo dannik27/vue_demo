@@ -3,33 +3,75 @@
     "fields": [
       {
         "name": "id",
-        "type": "number"
+        "type": "string",
+        "hide": true
       },
       {
-        "name": "name",
-        "type": "string"
+        "name": "externalNumber",
+        "type": "string",
+        "editable": true
+      },
+      {
+        "name": "status",
+        "type": "ref",
+        "generic": "status"
+      },
+      {
+        "name": "discipline",
+        "type": "ref",
+        "generic": "discipline"
       },
       {
         "name": "initiators",
         "type": "array",
-        "generic": "initiator"
+        "generic": "person",
+        "hide": true
+      },
+      {
+        "name": "executor",
+        "type": "person"
+      },
+      {
+        "name": "estimatedDueDate",
+        "type": "datetime",
+        "editable": true
+      },
+      {
+        "name": "summary",
+        "type": "string",
+        "editable": true
       },
       {
         "name": "component",
         "type": "ref",
         "generic": "component"
+      },
+      {
+        "name": "expectedWorktime",
+        "type": "number",
+        "editable": true
+      },
+      {
+        "name": "category",
+        "type": "ref",
+        "generic": "category",
+        "editable": true
+      },
+      {
+        "name": "estimatedDueDate",
+        "type": "timestamp"
       }
     ]
   },
 
-  "initiator": {
+  "person": {
     "fields": [
       {
         "name": "id",
-        "type": "number"
+        "type": "string"
       },
       {
-        "name": "name",
+        "name": "secondname",
         "type": "string"
       }
     ]
@@ -39,10 +81,10 @@
     "fields": [
       {
         "name": "id",
-        "type": "number"
+        "type": "string"
       },
       {
-        "name": "name",
+        "name": "tag",
         "type": "string"
       },
       {
@@ -57,7 +99,53 @@
     "fields": [
       {
         "name": "id",
-        "type": "number"
+        "type": "string",
+        "hide": true
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+
+  "category": {
+    "stringValue": "name",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "hide": true
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+
+  "status": {
+    "stringValue": "name",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "hide": true
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+
+  "discipline": {
+    "stringValue": "name",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "hide": true
       },
       {
         "name": "name",

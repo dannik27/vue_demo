@@ -27,9 +27,9 @@
     }
   ],
   "company": [
-    { "id": 1, "name": "ourCompany" },
+    { "id": 1, "name": "Our company" },
     { "id": 2, "name": "RosGasStroy" },
-    { "id": 2, "name": "StroyOiOi" }
+    { "id": 2, "name": "StroySoyuz" }
   ],
   "credentials": [
     { "id": 1, "login": "1", "password": "1", "personId": 1 },
@@ -92,86 +92,74 @@
   "workshop": [
     {
       "id": 1,
-      "name": "workshop 1",
+      "name": "Central workshop",
       "linearId": 3,
-      "description": "workshop1 description"
+      "description": "Building G2. Main gas processing capacity"
     },
     {
       "id": 2,
-      "name": "workshop 2",
+      "name": "Primary workshop",
       "linearId": 3,
-      "description": "workshop1 description"
+      "description": "Building G1. Primary processing of raw materials"
     },
     {
       "id": 3,
-      "name": "workshop 3",
+      "name": "Output workshop",
       "linearId": 3,
-      "description": "workshop1 description"
-    },
-    {
-      "id": 4,
-      "name": "workshop 4",
-      "linearId": 3,
-      "description": "workshop1 description"
-    },
-    {
-      "id": 5,
-      "name": "workshop 5",
-      "linearId": 3,
-      "description": "workshop1 description"
+      "description": "Building E1. Preparation for shipping and shipment"
     }
   ],
   "facility": [
     {
       "id": 1,
-      "name": "facility 1",
+      "name": "Switching armature",
       "workshopId": 1,
       "contractorId": 2,
-      "description": "facility1 description"
+      "description": "Switching armature building"
     },
     {
       "id": 2,
-      "name": "facility 2",
+      "name": "Gas compressor",
       "workshopId": 1,
       "contractorId": 2,
-      "description": "facility2 description"
+      "description": "Gas stabilization compressor unit"
     },
     {
       "id": 3,
-      "name": "facility 3",
+      "name": "Flare system",
       "workshopId": 1,
       "contractorId": 2,
-      "description": "facility3 description"
+      "description": "Low pressure flare system"
     },
     {
       "id": 4,
-      "name": "facility 4",
+      "name": "Condensate tanks",
       "workshopId": 1,
       "contractorId": 2,
-      "description": "facility4 description"
+      "description": "Stable condensate storage tanks"
     },
     {
       "id": 5,
-      "name": "facility 5",
+      "name": "Pistol trap",
       "workshopId": 1,
       "contractorId": 2,
-      "description": "facility5 description"
+      "description": "Pistol trap"
     }
   ],
   "schema": [
     {
       "id": 1,
-      "name": "schema1",
-      "description": "schema1 description",
+      "name": "3100-G-105-PR-PID-01202-01-D",
+      "description": "Piping scheme and KIPA",
       "imageId": 1,
       "facilityId": 1,
       "subsystemIds": [1, 2, 3],
-      "markIds": [1, 2, 3, 4, 5, 6, 7]
+      "markIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     },
     {
       "id": 2,
-      "name": "schema2",
-      "description": "schema1 description",
+      "name": "3100-G-105-PR-PID-01202-02-D",
+      "description": "Piping scheme and KIPA",
       "imageId": 2,
       "facilityId": 1,
       "subsystemIds": [2, 3],
@@ -179,8 +167,8 @@
     },
     {
       "id": 3,
-      "name": "schema3",
-      "description": "schema1 description",
+      "name": "3100-G-105-PR-PID-01202-03-D",
+      "description": "Piping scheme and KIPA",
       "imageId": 3,
       "facilityId": 1,
       "subsystemIds": [3, 4],
@@ -188,8 +176,8 @@
     },
     {
       "id": 4,
-      "name": "schema4",
-      "description": "schema1 description",
+      "name": "3100-G-105-PR-PID-01202-04-D",
+      "description": "Piping scheme and KIPA",
       "imageId": 4,
       "facilityId": 1,
       "subsystemIds": [3, 4, 5],
@@ -197,8 +185,8 @@
     },
     {
       "id": 5,
-      "name": "schema5",
-      "description": "schema5 description",
+      "name": "3100-G-105-PR-PID-01202-05-D",
+      "description": "Piping scheme and KIPA",
       "imageId": 5,
       "facilityId": 1,
       "subsystemIds": [1, 5],
@@ -209,7 +197,7 @@
     {
       "id": 1,
       "personId": 1,
-      "text": "kakoi to teks dliiiiinnii sad asd asd asd sffd vfd fh t g e wr were yr yc cvc vb h rthff"
+      "text": "Need to check valve condition after 01.03.2019"
     }
   ],
   "mark": [
@@ -219,7 +207,6 @@
       "y": 2446,
       "width": 145,
       "height": 130,
-      "componentId": 1,
       "entityName": "component",
       "objectId": 1
     },
@@ -276,24 +263,128 @@
       "height": 130,
       "entityName": "schema",
       "objectId": 5
+    },
+    {
+      "id": 8,
+      "x": 3090,
+      "y": 2576,
+      "width": 45,
+      "height": 75,
+      "entityName": "component",
+      "objectId": 4
+    },
+    {
+      "id": 9,
+      "x": 3151,
+      "y": 2576,
+      "width": 45,
+      "height": 75,
+      "entityName": "component",
+      "objectId": 5
+    },
+    {
+      "id": 10,
+      "x": 2969,
+      "y": 2726,
+      "width": 150,
+      "height": 110,
+      "entityName": "component",
+      "objectId": 6
+    },
+    {
+      "id": 11,
+      "x": 3286,
+      "y": 2322,
+      "width": 110,
+      "height": 130,
+      "entityName": "component",
+      "objectId": 7
+    },
+    {
+      "id": 12,
+      "x": 2820,
+      "y": 2360,
+      "width": 45,
+      "height": 25,
+      "entityName": "component",
+      "objectId": 8
+    },
+    {
+      "id": 13,
+      "x": 2930,
+      "y": 2360,
+      "width": 45,
+      "height": 25,
+      "entityName": "component",
+      "objectId": 9
+    },
+    {
+      "id": 14,
+      "x": 3037,
+      "y": 2360,
+      "width": 45,
+      "height": 25,
+      "entityName": "component",
+      "objectId": 10
+    },
+    {
+      "id": 15,
+      "x": 3022,
+      "y": 2493,
+      "radius": 45,
+      "entityName": "component",
+      "objectId": 11
     }
   ],
   "system": [
-    { "id": 1, "name": "system 1", "tag": "SYS1", "facilityId": 1 },
-    { "id": 2, "name": "system 2", "tag": "SYS2", "facilityId": 1 },
-    { "id": 3, "name": "system 3", "tag": "SYS3", "facilityId": 1 },
-    { "id": 4, "name": "system 4", "tag": "SYS4", "facilityId": 1 },
-    { "id": 5, "name": "system 5", "tag": "SYS5", "facilityId": 1 }
+    { "id": 1, "name": "Separator 1", "tag": "SEP1", "facilityId": 1 },
+    { "id": 2, "name": "Separator 2", "tag": "SEP2", "facilityId": 1 },
+    {
+      "id": 3,
+      "name": "Condensate stabilizer",
+      "tag": "COND",
+      "facilityId": 1
+    },
+    { "id": 4, "name": "Metanol regenerator", "tag": "MET1", "facilityId": 1 },
+    { "id": 5, "name": "Wastewater", "tag": "WW1", "facilityId": 1 }
   ],
   "subsystem": [
-    { "id": 1, "name": "Subsystem 1", "tag": "SUBSYS1", "systemId": 1 },
-    { "id": 2, "name": "Subsystem 2", "tag": "SUBSYS2", "systemId": 1 },
-    { "id": 3, "name": "Subsystem 3", "tag": "SUBSYS3", "systemId": 1 }
+    { "id": 1, "name": "104-U-079-001", "tag": "104-U-079-001", "systemId": 1 },
+    { "id": 2, "name": "104-U-079-002", "tag": "104-U-079-002", "systemId": 1 },
+    { "id": 3, "name": "3100-EL-42N", "tag": "3100-EL-42N", "systemId": 1 }
   ],
   "component": [
-    { "id": 1, "name": "component1", "tag": "tag1", "subsystemId": 1 },
-    { "id": 2, "name": "component2", "tag": "tag2", "subsystemId": 1 },
-    { "id": 3, "name": "component3", "tag": "tag3", "subsystemId": 2 }
+    {
+      "id": 1,
+      "name": "Electric shutter",
+      "tag": "063-MOV-00204",
+      "subsystemId": 1
+    },
+    { "id": 2, "name": "Valve", "tag": "104-V-00201", "subsystemId": 1 },
+    { "id": 3, "name": "Reducer", "tag": "079-MBV-21312", "subsystemId": 2 },
+    {
+      "id": 4,
+      "name": "Gas analyzer",
+      "tag": "079-GDP-21520",
+      "subsystemId": 2
+    },
+    {
+      "id": 5,
+      "name": "Gas analyzer",
+      "tag": "079-GDP-21521",
+      "subsystemId": 2
+    },
+    { "id": 6, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
+    {
+      "id": 7,
+      "name": "Pressure meter",
+      "tag": "204-PI-00021B",
+      "subsystemId": 2
+    },
+    { "id": 8, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
+    { "id": 9, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
+    { "id": 10, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
+    { "id": 11, "name": "Manometer", "tag": "204-PG-00112D", "subsystemId": 2 }
   ],
   "category": [
     { "id": 1, "name": "category A1", "tag": "A1" },
@@ -301,10 +392,11 @@
     { "id": 3, "name": "category C1", "tag": "C1" }
   ],
   "discipline": [
-    { "id": 1, "name": "discipline 1", "tag": "DCP1" },
-    { "id": 2, "name": "discipline 2", "tag": "DCP2" },
-    { "id": 3, "name": "discipline 3", "tag": "DCP3" },
-    { "id": 4, "name": "discipline 4", "tag": "DCP4" }
+    { "id": 1, "name": "Technology", "tag": "TECH" },
+    { "id": 2, "name": "Electronics", "tag": "ELEC" },
+    { "id": 3, "name": "Construction", "tag": "CONS" },
+    { "id": 4, "name": "Measurement", "tag": "KIPA" },
+    { "id": 5, "name": "Air flow", "tag": "OVKV" }
   ],
   "roles": [
     { "id": 1, "name": "Initiator" },
@@ -413,7 +505,7 @@
       "linearId": 3,
       "datetime": 1552065336000,
       "estimatedDueDate": null,
-      "summary": "short desc",
+      "summary": "Short studs",
       "description": "some desc",
       "componentId": 1,
       "contractorId": 2,
@@ -433,7 +525,7 @@
       "linearId": 3,
       "datetime": 1552065396000,
       "estimatedDueDate": null,
-      "summary": "another short desc",
+      "summary": "The pipeline is not isolated",
       "description": "some desc",
       "componentId": 2,
       "contractorId": 2,
@@ -453,7 +545,7 @@
       "linearId": 3,
       "datetime": 1552065397000,
       "estimatedDueDate": null,
-      "summary": "shosho short desc",
+      "summary": "Pressure gauge faulty",
       "description": "dasd desc",
       "componentId": 3,
       "contractorId": 2,
@@ -473,7 +565,7 @@
       "linearId": 3,
       "datetime": 1552065398000,
       "estimatedDueDate": null,
-      "summary": "summasumma",
+      "summary": "The handle is blocked on pipe",
       "description": "dedededededede",
       "componentId": 3,
       "contractorId": 2,

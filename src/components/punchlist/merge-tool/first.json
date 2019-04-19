@@ -1,22 +1,41 @@
 {
   "id": 123,
-  "name": "defecto",
+  "externalNumber": "D-145",
   "initiators": [
     {
       "id": 1,
-      "name": "Petya"
+      "secondname": "Petrov"
     },
     {
-      "id": 2,
-      "name": "Vasya"
+      "id": 4,
+      "secondname": "Pavlov"
     }
   ],
+  "executor": {
+    "id": 6,
+    "secondname": "Ivanov"
+  },
+  "estimatedDueDate": 1552065396000,
+  "summary": "Short studs",
   "component": {
     "id": 1,
-    "name": "comp1",
+    "tag": "063-MOV-00204",
     "facility": {
       "id": 2,
-      "name": "superfac"
+      "name": "Separator 1"
     }
+  },
+  "expectedWorktime": 13,
+  "category": {
+    "id": 1,
+    "name": "A1"
+  },
+  "status": {
+    "id": 1,
+    "name": "APPROVED"
+  },
+  "discipline": {
+    "id": 1,
+    "name": "Technology"
   }
 }
