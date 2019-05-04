@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <div class="custom-panel note-form">
+    <div class="custom-panel">
       <select v-model="noteForm.theme">
         <option :value="null" disabled>Choose theme</option>
         <option
@@ -10,6 +10,8 @@
           >{{ theme.name }}</option
         >
       </select>
+    </div>
+    <div class="custom-panel note-form">
       <input v-model="noteForm.tags" />
 
       <button @click="saveNote">save</button>
@@ -82,7 +84,7 @@ export default {
       notes: db.collection('notes').orderBy('createdAt', 'desc')
     }
   },
-  mounted() {}
+  mounted() { }
 }
 </script>
 

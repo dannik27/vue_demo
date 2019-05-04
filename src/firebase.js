@@ -10,14 +10,19 @@ firebase.initializeApp({
   messagingSenderId: '313512207383'
 })
 
-firebase
-  .auth()
-  .signInWithEmailAndPassword('nikifordan@gmail.com', 'gogiHoola3')
-  .then(function() {})
-  .catch(function(error) {
-    var errorCode = error.code
-    var errorMessage = error.message
-    console.log(errorMessage)
-  })
+var provider = new firebase.auth.GoogleAuthProvider()
+
+// firebase
+//   .auth()
+//   // .signInWithEmailAndPassword('nikifordan@gmail.com', 'gogiHoola3')
+//   .signInWithPopup(provider)
+//   .then(function(result) {
+//     console.log(result)
+//   })
+//   .catch(function(error) {
+//     var errorCode = error.code
+//     var errorMessage = error.message
+//     console.log(errorMessage)
+//   })
 
 export const db = firebase.firestore()

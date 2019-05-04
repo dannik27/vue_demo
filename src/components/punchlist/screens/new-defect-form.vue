@@ -94,7 +94,10 @@
             />
           </div>
         </transition-group>
-        <button class="custom-button" @click="addImage">Add photo</button>
+        <button class="custom-button" @click="addImage">Create photo</button>
+
+        <label for="file-input" class="custom-button file-input-label">Attach file</label>
+        <input id="file-input" type="file"  @click="attachFile"></input>
       </div>
     </div>
   </div>
@@ -155,6 +158,23 @@ export default {
 
     addImage: function () {
       this.redirectForResult('camera')
+    },
+
+    attachFile: function (e) {
+      console.log(e)
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+
+      let file = files[0]
+      let image = new Image();
+      let reader = new FileReader();
+      let vm = this;
+
+      reader.onload = (e) => {
+        vm.redirectResult({ dataUrl: e.target.result })
+      };
+      reader.readAsDataURL(file);
     },
 
     save: function () {
@@ -345,5 +365,16 @@ export default {
 .image-list-leave-to {
   opacity: 0;
   transform: translateY(30px);
+}
+
+#file-input {
+  opacity: 0;
+  z-index: -1;
+  display: none;
+}
+
+.file-input-label {
+  margin: 0px;
+  margin-left: 10px;
 }
 </style>

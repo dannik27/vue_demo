@@ -158,17 +158,6 @@ export default {
       data.labels.push('green')
 
       this.chart.data = data
-      // this.data = {
-      //   datasets: [
-      //     {
-      //       data: [1, 2, 3, 4],
-      //       backgroundColor: ['red', 'blue', 'yellow', 'green']
-      //     }
-      //   ],
-      //   labels: [
-      //     'one', 'two', 'three', 'green'
-      //   ]
-      // }
     },
 
     showDefects(systemId, disciplineId, categoryTag, actual = false) {
