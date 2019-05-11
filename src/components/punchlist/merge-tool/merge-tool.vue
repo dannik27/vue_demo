@@ -4,14 +4,14 @@
   <div class="root">
     <div class="my-table custom-panel">
       <div :style="placeRow(1)">
-        <h5>Conflict during save new Defect</h5>
-        <h6>Last update 12.03.2019 by Ivanov I.K.</h6>
+        <h5>Произошел конфликт при сохранении сущности "Дефект"</h5>
+        <h6>Последнее обновление 02.03.2019 Линейкин П.Б.</h6>
       </div>
       <div class="roww" :style="placeRow(2)"></div>
-      <div :style="placeCell(2, 1)"><span>Attribute</span></div>
-      <div :style="placeCell(2, 2)"><span>Your value</span></div>
-      <div :style="placeCell(2, 3)"><span>Remote value</span></div>
-      <div :style="placeCell(2, 4)"><span>Result value</span></div>
+      <div :style="placeCell(2, 1)"><span>Атрибут</span></div>
+      <div :style="placeCell(2, 2)"><span>Ваша версия</span></div>
+      <div :style="placeCell(2, 3)"><span>Конфликтующая версия</span></div>
+      <div :style="placeCell(2, 4)"><span>Результат</span></div>
 
       <template v-for="(field, i) in filteredFields">
         <!-- NUMBER -->
@@ -19,7 +19,7 @@
         <template v-if="field.type == 'number'">
           <div class="roww" :style="placeRow(i + 3, field)"></div>
           <div :style="placeCell(i + 3, 1)">
-            <span>{{ field.name }}</span>
+            <span>{{ field.name_local }}</span>
           </div>
           <div :style="placeCell(i + 3, 2)">
             <div
@@ -70,7 +70,7 @@
         <template v-if="field.type == 'string'">
           <div class="roww" :style="placeRow(i + 3, field)"></div>
           <div :style="placeCell(i + 3, 1)">
-            <span>{{ field.name }}</span>
+            <span>{{ field.name_local }}</span>
           </div>
           <div :style="placeCell(i + 3, 2)">
             <div
@@ -106,7 +106,7 @@
                   meta[field.name].selected == 3 && meta[field.name].mutated
               }"
             >
-              <input
+              <textarea
                 v-if="meta[field.name].mutated"
                 type="text"
                 v-model="third[field.name]"
@@ -125,7 +125,7 @@
           <!-- TIMESTAMP 1 -->
 
           <div :style="placeCell(i + 3, 1)">
-            <span>{{ field.name }}</span>
+            <span>{{ field.name_local }}</span>
           </div>
 
           <!-- TIMESTAMP 2 -->
@@ -187,7 +187,7 @@
           <!-- REFERENCE 1 -->
 
           <div :style="placeCell(i + 3, 1)">
-            <span>{{ field.name }}</span>
+            <span>{{ field.name_local }}</span>
           </div>
 
           <!-- REFERENCE 2 -->
@@ -205,6 +205,7 @@
             >
               <tree
                 :type="field.generic"
+                :expand="meta[field.name].mutated"
                 :object="first[field.name]"
                 :depth="0"
               ></tree>
@@ -226,6 +227,7 @@
             >
               <tree
                 :type="field.generic"
+                :expand="meta[field.name].mutated"
                 :object="second[field.name]"
                 :depth="0"
               ></tree>
@@ -260,6 +262,7 @@
             >
               <tree
                 :type="field.generic"
+                :expand="meta[field.name].mutated"
                 :object="third[field.name]"
                 :depth="0"
               ></tree>
@@ -272,7 +275,7 @@
         <template v-if="field.type == 'array'">
           <div class="roww" :style="placeRow(i + 3, field)"></div>
           <div :style="placeCell(i + 3, 1)">
-            <span>{{ field.name }}</span>
+            <span>{{ field.name_local }}</span>
           </div>
           <div :style="placeCell(i + 3, 2)">
             <div class="object-list">
@@ -331,9 +334,9 @@
 </template>
 
 <script>
-import first from "./first";
-import second from "./second";
-import structure from "./structure.json";
+import first from "./first_ru";
+import second from "./second_ru";
+import structure from "./structure";
 
 import { timestampToString } from '../../../utils/formatters'
 
@@ -432,10 +435,12 @@ export default {
   },
   computed: {
     filteredFields() {
-      return structure.defect.fields.filter(field => !field.hide)
+      return structure.defect.fields.filter(field => !field.hiden)
     }
   },
-  mounted() { }
+  mounted() {
+    this.$store.commit('setTitle', 'Конфликт синхронизации')
+  }
 };
 </script>
 
@@ -492,5 +497,14 @@ export default {
 
 select {
   width: 100%;
+}
+
+.textbox {
+  height: 100%;
+}
+
+.textbox textarea {
+  width: 100%;
+  height: 100%;
 }
 </style>

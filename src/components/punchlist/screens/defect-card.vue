@@ -5,7 +5,7 @@
       @close="abortCommentDialog"
       :buttons="dialogButtons"
     >
-      <h3 slot="header">New comment</h3>
+      <h3 slot="header">Новое сообщение</h3>
       <div slot="body">
         <textarea
           class="comment-textarea"
@@ -26,9 +26,9 @@
           v-if="defect.status.tag === 'APPROVED'"
           class="take-to-work-options"
         >
-          <p class="label">Work executor:</p>
+          <p class="label">Исполнитель:</p>
           <select v-model="takeToWorkParams.contractorMemberId">
-            <option :value="null" disabled>Select executor</option>
+            <option :value="null" disabled>Укажите исполнителя</option>
             <option
               v-for="person in defect.contractor.members"
               v-bind:key="person.id"
@@ -36,16 +36,24 @@
               >{{ person | shortPersonName }}</option
             >
           </select>
-          <p class="label">Estimated due date:</p>
+          <p class="label">Предполагаемая дата окончания:</p>
           <datetime
             class="datetime-picker"
             v-model="takeToWorkParams.estimatedDueDate"
             v-bind="dateTimePickerOptions"
           ></datetime>
-          <span>Are you sure to commit "{{ selectedAction.name }}" action</span>
+          <span
+            >Вы уверены, что хотите выполнить действие "{{
+              selectedAction.name
+            }}"</span
+          >
         </div>
         <div v-else>
-          <span>Are you sure to commit "{{ selectedAction.name }}" action</span>
+          <span
+            >Вы уверены, что хотите выполнить действие "{{
+              selectedAction.name
+            }}"</span
+          >
         </div>
       </div>
     </Dialog>
@@ -69,58 +77,58 @@
         @click="showCommentDialog()"
         class="custom-button secondary-button"
       >
-        Comment
+        Сообщение
       </button>
       <button @click="lookAtSchema" class="custom-button secondary-button">
-        Look at schema
+        Перейти к схеме
       </button>
     </div>
 
     <div class="card-content">
       <div class="summary custom-panel">
         <h4>{{ defect.externalNumber }} {{ defect.summary }}</h4>
-        <p class="label">Component:</p>
+        <p class="label">Компонент:</p>
         <p>{{ defect.component.name }}</p>
-        <p class="label">Status:</p>
+        <p class="label">Статус:</p>
         <p>{{ defect.status.name }}</p>
-        <p class="label">Facility:</p>
+        <p class="label">Установка:</p>
         <p>{{ defect.facility.name }}</p>
-        <p class="label">Created date:</p>
+        <p class="label">Дата создания:</p>
         <p>{{ defect.datetime | timestampToString }}</p>
-        <p class="label">Discipline:</p>
+        <p class="label">Дисциплина:</p>
         <p>{{ defect.discipline.name }}</p>
-        <p class="label">Estimated date:</p>
+        <p class="label">Дата окончания:</p>
         <p>{{ defect.estimatedDueDate | timestampToString }}</p>
-        <p class="label">Category:</p>
+        <p class="label">Категория:</p>
         <p>{{ defect.category.name }}</p>
-        <p class="label">Expected worktime:</p>
-        <p>{{ defect.expectedWorktime }} hours</p>
+        <p class="label">Трудоёмкость:</p>
+        <p>{{ defect.expectedWorktime }} (часы)</p>
       </div>
 
       <div class="people custom-panel">
-        <h6>People</h6>
-        <p class="label">Initiators:</p>
+        <h6>Участники</h6>
+        <p class="label">Инициаторы:</p>
         <p>
           <span v-for="person in defect.initiators" :key="person.id">{{
             person | shortPersonName
           }}</span>
         </p>
-        <p class="label">Linear:</p>
+        <p class="label">Линейный:</p>
         <p>{{ defect.linear | shortPersonName }}</p>
-        <p class="label">Contractor:</p>
+        <p class="label">Подрядчик:</p>
         <p>
           {{ defect.executor | shortPersonName }} ({{ defect.contractor.name }}
-          company)
+          компания)
         </p>
       </div>
 
       <div class="description custom-panel">
-        <h6>Description</h6>
+        <h6>Описание</h6>
         <div>{{ defect.description }}</div>
       </div>
 
       <div class="attachments custom-panel">
-        <h6>Attachments</h6>
+        <h6>Прикрепления</h6>
         <div>
           <div v-for="(attachment, i) in attachments">
             <img :src="attachment.src" @click="showImage(i)" />
@@ -129,11 +137,13 @@
       </div>
 
       <div class="history custom-panel">
-        <h6>History</h6>
+        <h6>История</h6>
         <div v-for="item in historyItems" :key="item.id + item.type">
           <hr />
           <div class="history-item">
-            <img :src="item.src" />
+            <div class="image-container">
+              <img :src="item.src" />
+            </div>
             <div>
               <p class="history-item-header">
                 <span>{{ item.datetime | timestampToString }}</span>
@@ -167,7 +177,7 @@ function markAsAction(object) {
   } else {
     object.src = '/img/action_no.png'
   }
-  object.text = `Status was changed to "${object.defectActionType.to.name}"`
+  object.text = `Статус был изменён на "${object.defectActionType.to.name}"`
 
   return object
 }
@@ -339,7 +349,7 @@ export default {
     timestampToString
   },
   mounted() {
-    this.$store.commit('setTitle', 'Defect')
+    this.$store.commit('setTitle', 'Дефект')
 
     this.init()
   }
@@ -466,11 +476,18 @@ export default {
 .history {
 }
 
-.history img {
-  width: 100px;
-  min-width: 100px;
-  height: 70px;
+.history .image-container {
+  width: 75px;
+  min-width: 75px;
+  height: 40px;
   margin-right: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.history .image-container img {
+  height: 100%;
+  width: auto;
 }
 
 .history .history-item {

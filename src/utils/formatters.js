@@ -47,6 +47,6 @@ export function shortPersonName(person) {
       '. '
     )
   } else {
-    return 'not defined'
+    return 'не определено'
   }
 }

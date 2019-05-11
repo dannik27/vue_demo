@@ -452,13 +452,13 @@
       "id": 4,
       "from": 2,
       "to": 4,
-      "name": "Approve defect",
+      "name": "Утвердить дефект",
       "positive": true,
       "roles": [2]
     },
     {
       "id": 5,
-      "from": 2,
+      "from": null,
       "to": 1,
       "name": "Reject defect",
       "positive": false,

@@ -1,7 +1,9 @@
 <template>
   <div :style="indent">
-    <div v-if="structure[type].stringValue">
-      {{ object[structure[type].stringValue] }}
+    <div
+      v-if="(structure[type].isEnum || !expand) && structure[type].stringValue"
+    >
+      {{ structure[type].stringValue(object) }}
     </div>
     <div v-else>
       <template v-for="field in filteredFields">
@@ -33,11 +35,11 @@
 </template>
 
 <script>
-import structure from "./structure.json";
+import structure from "./structure";
 
 export default {
   name: "tree",
-  props: ["type", "object", "depth"],
+  props: ["type", "object", "depth", "expand"],
   data() {
     return {
       structure,
@@ -47,7 +49,7 @@ export default {
   computed: {
 
     filteredFields() {
-      return this.structure[this.type].fields.filter(field => !field.hide)
+      return this.structure[this.type].fields.filter(field => !field.hiden)
     },
 
     val() {

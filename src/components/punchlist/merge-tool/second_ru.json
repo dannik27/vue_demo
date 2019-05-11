@@ -1,0 +1,49 @@
+{
+  "id": 123,
+  "externalNumber": "D-145",
+  "initiators": [
+    {
+      "id": 1,
+      "firstname": "Иван",
+      "secondname": "Петров",
+      "thirdname": "Сергеевич"
+    },
+    {
+      "id": 2,
+      "firstname": "Анатолий",
+      "secondname": "Сидоров",
+      "thirdname": "Иванович"
+    }
+  ],
+  "executor": {
+    "id": 5,
+    "firstname": "Анатолий",
+    "secondname": "Работягин",
+    "thirdname": "Сидорович"
+  },
+  "estimatedDueDate": 1552065396000,
+  "summary": "Замена манометра",
+  "component": {
+    "id": 1,
+    "tag": "063-MOV-00204",
+    "name": "Манометр",
+    "facility": {
+      "id": 2,
+      "name": "Здание переключающей арматуры"
+    }
+  },
+  "description": "Стрелка манометра неподвижна при изменении давления в узле",
+  "expectedWorktime": 13,
+  "category": {
+    "id": 2,
+    "name": "B1"
+  },
+  "status": {
+    "id": 1,
+    "name": "Подтверждён"
+  },
+  "discipline": {
+    "id": 1,
+    "name": "Технология"
+  }
+}

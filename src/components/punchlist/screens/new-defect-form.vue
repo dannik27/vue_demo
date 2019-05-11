@@ -97,7 +97,7 @@
         <button class="custom-button" @click="addImage">Create photo</button>
 
         <label for="file-input" class="custom-button file-input-label">Attach file</label>
-        <input id="file-input" type="file"  @click="attachFile"></input>
+        <input id="file-input" type="file"  @change="attachFile"></input>
       </div>
     </div>
   </div>
@@ -161,7 +161,6 @@ export default {
     },
 
     attachFile: function (e) {
-      console.log(e)
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;
