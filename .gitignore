@@ -6,6 +6,7 @@ node_modules
 /cor
 /back/access.log
 /back/routes/punchlist/store
+/src/electron/store
 
 # local env files
 .env.local
