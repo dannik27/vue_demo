@@ -111,6 +111,8 @@ import api from '../../../services/punchlist-api'
 import { mapState } from 'vuex'
 import { setTimeout } from 'timers'
 
+import uuid from 'uuid/v4'
+
 function shortName(person) {
   return (
     person.secondname +
@@ -184,7 +186,7 @@ export default {
           datetime: Date.parse(this.input.datetime),
           summary: this.input.summary,
           description: this.input.description,
-          componentId: parseInt(this.componentId),
+          componentId: this.componentId,
           contractorId: this.formData.contractor.id,
           disciplineId: this.input.selectedDiscipline,
           categoryId: this.input.selectedCategory,
@@ -196,7 +198,7 @@ export default {
 
     redirectResult: function (result) {
       this.input.images.push({
-        id: (1 + this.input.images.length) * -1,
+        id: uuid(),
         datetime: new Date().getTime(),
         personId: this.formData.user.id,
         type: 'png',

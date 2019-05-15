@@ -1,5 +1,6 @@
 var Collection = require('../../libs/nedb-aa')
 const idGenerator = require('./id-generator')
+var uuid = require('uuid')
 
 module.exports = class Storage {
   constructor(foldername) {
@@ -26,7 +27,7 @@ module.exports = class Storage {
 
   async getById(entityName, id) {
     let store = this._getCollection(entityName)
-    return store.findOne({ id: parseInt(id) })
+    return store.findOne({ id: id })
   }
 
   async getByIds(entityName, ids) {
@@ -64,7 +65,8 @@ module.exports = class Storage {
 
   async save(entityName, entity) {
     let store = this._getCollection(entityName)
-    if (entity.id && entity.id > 0) {
+    entity.dateModified = new Date().getTime()
+    if (entity.id) {
       let existingRecords = await store.find({ id: entity.id })
       if (existingRecords.length === 0) {
         return store.insert(entity)
@@ -92,7 +94,8 @@ module.exports = class Storage {
   }
 
   async _nextId(entityName) {
-    let store = this._getCollection(entityName)
-    return idGenerator.getId(store)
+    // let store = this._getCollection(entityName)
+    // return idGenerator.getId(store)
+    return uuid.v4()
   }
 }

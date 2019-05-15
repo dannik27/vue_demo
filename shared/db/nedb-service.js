@@ -20,10 +20,7 @@ module.exports = class NeDBService {
       return null
     }
 
-    let credentials = await this._storage.getById(
-      'credentials',
-      parseInt(token)
-    )
+    let credentials = await this._storage.getById('credentials', token)
 
     if (!credentials) {
       return null
@@ -34,17 +31,17 @@ module.exports = class NeDBService {
   getUserRoleInDefect(user, defect) {
     if (
       defect.contractorId === user.companyId &&
-      user.systemRoleIds.includes(3)
+      user.systemRoleIds.includes('00000000-0000-0000-0000-000000001603')
     ) {
-      return 4
+      return '00000000-0000-0000-0000-000000001604'
     } else if (defect.executorId === user.id) {
-      return 3
+      return '00000000-0000-0000-0000-000000001603'
     } else if (defect.linearId === user.id) {
-      return 2
+      return '00000000-0000-0000-0000-000000001602'
     } else if (defect.initiatorIds.includes(user.id)) {
-      return 1
+      return '00000000-0000-0000-0000-000000001601'
     } else {
-      return -1
+      return '-'
     }
   }
 
@@ -141,7 +138,7 @@ module.exports = class NeDBService {
   }
 
   async getSearchWidgetFormData(user, payload) {
-    let schemaId = parseInt(payload.schemaId)
+    let schemaId = payload.schemaId
 
     let schema = await this._storage.getById('schema', schemaId)
     let marks = await this._storage.getByIds('mark', schema.markIds)
@@ -172,7 +169,7 @@ module.exports = class NeDBService {
     let component = await this._storage.getById('component', componentId)
 
     let defects = await this._storage.getByQuery('defect', {
-      componentId: parseInt(component.id)
+      componentId: component.id
     })
 
     for (let defect of defects) {
@@ -189,7 +186,7 @@ module.exports = class NeDBService {
   }
 
   async getNewDefectFormData(user, payload) {
-    let componentId = parseInt(payload.componentId)
+    let componentId = payload.componentId
 
     let component = await this._storage.getById('component', componentId)
     let subsystem = await this._storage.getById(
@@ -253,7 +250,7 @@ module.exports = class NeDBService {
 
     defect.markId = (await this._storage.getByQuery('mark', {
       entityName: 'component',
-      objectId: parseInt(component.id)
+      objectId: component.id
     }))[0].id
     defect.schemaId = (await this._storage.getByQuery('schema', {
       markIds: { $elemMatch: defect.markId }
@@ -326,7 +323,7 @@ module.exports = class NeDBService {
 
   async getPopupFormData(user, payload) {
     let entityName = payload.entityName
-    let entityId = parseInt(payload.entityId)
+    let entityId = payload.entityId
 
     if (entityName == 'defect') {
       let defect = await this._storage.getById('defect', entityId)
@@ -444,16 +441,17 @@ module.exports = class NeDBService {
     delete defect.attachments
     defect.attachmentIds = attachments.map(image => image.id)
 
+    // TODO: hardcode
     let defectActions = [
       {
         datetime: defect.datetime,
         personId: defect.initiatorIds[0],
-        defectActionTypeId: 1
+        defectActionTypeId: '00000000-0000-0000-0000-000000001801'
       },
       {
         datetime: defect.datetime + 10,
         personId: defect.initiatorIds[0],
-        defectActionTypeId: 2
+        defectActionTypeId: '00000000-0000-0000-0000-000000001802'
       }
     ]
 
@@ -464,7 +462,8 @@ module.exports = class NeDBService {
       defect.defectCommentIds = []
     }
 
-    defect.statusId = 2
+    //TODO: hardcode
+    defect.statusId = '00000000-0000-0000-0000-000000001702'
 
     return this._storage.save('defect', defect)
   }
@@ -489,7 +488,7 @@ module.exports = class NeDBService {
     defect.defectActionIds.push(action.id)
     defect.statusId = defectActionType.to
 
-    if (defectActionType.id == 6) {
+    if (defectActionType.id == '00000000-0000-0000-0000-000000001806') {
       defect.executorId = params.contractorMemberId
       defect.estimatedDueDate = params.estimatedDueDate
     }
@@ -518,7 +517,7 @@ module.exports = class NeDBService {
 
   async postMark(user, payload) {
     let mark = payload.mark
-    let schemaId = parseInt(payload.schemaId)
+    let schemaId = payload.schemaId
 
     if (mark.object) {
       let object = await this._storage.save(mark.entityName, mark.object)
@@ -576,4 +575,6 @@ module.exports = class NeDBService {
       return null
     }
   }
+
+  async synchronize(user, payload) {}
 }

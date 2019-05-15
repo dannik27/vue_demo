@@ -1,651 +1,861 @@
 {
   "systemRole": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000000101",
       "name": "Administrator",
       "tag": "ADMIN"
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000000102",
       "name": "OKS employee",
       "tag": "EDITOR"
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000000103",
       "name": "Contractor manager",
       "tag": "CONTRACTOR"
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000000104",
       "name": "Operator",
       "tag": "OPERATOR"
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000000105",
       "name": "Contractor member",
       "tag": "EXECUTOR"
     }
   ],
   "company": [
-    { "id": 1, "name": "Our company" },
-    { "id": 2, "name": "RosGasStroy" },
-    { "id": 2, "name": "StroySoyuz" }
+    { "id": "00000000-0000-0000-0000-000000000201", "name": "Our company" },
+    { "id": "00000000-0000-0000-0000-000000000202", "name": "RosGasStroy" },
+    { "id": "00000000-0000-0000-0000-000000000203", "name": "StroySoyuz" }
   ],
   "credentials": [
-    { "id": 1, "login": "1", "password": "1", "personId": 1 },
-    { "id": 2, "login": "2", "password": "2", "personId": 2 },
-    { "id": 3, "login": "3", "password": "3", "personId": 3 },
-    { "id": 4, "login": "4", "password": "4", "personId": 4 },
-    { "id": 5, "login": "5", "password": "5", "personId": 5 },
-    { "id": 6, "login": "6", "password": "6", "personId": 6 }
+    {
+      "id": "00000000-0000-0000-0000-000000000301",
+      "login": "1",
+      "password": "1",
+      "personId": "00000000-0000-0000-0000-000000000401"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000302",
+      "login": "2",
+      "password": "2",
+      "personId": "00000000-0000-0000-0000-000000000402"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000303",
+      "login": "3",
+      "password": "3",
+      "personId": "00000000-0000-0000-0000-000000000403"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000304",
+      "login": "4",
+      "password": "4",
+      "personId": "00000000-0000-0000-0000-000000000404"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000305",
+      "login": "5",
+      "password": "5",
+      "personId": "00000000-0000-0000-0000-000000000405"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000306",
+      "login": "6",
+      "password": "6",
+      "personId": "00000000-0000-0000-0000-000000000406"
+    }
   ],
   "person": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000000401",
       "firstname": "Ivan",
       "secondname": "Petrov",
       "thirdname": "Serveevich",
-      "companyId": 1,
-      "systemRoleIds": [4]
+      "companyId": "00000000-0000-0000-0000-000000000201",
+      "systemRoleIds": ["00000000-0000-0000-0000-000000000104"]
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000000402",
       "firstname": "Anatolyi",
       "secondname": "Sidorov",
       "thirdname": "Ivanovich",
-      "companyId": 1,
-      "systemRoleIds": [4]
+      "companyId": "00000000-0000-0000-0000-000000000201",
+      "systemRoleIds": ["00000000-0000-0000-0000-000000000104"]
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000000403",
       "firstname": "Petr",
       "secondname": "Lineikin",
       "thirdname": "Borisovich",
-      "companyId": 1,
+      "companyId": "00000000-0000-0000-0000-000000000201",
       "systemRoleIds": []
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000000404",
       "firstname": "Sergei",
       "secondname": "Rabotyagin",
       "thirdname": "Sidorovich",
-      "companyId": 2,
-      "systemRoleIds": [5]
+      "companyId": "00000000-0000-0000-0000-000000000202",
+      "systemRoleIds": ["00000000-0000-0000-0000-000000000105"]
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000000405",
       "firstname": "Anatoliy",
       "secondname": "Rabotyagin",
       "thirdname": "Sidorovich",
-      "companyId": 2,
-      "systemRoleIds": [5]
+      "companyId": "00000000-0000-0000-0000-000000000202",
+      "systemRoleIds": ["00000000-0000-0000-0000-000000000105"]
     },
     {
-      "id": 6,
+      "id": "00000000-0000-0000-0000-000000000406",
       "firstname": "Vasiliy",
       "secondname": "Managin",
       "thirdname": "Aleksandrovich",
-      "companyId": 2,
-      "systemRoleIds": [3]
+      "companyId": "00000000-0000-0000-0000-000000000202",
+      "systemRoleIds": ["00000000-0000-0000-0000-000000000103"]
     }
   ],
   "workshop": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000000501",
       "name": "Central workshop",
-      "linearId": 3,
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "description": "Building G2. Main gas processing capacity"
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000000502",
       "name": "Primary workshop",
-      "linearId": 3,
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "description": "Building G1. Primary processing of raw materials"
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000000503",
       "name": "Output workshop",
-      "linearId": 3,
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "description": "Building E1. Preparation for shipping and shipment"
     }
   ],
   "facility": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000000601",
       "name": "Switching armature",
-      "workshopId": 1,
-      "contractorId": 2,
+      "workshopId": "00000000-0000-0000-0000-000000000501",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "description": "Switching armature building"
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000000602",
       "name": "Gas compressor",
-      "workshopId": 1,
-      "contractorId": 2,
+      "workshopId": "00000000-0000-0000-0000-000000000501",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "description": "Gas stabilization compressor unit"
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000000603",
       "name": "Flare system",
-      "workshopId": 1,
-      "contractorId": 2,
+      "workshopId": "00000000-0000-0000-0000-000000000501",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "description": "Low pressure flare system"
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000000604",
       "name": "Condensate tanks",
-      "workshopId": 1,
-      "contractorId": 2,
+      "workshopId": "00000000-0000-0000-0000-000000000501",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "description": "Stable condensate storage tanks"
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000000605",
       "name": "Pistol trap",
-      "workshopId": 1,
-      "contractorId": 2,
+      "workshopId": "00000000-0000-0000-0000-000000000501",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "description": "Pistol trap"
     }
   ],
   "schema": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000000701",
       "name": "3100-G-105-PR-PID-01202-01-D",
       "description": "Piping scheme and KIPA",
-      "imageId": 1,
-      "facilityId": 1,
-      "subsystemIds": [1, 2, 3],
-      "markIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+      "imageId": "00000000-0000-0000-0000-000000000801",
+      "facilityId": "00000000-0000-0000-0000-000000000601",
+      "subsystemIds": [
+        "00000000-0000-0000-0000-000000001201",
+        "00000000-0000-0000-0000-000000001202",
+        "00000000-0000-0000-0000-000000001203"
+      ],
+      "markIds": [
+        "00000000-0000-0000-0000-000000001001",
+        "00000000-0000-0000-0000-000000001002",
+        "00000000-0000-0000-0000-000000001003",
+        "00000000-0000-0000-0000-000000001004",
+        "00000000-0000-0000-0000-000000001005",
+        "00000000-0000-0000-0000-000000001006",
+        "00000000-0000-0000-0000-000000001007",
+        "00000000-0000-0000-0000-000000001008",
+        "00000000-0000-0000-0000-000000001009",
+        "00000000-0000-0000-0000-000000001010",
+        "00000000-0000-0000-0000-000000001011",
+        "00000000-0000-0000-0000-000000001012",
+        "00000000-0000-0000-0000-000000001013",
+        "00000000-0000-0000-0000-000000001014",
+        "00000000-0000-0000-0000-000000001015"
+      ]
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000000702",
       "name": "3100-G-105-PR-PID-01202-02-D",
       "description": "Piping scheme and KIPA",
-      "imageId": 2,
-      "facilityId": 1,
-      "subsystemIds": [2, 3],
+      "imageId": "00000000-0000-0000-0000-000000000802",
+      "facilityId": "00000000-0000-0000-0000-000000000601",
+      "subsystemIds": [
+        "00000000-0000-0000-0000-000000001202",
+        "00000000-0000-0000-0000-000000001203"
+      ],
       "markIds": []
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000000703",
       "name": "3100-G-105-PR-PID-01202-03-D",
       "description": "Piping scheme and KIPA",
-      "imageId": 3,
-      "facilityId": 1,
-      "subsystemIds": [3, 4],
+      "imageId": "00000000-0000-0000-0000-000000000803",
+      "facilityId": "00000000-0000-0000-0000-000000000601",
+      "subsystemIds": [
+        "00000000-0000-0000-0000-000000001203",
+        "00000000-0000-0000-0000-000000001204"
+      ],
       "markIds": []
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000000704",
       "name": "3100-G-105-PR-PID-01202-04-D",
       "description": "Piping scheme and KIPA",
-      "imageId": 4,
-      "facilityId": 1,
-      "subsystemIds": [3, 4, 5],
+      "imageId": "00000000-0000-0000-0000-000000000804",
+      "facilityId": "00000000-0000-0000-0000-000000000601",
+      "subsystemIds": [
+        "00000000-0000-0000-0000-000000001203",
+        "00000000-0000-0000-0000-000000001204",
+        "00000000-0000-0000-0000-000000001205"
+      ],
       "markIds": []
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000000705",
       "name": "3100-G-105-PR-PID-01202-05-D",
       "description": "Piping scheme and KIPA",
-      "imageId": 5,
-      "facilityId": 1,
-      "subsystemIds": [1, 5],
+      "imageId": "00000000-0000-0000-0000-000000000805",
+      "facilityId": "00000000-0000-0000-0000-000000000601",
+      "subsystemIds": [
+        "00000000-0000-0000-0000-000000001201",
+        "00000000-0000-0000-0000-000000001205"
+      ],
       "markIds": []
     }
   ],
   "schemaComment": [
     {
-      "id": 1,
-      "personId": 1,
+      "id": "00000000-0000-0000-0000-000000000901",
+      "personId": "00000000-0000-0000-0000-000000000401",
       "text": "Need to check valve condition after 01.03.2019"
     }
   ],
   "mark": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000001001",
       "x": 2643,
       "y": 2446,
       "width": 145,
       "height": 130,
       "entityName": "component",
-      "objectId": 1
+      "objectId": "00000000-0000-0000-0000-000000001301"
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000001002",
       "x": 3934,
       "y": 3060,
       "width": 75,
       "height": 45,
       "entityName": "component",
-      "objectId": 2
+      "objectId": "00000000-0000-0000-0000-000000001302"
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000001003",
       "x": 3010,
       "y": 2100,
       "radius": 50,
       "entityName": "component",
-      "objectId": 3
+      "objectId": "00000000-0000-0000-0000-000000001303"
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000001004",
       "x": 3150,
       "y": 2300,
       "width": 100,
       "height": 100,
       "img": "img/pointer.png",
       "entityName": "schemaComment",
-      "objectId": 1
+      "objectId": "00000000-0000-0000-0000-000000000901"
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000001005",
       "x": 5200,
       "y": 1280,
       "width": 380,
       "height": 150,
       "entityName": "schema",
-      "objectId": 3
+      "objectId": "00000000-0000-0000-0000-000000000703"
     },
     {
-      "id": 6,
+      "id": "00000000-0000-0000-0000-000000001006",
       "x": 5240,
       "y": 3200,
       "width": 360,
       "height": 160,
       "entityName": "schema",
-      "objectId": 4
+      "objectId": "00000000-0000-0000-0000-000000000704"
     },
     {
-      "id": 7,
+      "id": "00000000-0000-0000-0000-000000001007",
       "x": 5240,
       "y": 3540,
       "width": 360,
       "height": 130,
       "entityName": "schema",
-      "objectId": 5
+      "objectId": "00000000-0000-0000-0000-000000000705"
     },
     {
-      "id": 8,
+      "id": "00000000-0000-0000-0000-000000001008",
       "x": 3090,
       "y": 2576,
       "width": 45,
       "height": 75,
       "entityName": "component",
-      "objectId": 4
+      "objectId": "00000000-0000-0000-0000-000000001304"
     },
     {
-      "id": 9,
+      "id": "00000000-0000-0000-0000-000000001009",
       "x": 3151,
       "y": 2576,
       "width": 45,
       "height": 75,
       "entityName": "component",
-      "objectId": 5
+      "objectId": "00000000-0000-0000-0000-000000001305"
     },
     {
-      "id": 10,
+      "id": "00000000-0000-0000-0000-000000001010",
       "x": 2969,
       "y": 2726,
       "width": 150,
       "height": 110,
       "entityName": "component",
-      "objectId": 6
+      "objectId": "00000000-0000-0000-0000-000000001306"
     },
     {
-      "id": 11,
+      "id": "00000000-0000-0000-0000-000000001011",
       "x": 3286,
       "y": 2322,
       "width": 110,
       "height": 130,
       "entityName": "component",
-      "objectId": 7
+      "objectId": "00000000-0000-0000-0000-000000001307"
     },
     {
-      "id": 12,
+      "id": "00000000-0000-0000-0000-000000001012",
       "x": 2820,
       "y": 2360,
       "width": 45,
       "height": 25,
       "entityName": "component",
-      "objectId": 8
+      "objectId": "00000000-0000-0000-0000-000000001308"
     },
     {
-      "id": 13,
+      "id": "00000000-0000-0000-0000-000000001013",
       "x": 2930,
       "y": 2360,
       "width": 45,
       "height": 25,
       "entityName": "component",
-      "objectId": 9
+      "objectId": "00000000-0000-0000-0000-000000001309"
     },
     {
-      "id": 14,
+      "id": "00000000-0000-0000-0000-000000001014",
       "x": 3037,
       "y": 2360,
       "width": 45,
       "height": 25,
       "entityName": "component",
-      "objectId": 10
+      "objectId": "00000000-0000-0000-0000-000000001310"
     },
     {
-      "id": 15,
+      "id": "00000000-0000-0000-0000-000000001015",
       "x": 3022,
       "y": 2493,
       "radius": 45,
       "entityName": "component",
-      "objectId": 11
+      "objectId": "00000000-0000-0000-0000-000000001311"
     }
   ],
   "system": [
-    { "id": 1, "name": "Separator 1", "tag": "SEP1", "facilityId": 1 },
-    { "id": 2, "name": "Separator 2", "tag": "SEP2", "facilityId": 1 },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000001101",
+      "name": "Separator 1",
+      "tag": "SEP1",
+      "facilityId": "00000000-0000-0000-0000-000000000601"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001102",
+      "name": "Separator 2",
+      "tag": "SEP2",
+      "facilityId": "00000000-0000-0000-0000-000000000601"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001103",
       "name": "Condensate stabilizer",
       "tag": "COND",
-      "facilityId": 1
+      "facilityId": "00000000-0000-0000-0000-000000000601"
     },
-    { "id": 4, "name": "Metanol regenerator", "tag": "MET1", "facilityId": 1 },
-    { "id": 5, "name": "Wastewater", "tag": "WW1", "facilityId": 1 }
+    {
+      "id": "00000000-0000-0000-0000-000000001104",
+      "name": "Metanol regenerator",
+      "tag": "MET1",
+      "facilityId": "00000000-0000-0000-0000-000000000601"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001105",
+      "name": "Wastewater",
+      "tag": "WW1",
+      "facilityId": "00000000-0000-0000-0000-000000000601"
+    }
   ],
   "subsystem": [
-    { "id": 1, "name": "104-U-079-001", "tag": "104-U-079-001", "systemId": 1 },
-    { "id": 2, "name": "104-U-079-002", "tag": "104-U-079-002", "systemId": 1 },
-    { "id": 3, "name": "3100-EL-42N", "tag": "3100-EL-42N", "systemId": 1 }
+    {
+      "id": "00000000-0000-0000-0000-000000001201",
+      "name": "104-U-079-001",
+      "tag": "104-U-079-001",
+      "systemId": "00000000-0000-0000-0000-000000001101"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001202",
+      "name": "104-U-079-002",
+      "tag": "104-U-079-002",
+      "systemId": "00000000-0000-0000-0000-000000001101"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001203",
+      "name": "3100-EL-42N",
+      "tag": "3100-EL-42N",
+      "systemId": "00000000-0000-0000-0000-000000001101"
+    }
   ],
   "component": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000001301",
       "name": "Electric shutter",
       "tag": "063-MOV-00204",
-      "subsystemId": 1
+      "subsystemId": "00000000-0000-0000-0000-000000001201"
     },
-    { "id": 2, "name": "Valve", "tag": "104-V-00201", "subsystemId": 1 },
-    { "id": 3, "name": "Reducer", "tag": "079-MBV-21312", "subsystemId": 2 },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000001302",
+      "name": "Valve",
+      "tag": "104-V-00201",
+      "subsystemId": "00000000-0000-0000-0000-000000001201"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001303",
+      "name": "Reducer",
+      "tag": "079-MBV-21312",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001304",
       "name": "Gas analyzer",
       "tag": "079-GDP-21520",
-      "subsystemId": 2
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000001305",
       "name": "Gas analyzer",
       "tag": "079-GDP-21521",
-      "subsystemId": 2
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
     },
-    { "id": 6, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
     {
-      "id": 7,
+      "id": "00000000-0000-0000-0000-000000001306",
+      "name": "Valve",
+      "tag": "204-BDV-00113C",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001307",
       "name": "Pressure meter",
       "tag": "204-PI-00021B",
-      "subsystemId": 2
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
     },
-    { "id": 8, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
-    { "id": 9, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
-    { "id": 10, "name": "Valve", "tag": "204-BDV-00113C", "subsystemId": 2 },
-    { "id": 11, "name": "Manometer", "tag": "204-PG-00112D", "subsystemId": 2 }
+    {
+      "id": "00000000-0000-0000-0000-000000001308",
+      "name": "Valve",
+      "tag": "204-BDV-00113C",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001309",
+      "name": "Valve",
+      "tag": "204-BDV-00113C",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001310",
+      "name": "Valve",
+      "tag": "204-BDV-00113C",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001311",
+      "name": "Manometer",
+      "tag": "204-PG-00112D",
+      "subsystemId": "00000000-0000-0000-0000-000000001202"
+    }
   ],
   "category": [
-    { "id": 1, "name": "category A1", "tag": "A1" },
-    { "id": 2, "name": "category B1", "tag": "B1" },
-    { "id": 3, "name": "category C1", "tag": "C1" }
+    {
+      "id": "00000000-0000-0000-0000-000000001401",
+      "name": "category A1",
+      "tag": "A1"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001402",
+      "name": "category B1",
+      "tag": "B1"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001403",
+      "name": "category C1",
+      "tag": "C1"
+    }
   ],
   "discipline": [
-    { "id": 1, "name": "Technology", "tag": "TECH" },
-    { "id": 2, "name": "Electronics", "tag": "ELEC" },
-    { "id": 3, "name": "Construction", "tag": "CONS" },
-    { "id": 4, "name": "Measurement", "tag": "KIPA" },
-    { "id": 5, "name": "Air flow", "tag": "OVKV" }
+    {
+      "id": "00000000-0000-0000-0000-000000001501",
+      "name": "Technology",
+      "tag": "TECH"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001502",
+      "name": "Electronics",
+      "tag": "ELEC"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001503",
+      "name": "Construction",
+      "tag": "CONS"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001504",
+      "name": "Measurement",
+      "tag": "KIPA"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001505",
+      "name": "Air flow",
+      "tag": "OVKV"
+    }
   ],
   "roles": [
-    { "id": 1, "name": "Initiator" },
-    { "id": 2, "name": "Linear" },
-    { "id": 3, "name": "Contractor" },
-    { "id": 4, "name": "ContractorManager" }
+    { "id": "00000000-0000-0000-0000-000000001601", "name": "Initiator" },
+    { "id": "00000000-0000-0000-0000-000000001602", "name": "Linear" },
+    { "id": "00000000-0000-0000-0000-000000001603", "name": "Contractor" },
+    {
+      "id": "00000000-0000-0000-0000-000000001604",
+      "name": "ContractorManager"
+    }
   ],
   "status": [
-    { "id": 1, "name": "INITIATED", "tag": "INITIATED", "responsibleRole": 1 },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000001701",
+      "name": "INITIATED",
+      "tag": "INITIATED",
+      "responsibleRole": "00000000-0000-0000-0000-000000001601"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001702",
       "name": "WAIT FOR APPROVE",
       "tag": "WAIT_FOR_APPROVE",
-      "responsibleRole": 2
+      "responsibleRole": "00000000-0000-0000-0000-000000001602"
     },
-    { "id": 3, "name": "CLOSED", "tag": "CLOSED" },
-    { "id": 4, "name": "APPROVED", "tag": "APPROVED", "responsibleRole": 4 },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000001703",
+      "name": "CLOSED",
+      "tag": "CLOSED"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001704",
+      "name": "APPROVED",
+      "tag": "APPROVED",
+      "responsibleRole": "00000000-0000-0000-0000-000000001604"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001705",
       "name": "TAKEN TO WORK",
       "tag": "TAKEN_TO_WORK",
-      "responsibleRole": 3
+      "responsibleRole": "00000000-0000-0000-0000-000000001603"
     },
-    { "id": 6, "name": "DONE", "tag": "DONE", "responsibleRole": 1 },
-    { "id": 7, "name": "CONFIRMED", "tag": "CONFIRMED" }
+    {
+      "id": "00000000-0000-0000-0000-000000001706",
+      "name": "DONE",
+      "tag": "DONE",
+      "responsibleRole": "00000000-0000-0000-0000-000000001601"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000001707",
+      "name": "CONFIRMED",
+      "tag": "CONFIRMED"
+    }
   ],
   "defectActionType": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000001801",
       "from": null,
-      "to": 1,
+      "to": "00000000-0000-0000-0000-000000001701",
       "name": "Create defect",
       "positive": true,
-      "roles": [1]
+      "roles": ["00000000-0000-0000-0000-000000001601"]
     },
     {
-      "id": 2,
-      "from": 1,
-      "to": 2,
+      "id": "00000000-0000-0000-0000-000000001802",
+      "from": "00000000-0000-0000-0000-000000001701",
+      "to": "00000000-0000-0000-0000-000000001702",
       "name": "Send to approve",
       "positive": true,
-      "roles": [1]
+      "roles": ["00000000-0000-0000-0000-000000001601"]
     },
     {
-      "id": 3,
-      "from": 1,
-      "to": 3,
+      "id": "00000000-0000-0000-0000-000000001803",
+      "from": "00000000-0000-0000-0000-000000001701",
+      "to": "00000000-0000-0000-0000-000000001703",
       "name": "Close defect",
       "positive": false,
-      "roles": [1, 2]
+      "roles": [
+        "00000000-0000-0000-0000-000000001601",
+        "00000000-0000-0000-0000-000000001602"
+      ]
     },
     {
-      "id": 4,
-      "from": 2,
-      "to": 4,
+      "id": "00000000-0000-0000-0000-000000001804",
+      "from": "00000000-0000-0000-0000-000000001702",
+      "to": "00000000-0000-0000-0000-000000001704",
       "name": "Утвердить дефект",
       "positive": true,
-      "roles": [2]
+      "roles": ["00000000-0000-0000-0000-000000001602"]
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000001805",
       "from": null,
       "to": 1,
       "name": "Reject defect",
       "positive": false,
-      "roles": [2]
+      "roles": ["00000000-0000-0000-0000-000000001602"]
     },
     {
-      "id": 6,
-      "from": 4,
-      "to": 5,
+      "id": "00000000-0000-0000-0000-000000001806",
+      "from": "00000000-0000-0000-0000-000000001704",
+      "to": "00000000-0000-0000-0000-000000001705",
       "name": "Take to work",
       "positive": true,
-      "roles": [4]
+      "roles": ["00000000-0000-0000-0000-000000001604"]
     },
     {
-      "id": 7,
-      "from": 5,
-      "to": 6,
+      "id": "00000000-0000-0000-0000-000000001807",
+      "from": "00000000-0000-0000-0000-000000001705",
+      "to": "00000000-0000-0000-0000-000000001706",
       "name": "Work done",
       "positive": true,
-      "roles": [3]
+      "roles": ["00000000-0000-0000-0000-000000001603"]
     },
     {
-      "id": 8,
-      "from": 6,
-      "to": 7,
+      "id": "00000000-0000-0000-0000-000000001808",
+      "from": "00000000-0000-0000-0000-000000001706",
+      "to": "00000000-0000-0000-0000-000000001707",
       "name": "Confirm completion",
       "positive": true,
-      "roles": [1]
+      "roles": ["00000000-0000-0000-0000-000000001601"]
     },
     {
-      "id": 9,
-      "from": 6,
-      "to": 5,
+      "id": "00000000-0000-0000-0000-000000001809",
+      "from": "00000000-0000-0000-0000-000000001706",
+      "to": "00000000-0000-0000-0000-000000001705",
       "name": "Reject completion",
       "positive": false,
-      "roles": [1]
+      "roles": ["00000000-0000-0000-0000-000000001601"]
     }
   ],
   "defect": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000001901",
       "externalNumber": 111,
-      "initiatorIds": [1, 2],
-      "linearId": 3,
+      "initiatorIds": [
+        "00000000-0000-0000-0000-000000000401",
+        "00000000-0000-0000-0000-000000000402"
+      ],
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "datetime": 1552065336000,
       "estimatedDueDate": null,
       "summary": "Short studs",
       "description": "some desc",
-      "componentId": 1,
-      "contractorId": 2,
+      "componentId": "00000000-0000-0000-0000-000000001301",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "executorId": null,
-      "disciplineId": 1,
-      "categoryId": 1,
+      "disciplineId": "00000000-0000-0000-0000-000000001501",
+      "categoryId": "00000000-0000-0000-0000-000000001401",
       "expectedWorktime": 10,
-      "statusId": 1,
-      "defectActionIds": [1],
+      "statusId": "00000000-0000-0000-0000-000000001701",
+      "defectActionIds": ["00000000-0000-0000-0000-000000002101"],
       "defectCommentIds": [],
-      "attachmentIds": [1]
+      "attachmentIds": ["00000000-0000-0000-0000-000000002201"]
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000001902",
       "externalNumber": 112,
-      "initiatorIds": [1],
-      "linearId": 3,
+      "initiatorIds": ["00000000-0000-0000-0000-000000000401"],
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "datetime": 1552065396000,
       "estimatedDueDate": null,
       "summary": "The pipeline is not isolated",
       "description": "some desc",
-      "componentId": 2,
-      "contractorId": 2,
+      "componentId": "00000000-0000-0000-0000-000000001302",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "executorId": null,
-      "disciplineId": 1,
-      "categoryId": 2,
+      "disciplineId": "00000000-0000-0000-0000-000000001501",
+      "categoryId": "00000000-0000-0000-0000-000000001401",
       "expectedWorktime": 15,
-      "statusId": 2,
-      "defectActionIds": [2, 3],
-      "defectCommentIds": [1],
+      "statusId": "00000000-0000-0000-0000-000000001702",
+      "defectActionIds": [
+        "00000000-0000-0000-0000-000000002102",
+        "00000000-0000-0000-0000-000000002103"
+      ],
+      "defectCommentIds": ["00000000-0000-0000-0000-000000002001"],
       "attachmentIds": []
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000001903",
       "externalNumber": 113,
-      "initiatorIds": [2],
-      "linearId": 3,
+      "initiatorIds": ["00000000-0000-0000-0000-000000000402"],
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "datetime": 1552065397000,
       "estimatedDueDate": null,
       "summary": "Pressure gauge faulty",
       "description": "dasd desc",
-      "componentId": 3,
-      "contractorId": 2,
+      "componentId": "00000000-0000-0000-0000-000000001303",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "executorId": null,
-      "disciplineId": 3,
-      "categoryId": 3,
+      "disciplineId": "00000000-0000-0000-0000-000000001503",
+      "categoryId": "00000000-0000-0000-0000-000000001403",
       "expectedWorktime": 8,
-      "statusId": 3,
-      "defectActionIds": [4, 5],
+      "statusId": "00000000-0000-0000-0000-000000001703",
+      "defectActionIds": [
+        "00000000-0000-0000-0000-000000002104",
+        "00000000-0000-0000-0000-000000002105"
+      ],
       "defectCommentIds": [],
       "attachmentIds": []
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000001904",
       "externalNumber": 114,
-      "initiatorIds": [1, 2],
-      "linearId": 3,
+      "initiatorIds": [
+        "00000000-0000-0000-0000-000000000401",
+        "00000000-0000-0000-0000-000000000402"
+      ],
+      "linearId": "00000000-0000-0000-0000-000000000403",
       "datetime": 1552065398000,
       "estimatedDueDate": null,
       "summary": "The handle is blocked on pipe",
       "description": "dedededededede",
-      "componentId": 3,
-      "contractorId": 2,
+      "componentId": "00000000-0000-0000-0000-000000001303",
+      "contractorId": "00000000-0000-0000-0000-000000000202",
       "executorId": null,
-      "disciplineId": 2,
-      "categoryId": 1,
+      "disciplineId": "00000000-0000-0000-0000-000000001502",
+      "categoryId": "00000000-0000-0000-0000-000000001401",
       "expectedWorktime": 16,
-      "statusId": 4,
-      "defectActionIds": [6, 7, 8],
+      "statusId": "00000000-0000-0000-0000-000000001704",
+      "defectActionIds": [
+        "00000000-0000-0000-0000-000000002106",
+        "00000000-0000-0000-0000-000000002107",
+        "00000000-0000-0000-0000-000000002108"
+      ],
       "defectCommentIds": [],
       "attachmentIds": []
     }
   ],
   "defectComment": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000002001",
       "datetime": 1552065336000,
-      "personId": 1,
-      "defectId": 1,
+      "personId": "00000000-0000-0000-0000-000000000401",
+      "defectId": "00000000-0000-0000-0000-000000001901",
       "text": "First comment"
     }
   ],
   "defectAction": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000002101",
       "datetime": 1552065266000,
-      "personId": 1,
-      "defectActionTypeId": 1,
-      "defectId": 1
+      "personId": "00000000-0000-0000-0000-000000000401",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001801",
+      "defectId": "00000000-0000-0000-0000-000000001901"
     },
     {
-      "id": 2,
+      "id": "00000000-0000-0000-0000-000000002102",
       "datetime": 1552065356000,
-      "personId": 2,
-      "defectActionTypeId": 1,
-      "defectId": 2
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001801",
+      "defectId": "00000000-0000-0000-0000-000000001902"
     },
     {
-      "id": 3,
+      "id": "00000000-0000-0000-0000-000000002103",
       "datetime": 1552065736000,
-      "personId": 2,
-      "defectActionTypeId": 2,
-      "defectId": 2
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001802",
+      "defectId": "00000000-0000-0000-0000-000000001902"
     },
     {
-      "id": 4,
+      "id": "00000000-0000-0000-0000-000000002104",
       "datetime": 1552065739000,
-      "personId": 2,
-      "defectActionTypeId": 1
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001801"
     },
     {
-      "id": 5,
+      "id": "00000000-0000-0000-0000-000000002105",
       "datetime": 1552065739500,
-      "personId": 2,
-      "defectActionTypeId": 3
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001803"
     },
     {
-      "id": 6,
+      "id": "00000000-0000-0000-0000-000000002106",
       "datetime": 1552065398000,
-      "personId": 2,
-      "defectActionTypeId": 1
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001801"
     },
     {
-      "id": 7,
+      "id": "00000000-0000-0000-0000-000000002107",
       "datetime": 1552065398100,
-      "personId": 2,
-      "defectActionTypeId": 2
+      "personId": "00000000-0000-0000-0000-000000000402",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001802"
     },
     {
-      "id": 8,
+      "id": "00000000-0000-0000-0000-000000002108",
       "datetime": 1552065398200,
-      "personId": 3,
-      "defectActionTypeId": 4
+      "personId": "00000000-0000-0000-0000-000000000403",
+      "defectActionTypeId": "00000000-0000-0000-0000-000000001804"
     }
   ],
   "attachment": [
     {
-      "id": 1,
+      "id": "00000000-0000-0000-0000-000000002201",
       "datetime": 1552065739600,
-      "personId": 1,
+      "personId": "00000000-0000-0000-0000-000000000401",
       "type": "png",
       "source": "kek",
       "text": "description"

@@ -138,7 +138,7 @@ router.post('/form/report', async function(req, res) {
 
 // ------------------------------  POST  -------------------------------
 
-router.post('/form/createDefect/', async function(req, res) {
+router.post('/post/defect/', async function(req, res) {
   let user = await nedbService.getUserInfo(req.get('Authorization'))
   if (!user) {
     res.status(401).send('Unauthorized')
@@ -150,42 +150,61 @@ router.post('/form/createDefect/', async function(req, res) {
   // .catch(error => res.status(500).send(error))
 })
 
-router.post('/form/createDefectAction', async function(req, res) {
+router.post('/post/defectAction', async function(req, res) {
   let user = await nedbService.getUserInfo(req.get('Authorization'))
   if (!user) {
     res.status(401).send('Unauthorized')
   }
 
-  nedbService
-    .postDefectAction(user, req.body)
-    .then(response => {
-      res.send(response)
-    })
-    .catch(error => res.status(500).send(error))
+  nedbService.postDefectAction(user, req.body).then(response => {
+    res.send(response)
+  })
+  // .catch(error => res.status(500).send(error))
 })
 
-router.post('/form/createDefectComment', async function(req, res) {
+router.post('/post/defectComment', async function(req, res) {
   let user = await nedbService.getUserInfo(req.get('Authorization'))
   if (!user) {
     res.status(401).send('Unauthorized')
   }
 
-  nedbService
-    .postDefectComment(user, req.body)
-    .then(response => {
-      res.send(response)
-    })
-    .catch(error => res.status(500).send(error))
+  nedbService.postDefectComment(user, req.body).then(response => {
+    res.send(response)
+  })
+  // .catch(error => res.status(500).send(error))
 })
 
-router.post('/form/createMark', async function(req, res) {
+router.post('/post/mark', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  nedbService.postMark(user, req.body).then(response => {
+    res.send(response)
+  })
+  // .catch(error => res.status(500).send(error))
+})
+
+// ------------------------ SYNC -----------------------
+
+router.get('/check', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  res.send('ok')
+})
+
+router.get('/synchronize', async function(req, res) {
   let user = await nedbService.getUserInfo(req.get('Authorization'))
   if (!user) {
     res.status(401).send('Unauthorized')
   }
 
   nedbService
-    .postMark(user, req.body)
+    .synchronize(user, req.body)
     .then(response => {
       res.send(response)
     })

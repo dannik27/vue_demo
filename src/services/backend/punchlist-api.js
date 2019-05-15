@@ -55,7 +55,7 @@ export default {
     return new Promise(resolve => {
       axios
         .post(
-          config.BACKEND_URL + `punchlist/form/${formActionName}`,
+          config.BACKEND_URL + `punchlist/post/${formActionName}`,
           payload,
           getDefaultConfig()
         )
