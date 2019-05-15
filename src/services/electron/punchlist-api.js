@@ -30,30 +30,21 @@ export default {
     })
   },
 
-  // _select: function(entityName, payload = {}) {
-  //   let resultPayload = {}
-  //   return new Promise(resolve => {
-  //     axios
-  //       .post(
-  //         config.BACKEND_URL + `punchlist/select/${entityName}`,
-  //         Object.assign(resultPayload, this.defaultSelectPayload, payload),
-  //         getDefaultConfig()
-  //       )
-  //       .then(response => {
-  //         resolve(response.data)
-  //       })
-  //   })
-  // },
+  _select: function(entityName, payload = {}) {
+    return this._sendMessage('select', {
+      token: getToken(),
+      payload,
+      entityName
+    })
+  },
 
-  // saveAny: function(entityName, object) {
-  //   return new Promise(resolve => {
-  //     axios
-  //       .post(config.BACKEND_URL + `punchlist/any/${entityName}`, object)
-  //       .then(response => {
-  //         resolve(response.data)
-  //       })
-  //   })
-  // },
+  saveAny: function(entityName, object) {
+    return this._sendMessage('postAny', {
+      token: getToken(),
+      payload,
+      entityName
+    })
+  },
 
   getFormData: function(formName, payload) {
     return this._sendMessage('form', {
@@ -69,21 +60,11 @@ export default {
       payload,
       entityName
     })
+  },
+
+  authorize: function(login, password) {
+    return this._sendMessage('login', {
+      payload: { login, password }
+    })
   }
-
-  // authorize: function(login, password) {
-  //   return new Promise(resolve => {
-  //     let payload = { login, password }
-
-  //     axios
-  //       .post(
-  //         config.BACKEND_URL + `punchlist/login`,
-  //         payload,
-  //         getDefaultConfig()
-  //       )
-  //       .then(response => {
-  //         resolve(response.data)
-  //       })
-  //   })
-  // }
 }

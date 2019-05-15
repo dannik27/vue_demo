@@ -1,7 +1,28 @@
-import remoteApi from './backend/punchlist-api'
-//import localApi from './electron/punchlist-api'
+// import remoteApi from './backend/punchlist-api'
+// import localApi from './electron/punchlist-api'
+
+import config from '../../shared/config'
+
+let dataApi = require('./backend/punchlist-api').default
+if (config.OFFLINE_MODE) {
+  dataApi = require('./electron/punchlist-api').default
+}
 
 export default {
+  defaultSelectPayload: {
+    sort: {
+      id: 1
+    },
+    // conditions:[
+    //   {
+    //     field: 'field1',
+    //     operator: 'equals',
+    //     value: 'value'
+    //   }
+    // ],
+    single: false
+  },
+
   selectQuery: function(entityName) {
     class Builder {
       constructor(entityName, api) {
@@ -55,22 +76,25 @@ export default {
   },
 
   _select: function(entityName, payload = {}) {
-    return remoteApi._select(entityName, payload)
+    let resultPayload = {}
+    Object.assign(resultPayload, this.defaultSelectPayload, payload)
+
+    return dataApi._select(entityName, resultPayload)
   },
 
   saveAny: function(entityName, object) {
-    return remoteApi.saveAny(entityName, object)
+    return dataApi.saveAny(entityName, object)
   },
 
   getFormData: function(formName, payload) {
-    return remoteApi.getFormData(formName, payload)
+    return dataApi.getFormData(formName, payload)
   },
 
   postFormData: function(formActionName, payload = {}) {
-    return remoteApi.postFormData(formActionName, payload)
+    return dataApi.postFormData(formActionName, payload)
   },
 
   authorize: function(login, password) {
-    return remoteApi.authorize(login, password)
+    return dataApi.authorize(login, password)
   }
 }

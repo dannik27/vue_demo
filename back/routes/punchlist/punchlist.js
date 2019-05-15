@@ -1,74 +1,195 @@
 var express = require('express')
 var router = express.Router()
-var Storage = require('../../../shared/db/storage')
-let storage = new Storage(__dirname + '/store')
 
-var aggregativeRoute = require('./aggregative')
+let NeDBService = require('../../../shared/db/nedb-service')
+let nedbService = new NeDBService(__dirname + '/store')
 
-router.use('/form', aggregativeRoute)
-
-async function getUserInfo(request) {
-  let token = request.get('Authorization')
-
-  if (!token) {
-    return null
+router.post('/select/:entity', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
   }
 
-  let credentials = await storage.getById('credentials', parseInt(token))
-  console.log(credentials)
+  let response = await nedbService.select(user, req.params.entity, req.body)
 
-  if (!credentials) {
-    return null
-  }
-
-  return await storage.getById('person', credentials.personId)
-}
-
-router.post('/select/:entity', function(req, res) {
-  let parameters = req.body
-  let resultCondition = {}
-
-  if (parameters.conditions) {
-    let conditions = parameters.conditions.map(condition => {
-      let res = {}
-      if (condition.operator == 'equals') {
-        res[condition.field] = condition.value
-        return res
-      }
-    })
-
-    resultCondition = {
-      $and: conditions
-    }
-  }
-
-  storage
-    .select(req.params.entity, parameters.sort, resultCondition)
-    .then(docs => {
-      res.send(JSON.stringify(docs))
-    })
+  res.send(JSON.stringify(response))
 })
 
-router.post('/any/:entity', function(req, res) {
-  storage
-    .save(req.params.entity, req.body)
-    .then(docs => res.send(JSON.stringify(docs)))
+router.post('/any/:entity', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.postAny(user, req.params.entity, req.body)
+
+  res.send(JSON.stringify(response))
 })
 
 router.post('/login', async function(req, res) {
-  let payload = req.body
-  let user = null
+  let response = await nedbService.login(req.body)
 
-  let credentials = await storage.getByQuery('credentials', {
-    login: payload.login,
-    password: payload.password
-  })
-  if (credentials.length != 0) {
-    user = await storage.getById('person', credentials[0].personId)
-    user.token = credentials[0].id
+  res.send(JSON.stringify(response))
+})
+
+// --------------------- FORM ----------------------------
+
+router.post('/form/schema', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
   }
 
-  res.send(JSON.stringify(user))
+  let response = await nedbService.getSchemaFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/newDefect', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getNewDefectFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/defectList', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getDefectListFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/defectCard', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getDefectCardFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/componentLinkWidget', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getComponentLinkWidgetFormData(
+    user,
+    req.body
+  )
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/searchWidget', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getSearchWidgetFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/popup', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getPopupFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/home', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getHomeFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+router.post('/form/report', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  let response = await nedbService.getReportFormData(user, req.body)
+
+  res.send(JSON.stringify(response))
+})
+
+// ------------------------------  POST  -------------------------------
+
+router.post('/form/createDefect/', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  nedbService.postDefect(user, req.body).then(response => {
+    res.send(response)
+  })
+  // .catch(error => res.status(500).send(error))
+})
+
+router.post('/form/createDefectAction', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  nedbService
+    .postDefectAction(user, req.body)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(error => res.status(500).send(error))
+})
+
+router.post('/form/createDefectComment', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  nedbService
+    .postDefectComment(user, req.body)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(error => res.status(500).send(error))
+})
+
+router.post('/form/createMark', async function(req, res) {
+  let user = await nedbService.getUserInfo(req.get('Authorization'))
+  if (!user) {
+    res.status(401).send('Unauthorized')
+  }
+
+  nedbService
+    .postMark(user, req.body)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(error => res.status(500).send(error))
 })
 
 module.exports = router

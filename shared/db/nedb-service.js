@@ -533,4 +533,47 @@ module.exports = class NeDBService {
       return mark
     })
   }
+
+  async postAny(user, entityName, payload) {
+    return this._storage.save(req.params.entity, req.body)
+  }
+
+  async select(user, entityName, payload) {
+    let parameters = payload
+    let resultCondition = {}
+
+    if (parameters.conditions) {
+      let conditions = parameters.conditions.map(condition => {
+        let res = {}
+        if (condition.operator == 'equals') {
+          res[condition.field] = condition.value
+          return res
+        }
+      })
+
+      resultCondition = {
+        $and: conditions
+      }
+    }
+
+    return this._storage.select(entityName, parameters.sort, resultCondition)
+  }
+
+  async login(payload) {
+    let credentials = await this._storage.getByQuery('credentials', {
+      login: payload.login,
+      password: payload.password
+    })
+
+    if (credentials.length != 0) {
+      return this._storage
+        .getById('person', credentials[0].personId)
+        .then(user => {
+          user.token = credentials[0].id
+          return user
+        })
+    } else {
+      return null
+    }
+  }
 }

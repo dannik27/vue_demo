@@ -93,5 +93,59 @@ export default {
         )
       }
     })
+
+    ipcMain.on('select', async function(event, message) {
+      let { token, payload, entityName, key } = message
+
+      let user = await nedbService.getUserInfo(token)
+      if (!user) {
+        win.webContents.send(`select-${key}-fail`, 'Invalid token')
+        return
+      }
+
+      let response = await nedbService.select(user, entityName, payload)
+
+      if (response) {
+        win.webContents.send(`select-${key}-ok`, response)
+      } else {
+        win.webContents.send(
+          'select-fail',
+          'Can not select data. entity name: ' + entityName
+        )
+      }
+    })
+
+    ipcMain.on('postAny', async function(event, message) {
+      let { token, payload, entityName, key } = message
+
+      let user = await nedbService.getUserInfo(token)
+      if (!user) {
+        win.webContents.send(`postAny-${key}-fail`, 'Invalid token')
+        return
+      }
+
+      let response = await nedbService.postAny(user, entityName, payload)
+
+      if (response) {
+        win.webContents.send(`postAny-${key}-ok`, response)
+      } else {
+        win.webContents.send(
+          'postAny-fail',
+          'Can not post data. entity name: ' + entityName
+        )
+      }
+    })
+
+    ipcMain.on('login', async function(event, message) {
+      let { payload, key } = message
+
+      let response = await nedbService.login(payload)
+
+      if (response) {
+        win.webContents.send(`login-${key}-ok`, response)
+      } else {
+        win.webContents.send('login-fail', 'Can not login.')
+      }
+    })
   }
 }
