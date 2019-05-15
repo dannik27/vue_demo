@@ -138,7 +138,7 @@ export default {
         object: component
       }
 
-      api.postFormData('createMark', { mark, schemaId: this.schema.id }).then(res => {
+      api.postFormData('mark', { mark, schemaId: this.schema.id }).then(res => {
         this.$router.push('/punchlist/new-defect/' + res.objectId)
       })
     },

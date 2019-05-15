@@ -428,4 +428,109 @@ module.exports = class NeDBService {
 
     return response
   }
+
+  async postDefect(user, payload) {
+    let defect = payload
+
+    for (let [i, attachment] of defect.attachments.entries()) {
+      attachment.datetime = defect.datetime + 1 + i
+    }
+
+    let attachments = await this._storage.saveAll(
+      'attachment',
+      defect.attachments
+    )
+
+    delete defect.attachments
+    defect.attachmentIds = attachments.map(image => image.id)
+
+    let defectActions = [
+      {
+        datetime: defect.datetime,
+        personId: defect.initiatorIds[0],
+        defectActionTypeId: 1
+      },
+      {
+        datetime: defect.datetime + 10,
+        personId: defect.initiatorIds[0],
+        defectActionTypeId: 2
+      }
+    ]
+
+    defectActions = await this._storage.saveAll('defectAction', defectActions)
+    defect.defectActionIds = defectActions.map(da => da.id)
+
+    if (!defect.defectCommentsIds) {
+      defect.defectCommentIds = []
+    }
+
+    defect.statusId = 2
+
+    return this._storage.save('defect', defect)
+  }
+
+  async postDefectAction(user, payload) {
+    let action = payload
+    action.personId = user.id
+
+    let params = action.parameters
+    delete action.parameters
+
+    let defectId = params.defectId
+
+    let defectActionType = await this._storage.getById(
+      'defectActionType',
+      action.defectActionTypeId
+    )
+
+    action = await this._storage.save('defectAction', action)
+
+    let defect = await this._storage.getById('defect', defectId)
+    defect.defectActionIds.push(action.id)
+    defect.statusId = defectActionType.to
+
+    if (defectActionType.id == 6) {
+      defect.executorId = params.contractorMemberId
+      defect.estimatedDueDate = params.estimatedDueDate
+    }
+
+    return this._storage.save('defect', defect).then(() => {
+      return action
+    })
+  }
+
+  async postDefectComment(user, payload) {
+    let comment = payload
+    comment.personId = user.id
+
+    let defectId = comment.defectId
+    delete comment.defectId
+
+    comment = await this._storage.save('defectComment', comment)
+
+    let defect = await this._storage.getById('defect', defectId)
+    defect.defectCommentIds.push(comment.id)
+
+    return this._storage.save('defect', defect).then(() => {
+      return comment
+    })
+  }
+
+  async postMark(user, payload) {
+    let mark = payload.mark
+    let schemaId = parseInt(payload.schemaId)
+
+    if (mark.object) {
+      let object = await this._storage.save(mark.entityName, mark.object)
+      mark.objectId = object.id
+      delete mark.object
+    }
+
+    mark = await this._storage.save('mark', mark)
+    let schema = await this._storage.getById('schema', schemaId)
+    schema.markIds.push(mark.id)
+    return this._storage.save('schema', schema).then(() => {
+      return mark
+    })
+  }
 }

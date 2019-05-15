@@ -178,7 +178,7 @@ export default {
 
     save: function () {
       api
-        .postFormData('createDefect', {
+        .postFormData('defect', {
           initiatorIds: [this.formData.user.id],
           linearId: this.formData.linear.id,
           datetime: Date.parse(this.input.datetime),

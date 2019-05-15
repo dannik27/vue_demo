@@ -273,7 +273,7 @@ export default {
         text: this.commentMessage
       }
 
-      api.postFormData('createDefectComment', comment).then(res => {
+      api.postFormData('defectComment', comment).then(res => {
         this.init()
       })
 
@@ -297,7 +297,7 @@ export default {
       }
 
       api
-        .postFormData('createDefectAction', action)
+        .postFormData('defectAction', action)
         .then(res => {
           this.init()
         })

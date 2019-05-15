@@ -61,21 +61,15 @@ export default {
       payload,
       formName
     })
-  }
+  },
 
-  // postFormData: function(formActionName, payload = {}) {
-  //   return new Promise(resolve => {
-  //     axios
-  //       .post(
-  //         config.BACKEND_URL + `punchlist/form/${formActionName}`,
-  //         payload,
-  //         getDefaultConfig()
-  //       )
-  //       .then(response => {
-  //         resolve(response.data)
-  //       })
-  //   })
-  // },
+  postFormData: function(entityName, payload = {}) {
+    return this._sendMessage('post', {
+      token: getToken(),
+      payload,
+      entityName
+    })
+  }
 
   // authorize: function(login, password) {
   //   return new Promise(resolve => {

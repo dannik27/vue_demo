@@ -6,22 +6,6 @@ let nedbService = new NeDBService(__dirname + '/store')
 
 export default {
   init: async function(win) {
-    // sqlite.open(__dirname + '/' + 'db.sqlite').then(r => console.log(r))
-
-    // ipcMain.on('persons-get', function(event, arg) {
-    //   sqlite
-    //     .all('SELECT * FROM persons')
-    //     .then(result => win.webContents.send('persons-get-done', result))
-    // })
-
-    // ipcMain.on('persons-save', function(event, person) {
-    //   let insertQuery = "INSERT INTO persons('name', 'age') values(?,?);"
-
-    //   sqlite
-    //     .run(insertQuery, [person.name, person.age])
-    //     .then(() => win.webContents.send('persons-save-done', 'done'))
-    // })
-
     ipcMain.on('form', async function(event, message) {
       let { token, payload, formName, key } = message
 
@@ -66,13 +50,46 @@ export default {
       }
 
       if (response) {
-        console.log('ipc-' + formName)
-        console.log(Object.keys(response))
         win.webContents.send(`form-${key}-ok`, response)
       } else {
         win.webContents.send(
           'form-fail',
           'Can not get form data. form name: ' + formName
+        )
+      }
+    })
+
+    ipcMain.on('post', async function(event, message) {
+      let { token, payload, entityName, key } = message
+
+      let user = await nedbService.getUserInfo(token)
+      if (!user) {
+        win.webContents.send(`post-${key}-fail`, 'Invalid token')
+        return
+      }
+
+      let response = null
+      switch (entityName) {
+        case 'defect':
+          response = await nedbService.postDefect(user, payload)
+          break
+        case 'defectAction':
+          response = await nedbService.postDefectAction(user, payload)
+          break
+        case 'defectComment':
+          response = await nedbService.postDefectComment(user, payload)
+          break
+        case 'mark':
+          response = await nedbService.postMark(user, payload)
+          break
+      }
+
+      if (response) {
+        win.webContents.send(`post-${key}-ok`, response)
+      } else {
+        win.webContents.send(
+          'post-fail',
+          'Can not post data. entity name: ' + entityName
         )
       }
     })
