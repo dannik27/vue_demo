@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var Storage = require('../../../shared/db/storage')
-let storage = new Storage(__dirname)
+let storage = new Storage(__dirname + '/store')
 
 var aggregativeRoute = require('./aggregative')
 

@@ -68,19 +68,19 @@ export default {
 
       findOne() {
         this.single = true
-        return this.api.select(this.entityName, this.build())
+        return this.api._select(this.entityName, this.build())
       }
 
       findAll() {
         this.single = false
-        return this.api.select(this.entityName, this.build())
+        return this.api._select(this.entityName, this.build())
       }
     }
     return new Builder(entityName, this)
   },
 
   // DEPRECATED - use query
-  select: function(entityName, payload = {}) {
+  _select: function(entityName, payload = {}) {
     let resultPayload = {}
     return new Promise(resolve => {
       axios

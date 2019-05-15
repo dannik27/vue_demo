@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import api from '../../../services/backend/punchlist-api'
+import api from '../../../services/punchlist-api'
 import ScreenMixin from '../../../mixins/screen-mixin'
 
 import PieChart from '../../elements/charts/pie-chart'

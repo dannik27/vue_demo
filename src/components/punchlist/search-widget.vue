@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import api from '../../services/backend/punchlist-api'
+import api from '../../services/punchlist-api'
 
 
 export default {

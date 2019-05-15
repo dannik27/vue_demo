@@ -30,7 +30,7 @@
 import PopupPlugin from './popup-plugin'
 import { setTimeout } from 'timers'
 
-import api from '../services/backend/punchlist-api'
+import api from '../services/punchlist-api'
 
 import { timestampToString, shortPersonName } from '../utils/formatters'
 

@@ -107,7 +107,7 @@
 import screenMixin from '../../../mixins/screen-mixin'
 
 import { Datetime } from 'vue-datetime'
-import api from '../../../services/backend/punchlist-api'
+import api from '../../../services/punchlist-api'
 import { mapState } from 'vuex'
 import { setTimeout } from 'timers'
 

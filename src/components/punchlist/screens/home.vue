@@ -75,7 +75,7 @@ import { shortPersonName, timestampToString } from '../../../utils/formatters'
 
 import { mapState } from 'vuex'
 
-import api from '../../../services/backend/punchlist-api'
+import api from '../../../services/punchlist-api'
 import DefectListItem from '../defect-list-item'
 
 export default {
@@ -92,7 +92,7 @@ export default {
     }
   },
   methods: {
-    clickOnCard: function(defectId) {
+    clickOnCard: function (defectId) {
       this.$router.push('/punchlist/defect-card/' + defectId)
     }
   },
@@ -115,7 +115,7 @@ export default {
   mounted() {
     this.$store.commit('setTitle', 'PunchList')
     api.getFormData('home').then(result => {
-      ;(this.formData = result), this.readyToRender()
+      ; (this.formData = result), this.readyToRender()
     })
   }
 }

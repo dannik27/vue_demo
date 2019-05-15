@@ -10,7 +10,7 @@ module.exports = class Storage {
   _getCollection(name) {
     if (!(name in this.collections)) {
       this.collections[name] = new Collection({
-        filename: this.foldername + '/store/' + name,
+        filename: this.foldername + '/' + name,
         autoload: true
       })
     }
@@ -26,7 +26,6 @@ module.exports = class Storage {
 
   async getById(entityName, id) {
     let store = this._getCollection(entityName)
-
     return store.findOne({ id: parseInt(id) })
   }
 

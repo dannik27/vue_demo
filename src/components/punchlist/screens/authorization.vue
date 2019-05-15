@@ -22,7 +22,7 @@
 
 <script>
 import screenMixin from '../../../mixins/screen-mixin'
-import api from '../../../services/backend/punchlist-api'
+import api from '../../../services/punchlist-api'
 
 export default {
   mixins: [screenMixin],

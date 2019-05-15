@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import api from '../../services/backend/punchlist-api'
+import api from '../../services/punchlist-api'
 
 import DefectListItem from './defect-list-item'
 
